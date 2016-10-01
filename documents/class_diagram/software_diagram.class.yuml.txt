@@ -1,0 +1,33 @@
+[MainController|int exec()]1-1>[GUIController]
+[MainController]1-1>[GeneticAlgoController]
+[MainController]1-1>[DataBackupController]
+
+[DataBackupController]1->1[OutputDataFormater]
+
+[ADataHandler|void _handleNewResults(const ResultsModel &)]^-.-[GUIController]
+[GUIController]1-1>[RealtimeChart]
+
+[RealtimeChart]-^[QChart]
+[RealtimeChart]1-2>[QLineSeries]
+
+[QThread]^-[GeneticAlgoController]
+[GeneticAlgoController]1-1>[GeneticAlgorithm|operator()();_initPopulation();_selectIndividualsForMating();_mateIndividualsToProduceOffspring();_mutateIndividuals();_insertOffspringIntoPopulation();_isResultFound()]
+
+[GeneticAlgorithm]1-1>[Environment]
+[Environment]<>1-1[MotherNature|Template 〈T〉 static T getNumberInRange()]
+[Environment]<>1-1[PhysicalWorld]
+
+[PhysicalWorld]-^[VrepAPI]
+
+[ADataHandler]^-.-[DataBackupController]
+[DataBackupController]1-*>[ResultsModel|int _theoreticalMaxScore;int _maxScore;int _averageScore; int _iteration]
+[DataBackupController]-^[QThread]
+
+[ResultsModel]<*-1[GeneticAlgoController]
+[ResultsModel]<*-1[GUIController]
+
+[Population]1-*>[Individual|typedef Genome〈int〉 genome_t|int _score;genome_t _genome|Individual &operator+(const Individual &);Individual &_mateWith(const Individual &)]
+[Environment]1-0..1>[Population]
+
+[Individual]1<>-1[Template 〈gene_t〉 Genome|QList〈gene_t〉 _genes|QList〈gene_t〉 getGenesInRange()]
+
