@@ -2,7 +2,7 @@
 [MainController]1-1>[GeneticAlgoController]
 [MainController]1-1>[DataBackupController]
 
-[DataBackupController]1->1[OutputDataFormater]
+[DataBackupController]1->1[OutputDataFormater|QString _fileName|_write()]
 
 [ADataHandler|void _handleNewResults(const ResultsModel &)]^-.-[GUIController]
 [GUIController]1-1>[RealtimeChart]
@@ -13,11 +13,16 @@
 [QThread]^-[GeneticAlgoController]
 [GeneticAlgoController]1-1>[GeneticAlgorithm|operator()();_initPopulation();_selectIndividualsForMating();_mateIndividualsToProduceOffspring();_mutateIndividuals();_insertOffspringIntoPopulation();_isResultFound()]
 
-[GeneticAlgorithm]1-1>[Environment]
-[Environment]<>1-1[MotherNature|Template 〈T〉 static T getNumberInRange()]
-[Environment]<>1-1[PhysicalWorld]
+[GeneticAlgorithm]1-1>[World]
+[World]<>1-1[MotherNature]
+[World]<>1-1[PhysicalWorld|simxInt _worldHandle|bool enterTheMatrix();bool getOffTheMatrix();bool startSimulation(); bool endSimulation();PhysicalObject *getObject(const QString &)]
 
-[PhysicalWorld]-^[VrepAPI]
+[PhysicalWorld]<>1-*>[PhysicalObject|simxInt _handle|PhysicalObject &getLinkedObject(const QString &);simxFloat *getPosition();simxFloat *getOrientation();bool setJointTargetPosition(simxFloat);simxFloat getJointPosition()]
+
+[MotherNature]-^[Random|Template 〈T〉 static T getNumberInRange()]
+
+[PhysicalWorld]1->1[VrepAPI]
+[PhysicalObject]1-1>[VRepAPI]
 
 [ADataHandler]^-.-[DataBackupController]
 [DataBackupController]1-*>[ResultsModel|int _theoreticalMaxScore;int _maxScore;int _averageScore; int _iteration]
@@ -27,7 +32,10 @@
 [ResultsModel]<*-1[GUIController]
 
 [Population]1-*>[Individual|typedef Genome〈int〉 genome_t|int _score;genome_t _genome|Individual &operator+(const Individual &);Individual &_mateWith(const Individual &)]
-[Environment]1-0..1>[Population]
+[World]<>1-1[Population]
 
-[Individual]1<>-1[Template 〈gene_t〉 Genome|QList〈gene_t〉 _genes|QList〈gene_t〉 getGenesInRange()]
+[Individual]1<>-1[Template 〈gene_t〉 Genome|typedef QList〈gene_t〉 genes_t|genes_t _genes|genes_t getGenesInRange();genes_t add(const genes_t &genes);genes_t operator+(const genes_t &genes)]
+[Individual]-^[2w1a|PhysicalObject *_wrist;PhysicalObject *_elbow;PhysicalObject *_shoulder]
+
+[2w1a]-^[PhysicalObject]
 
