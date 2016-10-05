@@ -1,23 +1,22 @@
-[MainController|int exec()]1-1>[GUIController]
-[MainController]1-1>[GeneticAlgoController]
+[MainController|void launchAlgorithm(const std::list〈std::string〉 *)]<1-1>[GeneticAlgoController]
 [MainController]1-1>[DataBackupController]
+[MainController]-.-^[AWebServerBridge|void launchAlgorithm(v8::FunctionCallbackInfo〈v8::Value〉 &);void pushNewResult(v8::FunctionCallbackInfo〈v8::Value〉 &);void _handleDataLoop()]
 
-[DataBackupController]1->1[OutputDataFormater|QString _fileName|_write()]
+[DataBackupController]1->1[OutputDataFormater|std::string _fileName|_write()]
 
-[ADataHandler|void _handleNewResults(const ResultsModel &)]^-.-[GUIController]
-[GUIController]1-1>[RealtimeChart]
+[AWebServerBridge]-.-^[ADataHandler|std::queue _results|void handleNewResult(const ResultsModel &);void _handleDataLoop()]
 
-[RealtimeChart]-^[QChart]
-[RealtimeChart]1-2>[QLineSeries]
+[std::thread]<1-1[GeneticAlgoController|void launch(const std::list〈std::string〉 *);bool _parseParameters(const std::list〈std::string〉 &);void _algorithmLoop()]
+[GeneticAlgoController]<>1-1[GeneticAlgorithm|void _initPopulation();void _selectIndividualsForMating();void _mateIndividualsToProduceOffspring();void _mutateIndividuals();void _insertOffspringIntoPopulation();_isResultFound()]
 
-[QThread]^-[GeneticAlgoController]
-[GeneticAlgoController]1-1>[GeneticAlgorithm|operator()();_initPopulation();_selectIndividualsForMating();_mateIndividualsToProduceOffspring();_mutateIndividuals();_insertOffspringIntoPopulation();_isResultFound()]
+[AWebServerBridge]1-1>[std::thread]
 
 [GeneticAlgorithm]1-1>[World]
+[GeneticAlgoController]<>1-1[World]
 [World]<>1-1[MotherNature]
-[World]<>1-1[PhysicalWorld|simxInt _worldHandle|bool enterTheMatrix();bool getOffTheMatrix();bool startSimulation(); bool endSimulation();PhysicalObject *getObject(const QString &)]
+[World]<>1-1[PhysicalWorld|simxInt _worldHandle|bool enterTheMatrix();bool getOffTheMatrix();bool startSimulation(); bool endSimulation();PhysicalObject *getObject(const std::string &)]
 
-[PhysicalWorld]<>1-*>[PhysicalObject|simxInt _handle|PhysicalObject &getLinkedObject(const QString &);simxFloat *getPosition();simxFloat *getOrientation();bool setJointTargetPosition(simxFloat);simxFloat getJointPosition()]
+[PhysicalWorld]<>1-*>[PhysicalObject|simxInt _handle|PhysicalObject &getLinkedObject(const std::string &);float *getPosition();float *getOrientation()]
 
 [MotherNature]-^[Random|Template 〈T〉 static T getNumberInRange()]
 
@@ -25,17 +24,18 @@
 [PhysicalObject]1-1>[VRepAPI]
 
 [ADataHandler]^-.-[DataBackupController]
-[DataBackupController]1-*>[ResultsModel|int _theoreticalMaxScore;int _maxScore;int _averageScore; int _iteration]
-[DataBackupController]-^[QThread]
+[ADataHandler]1-*>[ResultsModel|int _theoreticalMaxScore;int _maxScore;int _averageScore; int _iteration]
+[ADataHandler]1-1>[std::thread]
 
 [ResultsModel]<*-1[GeneticAlgoController]
-[ResultsModel]<*-1[GUIController]
 
 [Population]1-*>[Individual|typedef Genome〈int〉 genome_t|int _score;genome_t _genome|Individual &operator+(const Individual &);Individual &_mateWith(const Individual &)]
 [World]<>1-1[Population]
 
-[Individual]1<>-1[Template 〈gene_t〉 Genome|typedef QList〈gene_t〉 genes_t|genes_t _genes|genes_t getGenesInRange();genes_t add(const genes_t &genes);genes_t operator+(const genes_t &genes)]
-[Individual]-^[2w1a|PhysicalObject *_wrist;PhysicalObject *_elbow;PhysicalObject *_shoulder]
+[Individual]1<>-1[Template 〈gene_t〉 Genome|typedef std::list〈gene_t〉 genes_t|genes_t _genes|genes_t getGenesInRange();genes_t add(const genes_t &genes);genes_t operator+(const genes_t &genes)]
+[Individual]-^[2w1a|Articulation *_wrist;Articulation *_elbow;Articulation *_shoulder]
 
 [2w1a]-^[PhysicalObject]
+[2w1a]1-3>[Articulation|bool setTargetPosition(float);float getPosition()]
 
+[Articulation]-^[PhysicalObject]
