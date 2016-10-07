@@ -45,7 +45,7 @@ Once a pull request is made and validated, you will be able to click on the merg
 * This commit is automatically referenced in the [issue interface](https://github.com/Grenadingue/2-wheels-1-arm/issues/20)
 * I select my branch in the github interface
 * I click on create a pull request
-* The [pull request](https://github.com/Grenadingue/2-wheels-1-arm/pull/1) is now visible in the [pull requests tab](https://github.com/Grenadingue/2-wheels-1-arm/pulls)
+* The [pull request](https://github.com/Grenadingue/2-wheels-1-arm/pull/21) is now visible in the [pull requests tab](https://github.com/Grenadingue/2-wheels-1-arm/pulls)
 * I wait for the pull request validation
 * I merge the pull request onto master
 * I delete the pulled branch
