@@ -14,7 +14,7 @@
   "scripts": {
     "test": "",
     "install": "",
-    "dev": "nodemon server.js",
+    "dev": "node node_modules/nodemon/bin/nodemon.js server.js",
     "start": ""
   },
   "repository": {
@@ -22,7 +22,7 @@
     "url": "git+https://github.com/Grenadingue/2-wheels-1-arm.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/Grenadingue/2-wheels-1-arm/issues"
   },
