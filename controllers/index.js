@@ -1,2 +1,2 @@
-module.export.dataBackup = require('./data-backup');
-module.export.realTime = require('./real-time');
+module.exports.dataBackup = require('./data-backup');
+module.exports.realTime = require('./real-time');

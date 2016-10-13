@@ -1,4 +1,5 @@
-const algorithm = require('algorithm');
+const algorithm = require('../algorithm');
 
-module.exports.realTime = function(app) {
+// Example
+module.exports.foo = function(app) {
 }

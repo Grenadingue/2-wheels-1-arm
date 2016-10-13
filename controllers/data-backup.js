@@ -1,2 +1,3 @@
-module.exports.initDataBackup = function(app) {
+// Example
+module.exports.foo = function(app) {
 }

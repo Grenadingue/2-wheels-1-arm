@@ -1,1 +1,1 @@
-module.export = require('./cppAlgorithm');
+module.exports.cppAlgorithm = require('./cppAlgorithm');
