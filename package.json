@@ -1,0 +1,30 @@
+{
+  "name": "2-wheels-1-arm",
+  "version": "1.0.0",
+  "description": "A genetic algorithm searching for solutions to move a simple robot",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "socket.io": "^1.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  },
+  "scripts": {
+    "test": "",
+    "install": "",
+    "dev": "node node_modules/nodemon/bin/nodemon.js server.js",
+    "start": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Grenadingue/2-wheels-1-arm.git"
+  },
+  "author": "",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Grenadingue/2-wheels-1-arm/issues"
+  },
+  "homepage": "https://github.com/Grenadingue/2-wheels-1-arm#readme"
+}

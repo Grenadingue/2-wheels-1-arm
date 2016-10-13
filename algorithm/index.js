@@ -1,0 +1,1 @@
+module.exports.cppAlgorithm = require('./cppAlgorithm');
