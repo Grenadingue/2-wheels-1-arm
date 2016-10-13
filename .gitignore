@@ -6,5 +6,11 @@
 *.exe
 sample_code/cpp/2w1a_test
 
+# nodeJS
+node_modules
+
 # emacs
 *~
+
+# WebStorm
+.idea
