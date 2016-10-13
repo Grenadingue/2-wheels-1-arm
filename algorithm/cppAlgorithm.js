@@ -1,2 +1,3 @@
-module.exports.initCppAlgorithm = function(app) {
+// Example, DELETE ME
+module.exports.foo = function(app) {
 }
