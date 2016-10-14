@@ -1,23 +1,23 @@
-[MainController|std::vector〈AThreadedDataHandler *〉 _controllers|void launchAlgorithm(const std::list〈std::string〉 *);virtual void handleNewResult(const ResultModel *)]<1-1>[GeneticAlgoController]
-[MainController]1-1>[DataBackupController|std::string _fileName;std::ofstream _file|virtual void _workLoop()]
-[MainController]<1-1>[WebServerBridge|sio::client _socketIoClient|static void launchAlgorithm(v8::FunctionCallbackInfo〈v8::Value〉 &);void emitNewResult(const ResultsModel &);virtual void _workLoop()]
-[MainController]-.-^[IDataHandler|virtual void handleNewResult(const ResultsModel *) = 0]
+[MainController|- std::vector〈AThreadedDataHandler *〉 _controllers|+ void launchAlgorithm(const std::list〈std::string〉 *);+ virtual void handleNewResult(const ResultModel *)]<1-1>[GeneticAlgoController]
+[MainController]1-1>[DataBackupController|- std::string _fileName;- std::ofstream _file|+ virtual void _workLoop()]
+[MainController]<1-1>[WebServerBridge|- sio::client _socketIoClient|+ static void launchAlgorithm(v8::FunctionCallbackInfo〈v8::Value〉 &);+ void emitNewResult(const ResultsModel &);+ virtual void _workLoop()]
+[MainController]-.-^[IDataHandler|+ virtual void handleNewResult(const ResultsModel *) = 0]
 
-[DataBackupController]1->*[WritableResultsModel|std::ostream &operator〈〈(std::ostream &. WritableResultsModel &)]
+[DataBackupController]1->*[WritableResultsModel|+ std::ostream &operator〈〈(std::ostream &. WritableResultsModel &)]
 
-[IDataHandler]^-.-[AThreadedDataHandler|std::thread *_thread;std::mutex *_mutex;std::queue〈ResultsModel *〉 _results;bool _close|virtual void handleNewResult(const ResultsModel *);void close();void kill();virtual void _workLoop() = 0]
+[IDataHandler]^-.-[AThreadedDataHandler|# std::thread *_thread;# std::mutex *_mutex;# std::queue〈ResultsModel *〉 _results;# bool _close|+ virtual void handleNewResult(const ResultsModel *);+ void close();+ void kill();# virtual void _workLoop() = 0]
 
-[GeneticAlgoController|void launch(const std::list〈std::string〉 *);bool _parseParameters(const std::list〈std::string〉 &);virtual void _workLoop()]-.-^[AThreadedDataHandler]
-[GeneticAlgoController]<>1-1[GeneticAlgorithm|void initPopulation();void selectIndividualsForMating();void mateIndividualsToProduceOffspring();void mutateIndividuals();void insertOffspringIntoPopulation();isResultFound()]
+[GeneticAlgoController|+ void launch(const std::list〈std::string〉 *);- bool _parseParameters(const std::list〈std::string〉 &);# virtual void _workLoop()]-.-^[AThreadedDataHandler]
+[GeneticAlgoController]<>1-1[GeneticAlgorithm|+ void initPopulation();+ void selectIndividualsForMating();+ void mateIndividualsToProduceOffspring();+ void mutateIndividuals();+ void insertOffspringIntoPopulation();+ bool isResultFound()]
 
 [GeneticAlgorithm]1-1>[World]
 [GeneticAlgoController]<>1-1[World]
 [World]<>1-1[MotherNature]
-[World]<>1-1[Physics|simxInt _worldHandle|bool enterTheMatrix();bool getOffTheMatrix();bool startSimulation(); bool endSimulation();Object *getObject(const std::string &)]
+[World]<>1-1[Physics|- simxInt _worldHandle|+ bool enterTheMatrix();+ bool getOffTheMatrix();+ bool startSimulation();+ bool endSimulation();+ Object *getObject(const std::string &)]
 
-[Physics]<>1-*>[Object|simxInt _handle|Object &getLinkedObject(const std::string &);float *getPosition();float *getOrientation()]
+[Physics]<>1-*>[Object|- simxInt _handle|+ Object &getLinkedObject(const std::string &);+ float *getPosition();+ float *getOrientation()]
 
-[MotherNature]-^[Random|Template 〈T〉 static T getNumberInRange()]
+[MotherNature]-^[Random|+ Template 〈T〉 static T getNumberInRange()]
 
 [Physics]1->1[VrepAPI]
 [Object]1-1>[VRepAPI]
@@ -25,17 +25,17 @@
 [AThreadedDataHandler]^-.-[DataBackupController]
 [AThreadedDataHandler]^-.-[WebServerBridge]
 
-[IDataHandler]1-*>[ResultsModel|int _theoreticalMaxScore;int _maxScore;int _averageScore; int _iteration]
+[IDataHandler]1-*>[ResultsModel|+ int theoreticalMaxScore;+ int maxScore;+ int averageScore;+ int iteration]
 
 [ResultsModel]^-[WritableResultsModel]
 
-[Population]1-*>[Individual|typedef Genome〈int〉 genome_t|int _score;genome_t _genome|Individual &operator+(const Individual &);Individual &_mateWith(const Individual &)]
+[Population]1-*>[Individual|- typedef Genome〈int〉 genome_t|- int _score;- genome_t _genome|+ Individual &operator+(const Individual &);+ Individual &_mateWith(const Individual &)]
 [World]<>1-1[Population]
 
-[Individual]1<>-1[Template 〈gene_t〉 Genome|typedef std::list〈gene_t〉 genes_t|genes_t _genes|genes_t getGenesInRange();genes_t add(const genes_t &genes);genes_t operator+(const genes_t &genes)]
-[Individual]-^[_2w1a|Articulation *_wrist;Articulation *_elbow;Articulation *_shoulder]
+[Individual]1<>-1[Template 〈gene_t〉 Genome|+ typedef std::list〈gene_t〉 genes_t|- genes_t _genes|+ genes_t getGenesInRange();+ genes_t add(const genes_t &genes);+ genes_t operator+(const genes_t &genes)]
+[Individual]-^[_2w1a|- Articulation *_wrist;- Articulation *_elbow;- Articulation *_shoulder]
 
 [_2w1a]-^[Object]
-[_2w1a]1-3>[Articulation|bool setTargetPosition(float);float getPosition()]
+[_2w1a]1-3>[Articulation|+ bool setTargetPosition(float);+ float getPosition()]
 
 [Articulation]-^[Object]
