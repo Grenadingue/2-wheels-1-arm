@@ -34,9 +34,7 @@ PROJ_SRCS = 	$(CODE_F)/MainController.cpp \
 		$(CODE_F)/Physics.cpp \
 		$(CODE_F)/Object.cpp \
 		$(CODE_F)/Articulation.cpp \
-		$(CODE_F)/Maths.cpp \
-		$(CODE_F)/Degrees.cpp \
-		$(CODE_F)/Radians.cpp
+		$(CODE_F)/Maths.cpp
 
 # Objs
 OBJS =		$(VREP_SRCS:.c=.o) $(PROJ_SRCS:.cpp=.o)

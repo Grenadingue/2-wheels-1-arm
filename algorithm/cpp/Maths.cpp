@@ -1,9 +1,3 @@
 #include "Maths.hpp"
 
-Maths::Maths()
-{
-}
-
-Maths::~Maths()
-{
-}
+const float Maths::pi = M_PI;
