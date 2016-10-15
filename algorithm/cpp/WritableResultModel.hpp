@@ -1,7 +1,9 @@
 #ifndef		WRITABLERESULTMODEL_HPP_
 # define	WRITABLERESULTMODEL_HPP_
 
-class		WritableResultModel
+# include "ResultModel.hpp"
+
+class		WritableResultModel : public ResultModel
 {
 
 public:

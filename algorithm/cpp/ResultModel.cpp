@@ -9,6 +9,11 @@ ResultModel::ResultModel(const ResultModel &other)
   (void)other;
 }
 
+ResultModel::ResultModel(const ResultModel *other)
+{
+  (void)other;
+}
+
 ResultModel::~ResultModel()
 {
 }

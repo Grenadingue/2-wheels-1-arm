@@ -44,9 +44,11 @@ OBJS =		$(VREP_SRCS:.c=.o) $(PROJ_SRCS:.cpp=.o)
 # Flags
 VREP_FLAGS = 	-DNON_MATLAB_PARSING -DMAX_EXT_API_CONNECTIONS=255 -I $(VREP_F)/
 
-CFLAGS += 	$(VREP_FLAGS)
+ERROR_FLAGS =	-W -Wall -Wextra
 
-CXXFLAGS += 	$(VREP_FLAGS)
+CFLAGS += 	$(VREP_FLAGS) -ggdb
+
+CXXFLAGS += 	$(VREP_FLAGS) $(ERROR_FLAGS) -std=c++11 -ggdb
 
 LDFLAGS +=	-lpthread
 

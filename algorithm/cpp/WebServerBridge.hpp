@@ -1,12 +1,19 @@
 #ifndef		WEBSERVERBRIDGE_HPP_
 # define	WEBSERVERBRIDGE_HPP_
 
-class		WebServerBridge
+# include "AThreadedDataHandler.hpp"
+
+class		WebServerBridge : public AThreadedDataHandler
 {
 
 public:
   WebServerBridge();
   ~WebServerBridge();
+
+  static void launchAlgorithm();
+
+  // Inherited from AThreadedDataHandler
+  virtual void _workLoop();
 };
 
 #endif		/* !WEBSERVERBRIDGE_HPP_ */

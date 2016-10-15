@@ -7,6 +7,7 @@ class		ResultModel
 public:
   ResultModel();
   ResultModel(const ResultModel &);
+  ResultModel(const ResultModel *);
   ~ResultModel();
   ResultModel &operator=(const ResultModel &);
 };
