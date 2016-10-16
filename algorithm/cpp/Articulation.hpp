@@ -1,9 +1,10 @@
 #ifndef		ARTICULATION_HPP_
 # define	ARTICULATION_HPP_
 
-class		Articulation
-{
+# include "Object.hpp"
 
+class		Articulation : public Physics::Object
+{
 public:
   Articulation();
   ~Articulation();

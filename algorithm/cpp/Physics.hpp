@@ -3,8 +3,9 @@
 
 class		Physics
 {
-
 public:
+  class Object;
+
   Physics();
   ~Physics();
 };

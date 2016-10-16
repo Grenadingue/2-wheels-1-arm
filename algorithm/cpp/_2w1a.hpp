@@ -1,8 +1,15 @@
 #ifndef		_2W1A_HPP_
 # define	_2W1A_HPP_
 
-class		_2w1a
+# include "Object.hpp"
+# include "Articulation.hpp"
+
+class		_2w1a : public Physics::Object
 {
+private:
+  Articulation *_wrist;
+  Articulation *_elbow;
+  Articulation *_shoulder;
 
 public:
   _2w1a();

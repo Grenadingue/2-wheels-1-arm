@@ -1,8 +1,18 @@
 #ifndef		GENOME_HPP_
 # define	GENOME_HPP_
 
-class		Genome
+# include <list>
+
+# include "Individual.hpp"
+
+template<typename gene_t>
+class		Individual::Genome
 {
+public:
+  typedef std::list<gene_t> genes_t;
+
+private:
+  genes_t _genes;
 
 public:
   Genome();

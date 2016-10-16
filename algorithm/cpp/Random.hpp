@@ -10,7 +10,7 @@ private:
 
 public:
   Random();
-  ~Random();
+  virtual ~Random();
 
   template <typename int_t>
   inline int_t intInRange(int_t min, int_t max)

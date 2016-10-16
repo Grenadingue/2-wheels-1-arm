@@ -3,17 +3,18 @@
 
 # include "AThreadedDataHandler.hpp"
 # include "AlgoParameters.hpp"
+# include "World.hpp"
 
 class MainController;
 
-class		GeneticAlgoController : public AThreadedDataHandler
+class		GeneticAlgoController : public AThreadedDataHandler, public World
 {
 private:
   MainController &_mainController;
 
 public:
   GeneticAlgoController(MainController &);
-  ~GeneticAlgoController();
+  virtual ~GeneticAlgoController();
 
   // Inherited from IDataHandler & AThreadedDataHandler
   virtual void handleNewResult(const ResultModel *);

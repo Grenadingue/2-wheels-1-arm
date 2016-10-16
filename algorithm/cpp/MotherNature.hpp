@@ -1,12 +1,13 @@
 #ifndef		MOTHERNATURE_HPP_
 # define	MOTHERNATURE_HPP_
 
-class		MotherNature
-{
+# include "Random.hpp"
 
+class		MotherNature : public Random
+{
 public:
   MotherNature();
-  ~MotherNature();
+  virtual ~MotherNature();
 };
 
 #endif		/* !MOTHERNATURE_HPP_ */

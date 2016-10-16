@@ -1,19 +1,20 @@
 #include "Object.hpp"
+#include "VrepAPI.hpp"
 
-Object::Object()
+Physics::Object::Object()
 {
 }
 
-Object::Object(const Object &other)
+Physics::Object::Object(const Object &other)
 {
   (void)other;
 }
 
-Object::~Object()
+Physics::Object::~Object()
 {
 }
 
-Object &Object::operator=(const Object &other)
+Physics::Object &Physics::Object::operator=(const Object &other)
 {
   (void)other;
   return (*this);
