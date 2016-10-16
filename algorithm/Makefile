@@ -31,6 +31,7 @@ PROJ_SRCS = 	$(CODE_F)/MainController.cpp \
 		$(CODE_F)/Individual.cpp \
 		$(CODE_F)/Genome.cpp \
 		$(CODE_F)/_2w1a.cpp \
+		$(CODE_F)/VrepAPI.cpp \
 		$(CODE_F)/Physics.cpp \
 		$(CODE_F)/Object.cpp \
 		$(CODE_F)/Articulation.cpp \
