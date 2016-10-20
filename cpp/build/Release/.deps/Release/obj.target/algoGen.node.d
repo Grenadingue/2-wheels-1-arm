@@ -1,0 +1,1 @@
+cmd_Release/obj.target/algoGen.node := g++ -shared -pthread -rdynamic -m64  -Wl,-soname=algoGen.node -o Release/obj.target/algoGen.node -Wl,--start-group Release/obj.target/algoGen/binding.o -Wl,--end-group 
