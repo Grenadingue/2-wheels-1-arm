@@ -1,0 +1,10 @@
+# qt
+*.pro.user
+moc_*
+.qmake.stash
+
+# qmake
+Makefile
+
+# bin
+hello_genetic_algo
