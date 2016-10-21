@@ -4,7 +4,7 @@
 # c++
 *.o
 *.exe
-sample_code/cpp/2w1a_test
+vrep_sample
 
 # nodeJS
 node_modules
