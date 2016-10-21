@@ -6,7 +6,7 @@ CXX = g++
 RM = rm -f
 
 # Exe name
-NAME = 2w1a_test
+NAME = vrep_sample
 
 # Folders
 VREP_F = vrep
