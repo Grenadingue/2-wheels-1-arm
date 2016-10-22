@@ -12,10 +12,14 @@
     "nodemon": "^1.11.0"
   },
   "scripts": {
-    "test": "",
-    "install": "",
+    "test": "echo No tests found ; exit 0",
+    "install": "npm run build",
+    "build": "npm run retrieve_socket.io-client && npm run build_socket.io-client",
+    "retrieve_socket.io-client": "git submodule update --init --recursive",
+    "build_socket.io-client": "cd algorithm/cpp/socket.io-client-cpp && cmake -DBOOST_ROOT=/usr/include/boost/ -DBOOST_VER=1.6 && make",
+    "build_algorithm": "cd algorithm && node-gyp rebuild",
     "dev": "node node_modules/nodemon/bin/nodemon.js server.js",
-    "start": ""
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
