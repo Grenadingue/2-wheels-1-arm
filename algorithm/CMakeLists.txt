@@ -45,9 +45,13 @@ include_directories(
 	${PROJECT_F}
 )
 
+# C
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -ggdb")
+
 # C++ compilation flags
 set_property(TARGET 2w1a_dev PROPERTY CXX_STANDARD 11)
 set_property(TARGET 2w1a_dev PROPERTY CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -ggdb -W -Wall -Wextra -Werror")
 
 # Vrep compilation flags
 ADD_DEFINITIONS(-DNON_MATLAB_PARSING -DMAX_EXT_API_CONNECTIONS=255)
