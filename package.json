@@ -20,8 +20,8 @@
 
     "build_algo": "cd algorithm && node-gyp rebuild",
     "rebuild_algo": "cd algorithm && rm -rfv build/* ; node-gyp rebuild",
-    "build_algo_dev": "mkdir -p algorithm/build_dev && cd algorithm/build_dev && cmake .. && make",
-    "rebuild_algo_dev": "rm -rfv algorithm/build_dev/* 2>/dev/null ; mkdir -p algorithm/build_dev && cd algorithm/build_dev && cmake .. && make",
+    "build_algo_dev": "mkdir -p algorithm/build_dev && cd algorithm/build_dev && cmake .. && make VERBOSE=1",
+    "rebuild_algo_dev": "rm -rfv algorithm/build_dev/* 2>/dev/null ; mkdir -p algorithm/build_dev && cd algorithm/build_dev && cmake .. && make VERBOSE=1",
 
     "start": "node server.js",
     "dev": "node node_modules/nodemon/bin/nodemon.js server.js"
