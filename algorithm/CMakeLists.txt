@@ -23,6 +23,7 @@ add_executable(
 	${PROJECT_F}/BackupDataController.cpp
 	${PROJECT_F}/GeneticAlgoController.cpp
 	${PROJECT_F}/AlgoParameters.cpp
+	${PROJECT_F}/Client.cpp
 	${PROJECT_F}/ResultModel.cpp
 	${PROJECT_F}/WritableResultModel.cpp
 	${PROJECT_F}/World.cpp
@@ -51,7 +52,7 @@ set(CMAKE_C_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -ggdb")
 # C++ compilation flags
 set_property(TARGET 2w1a_dev PROPERTY CXX_STANDARD 11)
 set_property(TARGET 2w1a_dev PROPERTY CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -ggdb -W -Wall -Wextra -Werror")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -ggdb -W -Wall -Wextra")
 
 # Vrep compilation flags
 ADD_DEFINITIONS(-DNON_MATLAB_PARSING -DMAX_EXT_API_CONNECTIONS=255)

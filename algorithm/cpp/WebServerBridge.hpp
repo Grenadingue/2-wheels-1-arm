@@ -5,6 +5,10 @@
 
 class		WebServerBridge : public AThreadedDataHandler
 {
+private:
+  class Client;
+
+  Client *_client;
 
 public:
   WebServerBridge();

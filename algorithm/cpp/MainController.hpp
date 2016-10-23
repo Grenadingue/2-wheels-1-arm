@@ -4,10 +4,11 @@
 # include <list>
 # include <string>
 # include "IDataHandler.hpp"
-# include "WebServerBridge.hpp"
-# include "BackupDataController.hpp"
-# include "GeneticAlgoController.hpp"
 # include "AlgoParameters.hpp"
+
+class WebServerBridge;
+class BackupDataController;
+class GeneticAlgoController;
 
 class		MainController : public IDataHandler
 {

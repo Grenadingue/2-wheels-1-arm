@@ -2,6 +2,7 @@
 #include <thread>
 #include <chrono>
 #include "WebServerBridge.hpp"
+#include "Client.hpp"
 #include "MainController.hpp"
 
 //
@@ -23,6 +24,7 @@ int main()
 }
 
 WebServerBridge::WebServerBridge()
+  : _client(new Client("http://localhost:3000"))
 {
 }
 
@@ -62,6 +64,7 @@ void WebServerBridge::_workLoop()
 	{
 	  std::cout << "Web server bridge got new result !" << std::endl;
 	  delete result;
+	  _client->emit("event", std::string("this is a test"));
 	}
       std::cout << "Web server bridge: Waiting" << std::endl;
       std::this_thread::sleep_for(std::chrono::seconds(1));
