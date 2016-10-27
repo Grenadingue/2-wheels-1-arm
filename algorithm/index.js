@@ -1,1 +1,1 @@
-module.exports.cppAlgorithm = require('./cppAlgorithm');
+module.exports = require('./build/Release/algoGen.node');
