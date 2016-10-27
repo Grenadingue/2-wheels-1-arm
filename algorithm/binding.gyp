@@ -2,7 +2,7 @@
 	"targets": [
 	{
 		"target_name": "algoGen",
-		"sources": [ "binding.cc" ]
+		"sources": [ "cpp/binding.cc" ]
 	}
 	]
 }

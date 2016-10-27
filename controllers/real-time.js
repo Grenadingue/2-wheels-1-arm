@@ -1,6 +1,12 @@
 const algorithm = require('../algorithm');
-//const io = require('../libraries/socket-io.js'); //Not sure about syntax...
-var io = require('socket.io')(80);
+const io = require('../libraries/socket-io');
+const paramObj =
+      {
+	  serverPort: "8081",
+	  backupFile: '/home/foo/bar.csv',
+	  populationSize: "42",
+	  mutationRate: "0.01",
+      };
 
 module.exports.start = function(app) {
     //Create socket.io instance
@@ -9,5 +15,6 @@ module.exports.start = function(app) {
 	    // Do logging of data}
 	});
     });
-    //Start c++ side
+        //Start c++ side
+//    console.log(algorithm.launchSimulation(paramObj, "lol"));
 }
