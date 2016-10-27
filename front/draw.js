@@ -2,7 +2,7 @@ var Draw = function () {
 
    var ctx = $("#myChart");
    var options = {
-      responsive: false,
+      responsive: true,
       maintainAspectRatio: false,
         scales: {
             yAxes: [{
