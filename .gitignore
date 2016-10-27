@@ -8,6 +8,12 @@ vrep_sample
 
 # nodeJS
 node_modules
+*.node.d
+*.o.d
+*.gypi
+*.mk
+*.node
+build
 
 # emacs
 *~

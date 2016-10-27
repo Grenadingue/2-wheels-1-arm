@@ -10,4 +10,5 @@ require('./routes').init(app, controllers);
 const server = app.listen(config.port, function () {
     console.log('Listening on port ' + config.port);
 });
-// const socket = SocketIO.init(server);
+
+controllers.realTime.start(app);
