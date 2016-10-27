@@ -27,13 +27,13 @@ module.exports.init = function(app, controllers) {
 
    // Some Problem to get my front files
    app.get('/service.js', function(req, res) {
-         res.sendFile(path.join(__dirname + '/front/service.js'));
+         res.sendFile(path.join(__dirname + '/views/js/service.js'));
    });
    app.get('/draw.js', function(req, res) {
-         res.sendFile(path.join(__dirname + '/front/draw.js'));
+         res.sendFile(path.join(__dirname + '/views/js/draw.js'));
    });
    app.get('/init.js', function(req, res) {
-         res.sendFile(path.join(__dirname + '/front/init.js'));
+         res.sendFile(path.join(__dirname + '/views/js/init.js'));
    });
    app.get('/chart.js', function(req, res) {
          res.sendFile(path.join(__dirname + '/node_modules/chart.js/dist/Chart.js'));
