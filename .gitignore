@@ -8,6 +8,12 @@ sample_code/cpp/2w1a_test
 
 # nodeJS
 node_modules
+*.node.d
+*.o.d
+*.gypi
+*.mk
+*.node
+build
 
 # emacs
 *~

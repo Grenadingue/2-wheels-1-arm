@@ -1,4 +1,4 @@
-const algoGen = require('../cpp/build/Release/algoGen.node');
+const algoGen = require('../algorithm/cpp/build/Release/algoGen.node');
 
 // Example, DELETE ME
 
