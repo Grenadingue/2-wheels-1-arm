@@ -23,7 +23,7 @@ $( document ).ready(function() {
    $("#saved_file").on("click", function(e) {
       var file_name = $(this).text();
       serve.get(file_name).then(function(success) {
-         drawer.launchFile(success.data);
+         drawer.launchFile(success);
       });
    });
 });

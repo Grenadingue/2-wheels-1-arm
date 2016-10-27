@@ -1,1 +1,9 @@
-[]
+[{"best":2, "average":1},
+{"best":4, "average":2},
+{"best":8, "average":4},
+{"best":16, "average":8},
+{"best":32, "average":16},
+{"best":64, "average":32},
+{"best":128, "average":64},
+{"best":256, "average":128},
+{"best":512, "average":256}]
