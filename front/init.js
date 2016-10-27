@@ -13,10 +13,10 @@ $( document ).ready(function() {
 
    // Do the live simulation using the inputed value
    $("#launch_simulation").on("click", function() {
-      var data = {};
-      serve.post(data).then(function() {
+      // var data = {};
+      // serve.post(data).then(function() {
          drawer.launchWS();
-      });
+      // });
    });
 
    // Get the corresponding data file and launch the draw
