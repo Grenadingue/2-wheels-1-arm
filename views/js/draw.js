@@ -1,5 +1,5 @@
 var Draw = function () {
-
+   //Initialize the graph with empty data
    var ctx = $("#myChart");
    var options = {
       responsive: true,
@@ -36,8 +36,8 @@ var Draw = function () {
 
    return {
       launchWS() {
-
          var myChart = new Chart(ctx, {type: 'line', data: startingdata, options: options});
+         /* Simulation of real time rendering */
          var i = 1;
          var cptr = 1;
          var update = function() {
@@ -52,12 +52,8 @@ var Draw = function () {
       },
       launchFile(data) {
 
-         var best = [];
-         var average = [];
-         var labels = [];
-
-         for (var i = 0; i < data.length; ++i){
-
+         /* Read the inputed file line by line to populate the data */
+         for (var i = 0; i < data.length; ++i) {
             startingdata.datasets[0].data.push(data[i].best);
             startingdata.datasets[1].data.push(data[i].average);
             startingdata.labels.push("Iteration n°" + i);
