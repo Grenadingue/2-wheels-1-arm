@@ -13,7 +13,7 @@ node_modules
 *.gypi
 *.mk
 *.node
-build
+npm-debug.log
 
 # emacs
 *~

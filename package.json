@@ -14,10 +14,20 @@
     "nodemon": "^1.11.0"
   },
   "scripts": {
-    "test": "",
-    "install": "",
+    "test": "echo \"No tests found\" ; exit 0",
+
+    "start": "node server.js",
     "dev": "node node_modules/nodemon/bin/nodemon.js server.js",
-    "start": ""
+
+    "install": "npm run retrieve_socket.io && npm run build_socket.io && npm run build_algo",
+
+    "retrieve_socket.io": "git submodule update --init --recursive",
+    "build_socket.io": "mkdir -p algorithm/lib/socket.io-client/build && cd algorithm/lib/socket.io-client/build && cmake .. && make VERBOSE=1",
+
+    "build_algo": "cd algorithm && node-gyp rebuild --verbose",
+    "rebuild_algo": "cd algorithm && rm -rfv build/* ; node-gyp rebuild --verbose",
+    "build_algo_dev": "mkdir -p algorithm/build_dev && cd algorithm/build_dev && cmake .. -DCMAKE_BUILD_TYPE=Debug && make VERBOSE=1",
+    "rebuild_algo_dev": "rm -rfv algorithm/build_dev/* 2>/dev/null ; mkdir -p algorithm/build_dev && cd algorithm/build_dev && cmake .. -DCMAKE_BUILD_TYPE=Debug && make VERBOSE=1"
   },
   "repository": {
     "type": "git",
