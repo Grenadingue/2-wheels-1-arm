@@ -11,9 +11,9 @@ const paramObj =
 module.exports.start = function(app) {
     //Create socket.io instance
     io.on('connection', function (socket) {
-	socket.on('data_stream', function (value1, value2) {
-	    // Do logging of data}
-	});
+   	socket.on('data_stream', function (value1, value2) {
+   	    // Do logging of data}
+   	});
     });
         //Start c++ side
 //    console.log(algorithm.launchSimulation(paramObj, "lol"));

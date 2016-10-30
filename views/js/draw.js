@@ -37,6 +37,10 @@ var Draw = function () {
    return {
       launchWS() {
          var myChart = new Chart(ctx, {type: 'line', data: startingdata, options: options});
+         var socket = io.connect('http://localhost');
+         socket.on('new_iteration', function (data) {
+           console.log(data);
+         });
          /* Simulation of real time rendering */
          var i = 1;
          var cptr = 1;
