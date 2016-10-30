@@ -12,10 +12,12 @@ module.exports.start = function(app) {
     // Create socket.io instance
     io.on('connection', function (socket) {
 
-      socket.on('new result', function (result) {
+    socket.on('launchSimulation', function (inputedParams) {
+      // Start c++ side
+      // algorithm.launchSimulation(inputedParams);
+    });
+     socket.on('new result', function (result) {
        console.log('[Node.js] new result:', result);
      });
     });
-   // Start c++ side
-   algorithm.launchSimulation(paramObj);
  }

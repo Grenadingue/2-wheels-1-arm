@@ -35,15 +35,23 @@ var Draw = function () {
          };
 
    return {
-      launchWS() {
+      launchWS(socket) {
          var myChart = new Chart(ctx, {type: 'line', data: startingdata, options: options});
-         var socket = io.connect('http://localhost');
-         socket.on('new_iteration', function (data) {
-           console.log(data);
-         });
+
+
          /* Simulation of real time rendering */
          var i = 1;
          var cptr = 1;
+
+
+         // socket.on('new_iteration', function (data) {
+         //    myChart.data.datasets[0].data.push(data.max);
+         //    myChart.data.datasets[1].data.push(data.average);
+         //    myChart.config.data.labels.push("Iteration n°" + cptr);
+         //    cptr++;
+         //    myChart.update();
+         // });
+
          var update = function() {
             myChart.data.datasets[0].data.push(i*2);
             myChart.data.datasets[1].data.push(i);
