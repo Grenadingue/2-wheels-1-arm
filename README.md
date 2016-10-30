@@ -1,16 +1,19 @@
 # 2-wheels-1-arm
-A genetic algorithm searching for solutions to move a simple robot
+A genetic algorithm searching for solutions to move a simple robot straightforward in a virtual environment
 
 ## Dependencies
 * [v-rep pro edu](http://www.coppeliarobotics.com/downloads.html) (virtual robot experimentation platform)
-* __node.js__
-* __npm__
-* A __C++__ compiler
+* __node.js__ + __npm__ + __node-gyp__
+* __g++__ / __clang++__
+* __cmake__ + __make__
+* __boost__ libraries
 
 ## Documentation
 * [Class diagram](documents/class_diagram/software_diagram.class.yuml.png)
 
 ## How to
+*/!\ Important note: `npm` commands should be executed from repository root directory*
+
 ### Setup virtual environment
 * Download and install __v-rep__
 * Open __v-rep__ then load `2w1a.ttt`
@@ -31,15 +34,22 @@ See [sample code README](sample_code/README.md)
 * `npm start`
 
 ### Development notes
-### How to launch server in dev mode?
+#### How to launch server in dev mode?
 * v-rep virtual environment need to be setup
-* `npm run dev` (server automaticaly restarts after file change; does not work for c++ files)
+* `npm run dev`
 
-### How to rebuild C++ algorithm node module?
-* `npm run build` *(not on `master` yet!)*
+*Note: Server will automaticaly restart after file change*  
+*Note2: Works for node.js files, does not work for c++ files*
 
-### Build C++ algorithm for development? *(not on `master` yet!)*
-* `$> cd algorithm/`
-* `$> make`
-* `$> ./2w1a`
-Note: It simulates a __node.js__ server running along the algorithm, just let the main thread doing nothing for ever
+#### How to build/rebuild C++ side?
+##### Node.js algorithm module
+* `npm run build_algo`
+* `npm run rebuild_algo`
+
+##### Executable development algorithm
+* `npm run build_algo_dev`
+* `npm run rebuild_algo_dev`
+
+#### How to launch development executable algorithm?
+* v-rep virtual environment need to be setup
+* Execute `algorithm/build_dev/2w1a_dev`
