@@ -1,7 +1,7 @@
 #ifndef		MAINCONTROLLER_HPP_
 # define	MAINCONTROLLER_HPP_
 
-# include <list>
+# include <map>
 # include <string>
 # include "IDataHandler.hpp"
 # include "AlgoParameters.hpp"
@@ -21,7 +21,7 @@ public:
   MainController();
   ~MainController();
 
-  void operator()(const std::list<std::string> *);
+  void operator()(const std::map<std::string, std::string> *);
 
   // Inherited from IDataHandler
   virtual void handleNewResult(const ResultModel *);
@@ -29,7 +29,7 @@ public:
   void handleFinishedJob();
 
 private:
-  bool _parseParameters(const std::list<std::string> &, AlgoParameters &, std::string &);
+  bool _parseParameters(const std::map<std::string, std::string> &, AlgoParameters &, std::string &);
   void _initControllers(const AlgoParameters *, const std::string *);
 };
 

@@ -12,7 +12,7 @@ MainController::~MainController()
 {
 }
 
-void MainController::operator()(const std::list<std::string> *rawParams)
+void MainController::operator()(const std::map<std::string, std::string> *rawParams)
 {
   AlgoParameters *algoParams = new AlgoParameters;
   std::string *dataBackupFileName = new std::string;
@@ -50,8 +50,8 @@ void MainController::handleFinishedJob()
   delete this;
 }
 
-bool MainController::_parseParameters(const std::list<std::string> &rawParams, AlgoParameters &params,
-				      std::string &dataBackupFileName)
+bool MainController::_parseParameters(const std::map<std::string, std::string> &rawParams,
+				      AlgoParameters &params, std::string &dataBackupFileName)
 {
   (void)params;
   (void)dataBackupFileName;
@@ -59,7 +59,7 @@ bool MainController::_parseParameters(const std::list<std::string> &rawParams, A
   std::cout << "Algorithm parameters:" << std::endl;
   for (auto parameter : rawParams)
     {
-      std::cout << "\t" << parameter << std::endl;
+      std::cout << "\t" << parameter.first << " = " << parameter.second << std::endl;
     }
   return true;
 }

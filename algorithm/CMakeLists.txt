@@ -4,9 +4,11 @@ cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
 find_package(Boost ${BOOST_VER} REQUIRED COMPONENTS system date_time random)
 
 # Set project directories
-set(PROJECT_F ${CMAKE_CURRENT_SOURCE_DIR}/cpp)
-set(VREP_F ${PROJECT_F}/vrep)
-set(SIO_F ${PROJECT_F}/socket.io-client-cpp)
+set(PROJECT_F ${CMAKE_CURRENT_SOURCE_DIR}/source)
+set(LIB_F ${CMAKE_CURRENT_SOURCE_DIR}/lib)
+set(VREP_F ${LIB_F}/vrep)
+set(SIO_F ${LIB_F}/socket.io-client/socket.io-client-cpp)
+set(SIO_BUILD_F ${LIB_F}/socket.io-client/build)
 
 add_executable(
 	# Target executable
@@ -17,6 +19,7 @@ add_executable(
 	${VREP_F}/extApiPlatform.c
 
 	# Project source files
+	${PROJECT_F}/main.cpp
 	${PROJECT_F}/MainController.cpp
 	${PROJECT_F}/AThreadedDataHandler.cpp
 	${PROJECT_F}/WebServerBridge.cpp
@@ -47,7 +50,7 @@ include_directories(
 )
 
 # C
-set(CMAKE_C_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -ggdb")
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -ggdb")
 
 # C++ compilation flags
 set_property(TARGET 2w1a_dev PROPERTY CXX_STANDARD 11)
@@ -59,7 +62,7 @@ ADD_DEFINITIONS(-DNON_MATLAB_PARSING -DMAX_EXT_API_CONNECTIONS=255)
 
 # Libraries to link with project
 add_library(sioclient STATIC IMPORTED)
-set_target_properties(sioclient PROPERTIES IMPORTED_LOCATION ${SIO_F}/libsioclient.a)
+set_target_properties(sioclient PROPERTIES IMPORTED_LOCATION ${SIO_BUILD_F}/libsioclient.a)
 target_link_libraries(2w1a_dev ${Boost_LIBRARIES})
 target_link_libraries(2w1a_dev sioclient)
 target_link_libraries(2w1a_dev pthread)

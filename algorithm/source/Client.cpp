@@ -4,6 +4,7 @@
 WebServerBridge::Client::Client(const std::string &serverAddress)
   : _connectFinish(false)
 {
+  std::cout << "WebServerBridge::Client::Client" << std::endl;
   _handler.set_open_listener(std::bind(&WebServerBridge::Client::onConnection, this));
   _handler.set_close_listener(std::bind(&WebServerBridge::Client::onClose, this));
   _handler.set_fail_listener(std::bind(&WebServerBridge::Client::onFailure, this));

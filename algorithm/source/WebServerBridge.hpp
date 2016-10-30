@@ -1,6 +1,7 @@
 #ifndef		WEBSERVERBRIDGE_HPP_
 # define	WEBSERVERBRIDGE_HPP_
 
+# include <map>
 # include "AThreadedDataHandler.hpp"
 
 class		WebServerBridge : public AThreadedDataHandler
@@ -13,8 +14,6 @@ private:
 public:
   WebServerBridge();
   ~WebServerBridge();
-
-  static void launchAlgorithm();
 
   // Inherited from AThreadedDataHandler
   virtual void _workLoop();

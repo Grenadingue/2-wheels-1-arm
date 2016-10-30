@@ -9,12 +9,12 @@ const paramObj =
       };
 
 module.exports.start = function(app) {
-    //Create socket.io instance
+    // Create socket.io instance
     io.on('connection', function (socket) {
-	socket.on('data_stream', function (value1, value2) {
-	    // Do logging of data}
-	});
+	     socket.on('new result', function (result) {
+         console.log('[Node.js] new result:', result);
+	     });
     });
-        //Start c++ side
-//    console.log(algorithm.launchSimulation(paramObj, "lol"));
+   // Start c++ side
+   algorithm.launchSimulation(paramObj);
 }
