@@ -51,9 +51,12 @@ namespace vrep
     };
 
   handle_t start(const std::string &addr, uint16_t port);
-  handle_t startSimulation(handle_t clientId);
+  void finish(handle_t clientId);
 
-  handle_t getObjectHandle(handle_t clientId, const std::string &objectName, handle_t objectHandle);
+  handle_t startSimulation(handle_t clientId);
+  handle_t stopSimulation(handle_t clientId);
+
+  handle_t getObjectHandle(handle_t clientId, const std::string &objectName, handle_t &objectHandle);
   handle_t getObjectPosition(handle_t clientId, handle_t objectId, position_t &position);
   handle_t getObjectOrientation(handle_t clientId, handle_t objectId, orientation_t &orientation);
 

@@ -2,18 +2,27 @@
 
 namespace vrep
 {
-  inline handle_t start(const std::string &addr, uint16_t port)
+  handle_t start(const std::string &addr, uint16_t port)
   {
     return simxStart(addr.c_str(), port, true, true, 5000, 5);
   }
 
-  inline handle_t startSimulation(handle_t clientId)
+  void finish(handle_t clientId)
+  {
+    simxFinish(clientId);
+  }
+
+  handle_t startSimulation(handle_t clientId)
   {
     return simxStartSimulation(clientId, eOpMode::BLOCKING);
   }
 
-  inline handle_t getObjectHandle(handle_t clientId, const std::string &objectName,
-				  handle_t &objectHandle)
+  handle_t stopSimulation(handle_t clientId)
+  {
+    return simxStopSimulation(clientId, eOpMode::BLOCKING);
+  }
+
+  handle_t getObjectHandle(handle_t clientId, const std::string &objectName, handle_t &objectHandle)
   {
     return simxGetObjectHandle(clientId, objectName.c_str(), &objectHandle, eOpMode::BLOCKING);
   }
@@ -38,12 +47,12 @@ namespace vrep
     return ret;
   }
 
-  inline handle_t getJointPosition(handle_t clientId, handle_t jointId, float &position)
+  handle_t getJointPosition(handle_t clientId, handle_t jointId, float &position)
   {
     return simxGetJointPosition(clientId, jointId, &position, eOpMode::BLOCKING);
   }
 
-  inline handle_t setJointTargetPosition(handle_t clientId, handle_t jointId, float position)
+  handle_t setJointTargetPosition(handle_t clientId, handle_t jointId, float position)
   {
     return simxSetJointTargetPosition(clientId, jointId, position, eOpMode::BLOCKING);
   }
