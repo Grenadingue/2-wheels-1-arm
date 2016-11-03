@@ -2,9 +2,10 @@
 
 namespace vrep
 {
-  handle_t start(const std::string &addr, uint16_t port)
+  bool start(const std::string &addr, uint16_t port, handle_t &clientId)
   {
-    return simxStart(addr.c_str(), port, true, true, 5000, 5);
+    clientId = simxStart(addr.c_str(), port, true, true, 5000, 5);
+    return clientId != eHandle::INVALID;
   }
 
   void finish(handle_t clientId)

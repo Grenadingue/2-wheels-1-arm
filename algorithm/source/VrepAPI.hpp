@@ -50,7 +50,12 @@ namespace vrep
       INITIALIZE = simx_return_initialize_error_flag
     };
 
-  handle_t start(const std::string &addr, uint16_t port);
+  enum eHandle : handle_t
+    {
+      INVALID = -1
+    };
+
+  bool start(const std::string &addr, uint16_t port, handle_t &clientId);
   void finish(handle_t clientId);
 
   handle_t startSimulation(handle_t clientId);
