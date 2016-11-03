@@ -11,7 +11,7 @@ public:
   class Object;
 
 private:
-  vrep::handle_t _worldHandle;
+  vrep::handle_t _handle;
   std::map<std::string, Object *> _objects;
 
 public:

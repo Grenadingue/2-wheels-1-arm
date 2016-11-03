@@ -6,8 +6,7 @@
 class		Articulation : public Physics::Object
 {
 public:
-  Articulation();
-  ~Articulation();
+  virtual ~Articulation();
 };
 
 #endif		/* !ARTICULATION_HPP_ */
