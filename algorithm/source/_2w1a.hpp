@@ -7,9 +7,9 @@
 class		_2w1a : public Physics::Object
 {
 private:
-  Articulation *_wrist;
-  Articulation *_elbow;
-  Articulation *_shoulder;
+  Physics::Articulation *_wrist;
+  Physics::Articulation *_elbow;
+  Physics::Articulation *_shoulder;
 
 public:
   _2w1a(const Physics::Object &);

@@ -9,6 +9,7 @@ class		Physics
 {
 public:
   class Object;
+  class Articulation;
 
 private:
   vrep::handle_t _handle;
