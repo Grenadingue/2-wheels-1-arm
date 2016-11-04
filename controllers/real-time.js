@@ -14,10 +14,11 @@ module.exports.start = function(app) {
 
     socket.on('launchSimulation', function (inputedParams) {
       // Start c++ side
-      // algorithm.launchSimulation(inputedParams);
+      algorithm.launchSimulation(inputedParams);
     });
      socket.on('new result', function (result) {
-       console.log('[Node.js] new result:', result);
+        console.log('[Node.js] new result:', result);
+        socket.emit('new_iteration', result);
      });
     });
  }

@@ -17,17 +17,17 @@ var Draw = function () {
             datasets: [
                {
                   label: "Best",
-                  fillColor: "rgba(220,220,220,0.2)",
                   strokeColor: "rgba(220,220,220,1)",
                   pointColor: "rgba(220,220,220,1)",
+                  borderColor: "red",
                   pointStrokeColor: "#fff",
                   data: []
                },
                {
                   label: "Average",
-                  fillColor: "rgba(151,187,205,0.2)",
                   strokeColor: "rgba(151,187,205,1)",
                   pointColor: "rgba(151,187,205,1)",
+                  borderColor: "blue",
                   pointStrokeColor: "#fff",
                   data: []
                }
@@ -44,22 +44,14 @@ var Draw = function () {
          var cptr = 1;
 
 
-         // socket.on('new_iteration', function (data) {
-         //    myChart.data.datasets[0].data.push(data.max);
-         //    myChart.data.datasets[1].data.push(data.average);
-         //    myChart.config.data.labels.push("Iteration n°" + cptr);
-         //    cptr++;
-         //    myChart.update();
-         // });
-
-         var update = function() {
-            myChart.data.datasets[0].data.push(i*2);
-            myChart.data.datasets[1].data.push(i);
+         socket.on('new_iteration', function (data) {
+            myChart.data.datasets[0].data.push(data.max);
+            myChart.data.datasets[1].data.push(data.mid);
             myChart.config.data.labels.push("Iteration n°" + cptr);
-            i = i * 2;
-            cptr = cptr + 1;
+            cptr++;
             myChart.update();
-         }
+         });
+
          setInterval(function() {update(); console.log("ntm");}, 1000);
       },
       launchFile(data) {
@@ -67,7 +59,7 @@ var Draw = function () {
          /* Read the inputed file line by line to populate the data */
          for (var i = 0; i < data.length; ++i) {
             startingdata.datasets[0].data.push(data[i].best);
-            startingdata.datasets[1].data.push(data[i].average);
+            startingdata.datasets[1].data.push(data[i].mid);
             startingdata.labels.push("Iteration n°" + i);
          }
          var myChart = new Chart(ctx, {type: 'line', data: startingdata, options: options});
