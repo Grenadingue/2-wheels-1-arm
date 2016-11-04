@@ -20,7 +20,7 @@ public:
   ~Physics();
 
   bool enterTheMatrix();
-  void getOffTheMatrix();
+  void getOffTheMatrix(bool = false);
   bool startSimulation();
   bool endSimulation();
   Object *getObject(const std::string &);

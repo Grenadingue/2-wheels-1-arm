@@ -3,7 +3,7 @@
 
 # include "Object.hpp"
 
-class		Physics::Articulation : Physics::Object
+class		Physics::Articulation : public Physics::Object
 {
 public:
   virtual ~Articulation();

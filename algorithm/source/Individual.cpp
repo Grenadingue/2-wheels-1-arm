@@ -1,7 +1,7 @@
 #include "Individual.hpp"
 
-Individual::Individual(const Physics::Object &other)
-  : _2w1a(other)
+Individual::Individual(const _2w1a &robot)
+  : _2w1a(robot)
 {
 }
 

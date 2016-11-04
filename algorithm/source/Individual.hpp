@@ -13,7 +13,7 @@ private:
   genome_t *_genome;
 
 public:
-  Individual(const Physics::Object &);
+  Individual(const _2w1a &);
   virtual ~Individual();
 };
 

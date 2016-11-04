@@ -14,12 +14,13 @@ Physics::~Physics()
 
 bool Physics::enterTheMatrix()
 {
-  return vrep::start("localhost", 19997, _handle);
+  return vrep::start("127.0.0.1", 19997, _handle);
 }
 
-void Physics::getOffTheMatrix()
+void Physics::getOffTheMatrix(bool force)
 {
-  vrep::finish(_handle);
+  if (_handle != vrep::eHandle::INVALID || force)
+    vrep::finish(_handle);
 }
 
 bool Physics::startSimulation()

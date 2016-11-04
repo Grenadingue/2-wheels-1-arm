@@ -7,12 +7,12 @@
 class		_2w1a : public Physics::Object
 {
 private:
-  Physics::Articulation *_wrist;
-  Physics::Articulation *_elbow;
-  Physics::Articulation *_shoulder;
+  Physics::Articulation &_wrist;
+  Physics::Articulation &_elbow;
+  Physics::Articulation &_shoulder;
 
 public:
-  _2w1a(const Physics::Object &);
+  _2w1a(const Physics::Object &, Physics::Object &, Physics::Object &, Physics::Object &);
   virtual ~_2w1a();
 };
 

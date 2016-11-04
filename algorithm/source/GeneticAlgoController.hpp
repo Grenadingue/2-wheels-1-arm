@@ -24,6 +24,12 @@ public:
   virtual void operator()();
   virtual void operator()(const AlgoParameters *);
   virtual void _workLoop();
+
+  // Genetic algorithm
+  void _geneticAlgorithm();
+  bool _solutionFound();
+  bool _initializePopulation();
+  bool _evaluateFitness();
 };
 
 #endif		/* !GENETICALGOCONTROLLER_HPP_ */
