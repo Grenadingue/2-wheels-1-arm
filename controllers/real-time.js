@@ -12,7 +12,7 @@ module.exports.start = function(app) {
     // Create socket.io instance
     io.on('connection', function (socket) {
 	     socket.on('new result', function (result) {
-         console.log('[Node.js] new result:', result);
+         console.log('[WEB_SERVER] new result:', result);
 	     });
     });
    // Start c++ side

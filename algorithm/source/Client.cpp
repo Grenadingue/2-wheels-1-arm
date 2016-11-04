@@ -4,7 +4,6 @@
 WebServerBridge::Client::Client(const std::string &serverAddress)
   : _connectFinish(false)
 {
-  std::cout << "WebServerBridge::Client::Client" << std::endl;
   _handler.set_open_listener(std::bind(&WebServerBridge::Client::onConnection, this));
   _handler.set_close_listener(std::bind(&WebServerBridge::Client::onClose, this));
   _handler.set_fail_listener(std::bind(&WebServerBridge::Client::onFailure, this));
@@ -19,19 +18,19 @@ WebServerBridge::Client::~Client()
 
 void WebServerBridge::Client::onConnection()
 {
-  std::cout << "socket.io client connected" << std::endl;
+  std::cout << "[SOCKET.IO_CLIENT] connected" << std::endl;
   _connectFinish = true;
   _socket = _handler.socket();
 }
 
 void WebServerBridge::Client::onClose()
 {
-  std::cout << "socket.io client closed" << std::endl;
+  std::cout << "[SOCKET.IO_CLIENT] closed" << std::endl;
 }
 
 void WebServerBridge::Client::onFailure()
 {
-  std::cout << "socket.io failure" << std::endl;
+  std::cout << "[SOCKET.IO_CLIENT] failure" << std::endl;
 }
 
 bool WebServerBridge::Client::connected() const
@@ -45,5 +44,5 @@ void WebServerBridge::Client::emit(const std::string &eventName, const sio::mess
   if (_connectFinish)
     _socket->emit(eventName, data, ack);
   else
-    std::cerr << "emit: socket.io client not connected, packet lost" << std::endl;
+    std::cerr << "[SOCKET.IO_CLIENT] emit: client not connected, packet lost" << std::endl;
 }
