@@ -91,11 +91,7 @@ bool GeneticAlgoController::_initializePopulation()
 
   for (int i = 0; i != 5; ++i)
     {
-      if (!(individual = new Individual(*_robot)))
-	{
-	  std::cout << "[MATRIX] cannot create individual" << std::endl;
-	  return false;
-	}
+      individual = new Individual(*_robot);
       _population.push_back(individual);
     }
   return true;
