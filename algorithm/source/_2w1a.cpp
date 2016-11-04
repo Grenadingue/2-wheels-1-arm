@@ -12,3 +12,17 @@ _2w1a::_2w1a(const Physics::Object &robot,
 _2w1a::~_2w1a()
 {
 }
+Physics::Articulation &_2w1a::wrist()
+{
+  return _wrist;
+}
+
+Physics::Articulation &_2w1a::elbow()
+{
+  return _elbow;
+}
+
+Physics::Articulation &_2w1a::shoulder()
+{
+  return _shoulder;
+}

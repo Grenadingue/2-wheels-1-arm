@@ -13,7 +13,7 @@ class		World
 {
 protected:
   individuals_t _population;
-  MotherNature _motherNature;
+  MotherNature _random;
   Physics _physics;
   _2w1a *_robot;
 

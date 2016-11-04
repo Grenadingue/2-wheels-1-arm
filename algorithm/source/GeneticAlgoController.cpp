@@ -108,7 +108,7 @@ bool GeneticAlgoController::_evaluateFitness()
       if (_startSimulation())
 	{
 	  std::cout << "[MATRIX] Simulation started" << std::endl;
-	  for (int i = 0; i != 3; ++i)
+	  for (int i = 0; i != 2; ++i)
 	    {
 	      vrep::position_t pos;
 	      vrep::orientation_t ori;
@@ -116,25 +116,45 @@ bool GeneticAlgoController::_evaluateFitness()
 	      if (!individual->getPositionOnMap(pos))
 		{
 		  std::cout << "unable to retrieve 2w1a position on map" << std::endl;
-		  return false;
+		  break;
 		}
 	      std::cout << "position:\tx: "
 			<< pos.x << ", y: " << pos.y << ", z: " << pos.z << std::endl;
 	      if (!individual->getOrientationOnMap(ori))
 		{
 		  std::cout << "unable to retrieve 2w1a orientation on map" << std::endl;
-		  return false;
+		  break;
 		}
 	      std::cout << "orient.:\tx: "
 			<< ori.x << ", y: " << ori.y << ", z: " << ori.z << std::endl;
+
+	      if (!individual->wrist().setTargetPosition(_random.realInRange<float>(0, 300)) ||
+		  !individual->elbow().setTargetPosition(_random.realInRange<float>(0, 300)) ||
+		  !individual->shoulder().setTargetPosition(_random.realInRange<float>(0, 300)))
+		{
+		  std::cout << "unable to set 2w1a articulations target postions" << std::endl;
+		  break;
+		}
+
+	      std::this_thread::sleep_for(std::chrono::seconds(2));
+
+	      float wristPos = 0, elbowPos = 0, shoulderPos = 0;
+
+	      if (!individual->wrist().getPosition(wristPos) ||
+		  !individual->elbow().getPosition(elbowPos) ||
+		  !individual->shoulder().getPosition(shoulderPos))
+		{
+		  std::cout << "unable to set 2w1a articulations target postions" << std::endl;
+		  break;
+		}
 	    }
-	  if (_stopSimulation())
-	    std::cout << "[MATRIX] Simulation ended" << std::endl;
-	  else
+	  if (!_stopSimulation())
 	    {
 	      std::cout << "[MATRIX] Unable to stop simulation" << std::endl;
 	      return false;
 	    }
+	  std::this_thread::sleep_for(std::chrono::seconds(1));
+	  std::cout << "[MATRIX] Simulation ended" << std::endl;
 	}
     }
   return true;
