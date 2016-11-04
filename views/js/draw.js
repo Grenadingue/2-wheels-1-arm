@@ -52,7 +52,7 @@ var Draw = function () {
             myChart.update();
          });
 
-         setInterval(function() {update(); console.log("ntm");}, 1000);
+         // setInterval(function() {update(); console.log("ntm");}, 1000);
       },
       launchFile(data) {
 

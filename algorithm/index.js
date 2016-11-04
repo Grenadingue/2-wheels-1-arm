@@ -1,1 +1,1 @@
-// module.exports = require('./build/Release/algoGen.node');
+module.exports = require('./build/Release/algoGen.node');

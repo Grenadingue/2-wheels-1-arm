@@ -1,4 +1,4 @@
-const algorithm = require('../algorithm');
+// const algorithm = require('../algorithm');
 const io = require('../libraries/socket-io');
 const paramObj =
 {
@@ -9,13 +9,19 @@ const paramObj =
 };
 
 module.exports.start = function(app) {
+
+    var i = 1;
+
+
     // Create socket.io instance
     io.on('connection', function (socket) {
 
     socket.on('launchSimulation', function (inputedParams) {
-      // Start c++ side
+    //  Start c++ side
       algorithm.launchSimulation(inputedParams);
     });
+
+
      socket.on('new result', function (result) {
         console.log('[Node.js] new result:', result);
         socket.emit('new_iteration', result);
