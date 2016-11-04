@@ -48,12 +48,16 @@
 							}
 			],
 			[ 'OS=="mac"', {
+								"link_settings": {
+											"libraries": [ "-L/usr/local/lib/" ]
+								},
 								"xcode_settings": {
-													"OTHER_CPLUSPLUSFLAGS" : [ "-std=c++11", "-stdlib=libc++" ],
-													"OTHER_LDFLAGS": [ "-stdlib=libc++" ],
-													},
-							}
+											"GCC_OPTIMIZATION_LEVEL": '0',
+											"OTHER_CPLUSPLUSFLAGS" : [ "-std=c++11", "-stdlib=libc++" ],
+											"OTHER_LDFLAGS": [ "-stdlib=libc++" ],
+								},
+					}
 			],
-        ],
+		],
 	}]
 }
