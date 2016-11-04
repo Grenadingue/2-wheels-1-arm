@@ -3,6 +3,7 @@
 #include <iostream>
 
 World::World()
+  : _robot(NULL)
 {
 }
 
