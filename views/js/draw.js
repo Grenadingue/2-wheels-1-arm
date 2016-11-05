@@ -40,19 +40,15 @@ var Draw = function () {
 
 
          /* Simulation of real time rendering */
-         var i = 1;
          var cptr = 1;
 
-
          socket.on('new_iteration', function (data) {
-            myChart.data.datasets[0].data.push(data.max);
+            myChart.data.datasets[0].data.push(data.best);
             myChart.data.datasets[1].data.push(data.mid);
             myChart.config.data.labels.push("Iteration n°" + cptr);
             cptr++;
             myChart.update();
          });
-
-         // setInterval(function() {update(); console.log("ntm");}, 1000);
       },
       launchFile(data) {
 
