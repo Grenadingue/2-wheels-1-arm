@@ -36,4 +36,7 @@ module.exports.init = function(app, controllers) {
   app.get('/chart.js', function(req, res) {
        res.sendFile(path.join(__dirname + '/node_modules/chart.js/dist/Chart.js'));
   });
+  app.get('/socket.io.js', function(req, res) {
+       res.sendFile(path.join(__dirname + '/node_modules/socket.io-client/socket.io.js'));
+  });
 }
