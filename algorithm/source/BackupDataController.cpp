@@ -33,10 +33,8 @@ void BackupDataController::_workLoop()
       result = NULL;
       if ((result = static_cast<const WritableResultModel *>(_getNextResult())))
 	{
-	  std::cout << "Backup data controller got new result !" << std::endl;
 	  delete result;
 	}
-      std::cout << "Backup data controller: Waiting" << std::endl;
-      std::this_thread::sleep_for(std::chrono::seconds(1));
+      std::this_thread::sleep_for(std::chrono::milliseconds(300));
     }
 }

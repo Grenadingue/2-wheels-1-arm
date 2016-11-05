@@ -56,7 +56,7 @@ bool MainController::_parseParameters(const std::map<std::string, std::string> &
   (void)params;
   (void)dataBackupFileName;
 
-  std::cout << "Algorithm parameters:" << std::endl;
+  std::cout << "[C++_ADDON] Input parameters:" << std::endl;
   for (auto parameter : rawParams)
     {
       std::cout << "\t" << parameter.first << " = " << parameter.second << std::endl;

@@ -3,11 +3,14 @@
 
 # include "Object.hpp"
 
-class		Articulation : public Physics::Object
+class		Physics::Articulation : public Physics::Object
 {
 public:
-  Articulation();
-  ~Articulation();
+  virtual ~Articulation();
+
+  // position in degrees
+  bool getPosition(float &);
+  bool setTargetPosition(float);
 };
 
 #endif		/* !ARTICULATION_HPP_ */

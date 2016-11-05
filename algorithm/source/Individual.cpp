@@ -1,6 +1,7 @@
 #include "Individual.hpp"
 
-Individual::Individual()
+Individual::Individual(const _2w1a &robot)
+  : _2w1a(robot)
 {
 }
 

@@ -5,12 +5,19 @@
 
 class		Physics::Object
 {
-public:
-  Object();
-  Object(const Object&);
-  ~Object();
+protected:
+  Physics &_world;
+  vrep::handle_t _handle;
 
-  Object &operator=(const Object&);
+public:
+  Object(Physics &, vrep::handle_t);
+  Object(const Object &);
+  virtual ~Object();
+
+  Object &operator=(const Object &);
+
+  bool getPositionOnMap(vrep::position_t &);
+  bool getOrientationOnMap(vrep::orientation_t &);
 };
 
 #endif		/* !OBJECT_HPP_ */
