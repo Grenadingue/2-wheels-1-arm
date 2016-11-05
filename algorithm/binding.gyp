@@ -36,9 +36,9 @@
 		"defines": [ "NON_MATLAB_PARSING", "MAX_EXT_API_CONNECTIONS=255" ],
 		"link_settings": {
 					"libraries": [
-								"-lpthread",
+								"-rdynamic ../lib/socket.io-client/build/libsioclient.a",
 								"-lboost_system", "-lboost_date_time", "-lboost_random",
-								"-lsioclient", "-L../lib/socket.io-client/build/"
+								"-lpthread",
 					]
 		},
 		"conditions": [

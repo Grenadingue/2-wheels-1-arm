@@ -63,6 +63,6 @@ ADD_DEFINITIONS(-DNON_MATLAB_PARSING -DMAX_EXT_API_CONNECTIONS=255)
 # Libraries to link with project
 add_library(sioclient STATIC IMPORTED)
 set_target_properties(sioclient PROPERTIES IMPORTED_LOCATION ${SIO_BUILD_F}/libsioclient.a)
-target_link_libraries(2w1a_dev ${Boost_LIBRARIES})
 target_link_libraries(2w1a_dev sioclient)
+target_link_libraries(2w1a_dev ${Boost_LIBRARIES})
 target_link_libraries(2w1a_dev pthread)
