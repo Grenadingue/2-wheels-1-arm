@@ -4,14 +4,12 @@
     <meta charset="UTF-8">
     <title>2-wheels-1-arm</title>
 
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
-   <script src="socket.io.js"></script>
-
    <link href="views/cover.css" rel="stylesheet">
 
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+   <script src="socket.io.js"></script>
    <script src="chart.js"></script>
    <script src="views/service.js"></script>
    <script src="views/draw.js"></script>
@@ -19,29 +17,31 @@
 </head>
 
 <body>
- <div class="site-wrapper">
+  <div class="site-wrapper">
 
       <div class="site-wrapper-inner">
 
-        <canvas style="display: none" id="myChart" width="400" height="400"></canvas>
+        <div style="padding: 150 0 150 0">
+          <canvas style="display: none;" id="myChart" width="800" height="800"></canvas>
+        </div>
+
         <div class="cover-container">
 
           <div class="masthead clearfix">
             <div class="inner">
-              <h3 class="masthead-brand">AI - Evolution Programs</h3>
-              <nav>
-                <ul id="saved_file" class="nav masthead-nav">
-                </ul>
-              </nav>
+              <h3 class="masthead-center"><a href="" style="color: #fff">AI - Evolution Programs</a></h3>
             </div>
           </div>
 
-          <div class="inner cover">
+          <div class="inner cover" id="myForm">
             <h1 class="cover-heading">Two wheels one arm</h1>
-            <p>
-               Input the params you want and launch the simulation or select a previous simulation
+            <br/>
+            <p class="form-group col-xs-12 col-md-12">
+              <a id="show_form_param">Input the params you want</a>
+              or
+              <a id="show_form_select">Select a previous simulation</a>
             </p>
-            <div class="row">
+            <div class="row" id="form_param">
                <div class="form-group col-xs-6 col-md-6">
                   <input id="popsize" type="text" class="form-control" placeholder="Population Size" aria-describedby="basic-addon1">
                </div>
@@ -49,8 +49,17 @@
                   <input id="mutationrate" type="text" class="form-control" placeholder="Mutation rate" aria-describedby="basic-addon2">
                </div>
             </div>
+            <div style="display: none" class="row" id="form_select">
+               <div class="form-group">
+                 <select id="saved_file" class="select_perso">
+                   <option></option>
+                 </select>
+               </div>
+            </div>
+            <br/>
+            <br/>
             <p class="lead">
-              <a href="#" id="launch_simulation" class="btn btn-lg btn-default">Launch simulation</a>
+              <a id="launch_simulation" class="btn btn-lg btn-default">Launch simulation</a>
             </p>
           </div>
 
