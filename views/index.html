@@ -17,9 +17,13 @@
 </head>
 
 <body>
- <div class="site-wrapper">
+  <div class="site-wrapper">
 
       <div class="site-wrapper-inner">
+
+        <div style="padding: 150 0 150 0">
+          <canvas style="display: none;" id="myChart" width="800" height="800"></canvas>
+        </div>
 
         <div class="cover-container">
 
@@ -29,10 +33,9 @@
             </div>
           </div>
 
-          <canvas style="display: none" id="myChart" width="400" height="400"></canvas>
-
           <div class="inner cover" id="myForm">
             <h1 class="cover-heading">Two wheels one arm</h1>
+            <br/>
             <p class="form-group col-xs-12 col-md-12">
               <a id="show_form_param">Input the params you want</a>
               or
@@ -53,6 +56,8 @@
                  </select>
                </div>
             </div>
+            <br/>
+            <br/>
             <p class="lead">
               <a id="launch_simulation" class="btn btn-lg btn-default">Launch simulation</a>
             </p>

@@ -38,14 +38,12 @@ $( document ).ready(function() {
 
    $("#show_form_param").on("click", function() {
      $("#saved_file").val("");
-     $("#form_select").slideUp(function() {
-       $("#form_param").slideDown();
-     });
+     $("#form_select").hide();
+     $("#form_param").show();
    });
 
    $("#show_form_select").on("click", function() {
-     $("#form_param").slideUp(function() {
-       $("#form_select").slideDown();
-     });
+     $("#form_param").hide();
+     $("#form_select").show();
    });
 });
