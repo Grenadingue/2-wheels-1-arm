@@ -22,6 +22,7 @@ module.exports.start = function(app) {
 
         socket.on('new result', function (result) {
             console.log('[Node.js] new result:', result);
+            // Working with a result using this format {best: 1, mid: 1}
             clientSocket.emit('new_iteration', result);
         });
     });
