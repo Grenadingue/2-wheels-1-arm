@@ -151,3 +151,50 @@ class GeneticAlgorithm {
   }
 }
 ```
+
+## 2w1a algorithm
+### Goal
+The goal of the algorithm is to find a solution to __move straightforward__ the 2w1a robot, __inside a 3D environment__.
+
+> 2w1a robot will be the representation of an individual inside the virtual environment
+
+### Genome construction
+#### 2w1a moving capabilities
+2w1a has three *articulations*, a *wrist*, an *elbow* and a *shoulder*. Each *articulation* can be controlled independantly with a motor. To control a motor, we need to indicate a value in degrees, inside the range `[0, 300]`. Lets call the event of controlling an *articulation*, an *articulation instruction*.
+
+Lets now call a *step* a combination of one *articulation instruction* sent simultanously to each *articulation*.
+
+#### Needed data to move
+As a human has two symetrical legs, it needs two symetrical *steps* to control its legs, and finaly move itself in a direction. The succession of this two steps is a *cycle*. A human repeat this *cycle* while it wants to move.
+
+As 2w1a has only one arm (its equivalent of the human leg), we could be tempted to consider that only one *step* would be needed to move. But if we would use only one *step*, this one always containing the same *articulation instructions* values, the robot would move one time, from its initial position, to the desired one, and then would never move again.
+
+> Lets imagine the first step being "put the arm in the air", and the second "pull the floor with the arm".
+
+So, to make a *cycle* we need at least two different *steps*. For simpleness we will consider two *steps* enough for our needs.
+
+#### Data encoding
+As we need to encode two *steps*, a *step* beeing three *articulation instructions*, and an *articulation instruction* being a value in the range `[0, 300]`. We need to encode the genome in a list of set of three values.
+
+Something like
+```c++
+class Genome {
+  struct gene_t {
+    float wrist;
+    float elbow;
+    float shoulder;
+  }
+
+  std::list<gene_t> genes;
+  
+  Genome() : genes({ { 42.0001, 0.0, 284.165156 }, { 84.4645, 300.0, 10.1010 } }) {
+    int i = 0;
+    for (gene_t gene : genes) {
+      std::cout << "Step " << i++ << std::endl
+        << "\t" << "Wrist value: " << gene.wrist << std::endl
+        << "\t" << "Elbow value: " << gene.elbow << std::endl
+        << "\t" << "Shoulder value: " << gene.shoulder << std::endl;
+    }
+  }
+}
+```
