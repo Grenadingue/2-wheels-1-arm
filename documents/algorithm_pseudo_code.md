@@ -162,7 +162,7 @@ The goal of the algorithm is to find a solution to __move straightforward__ the 
 #### 2w1a moving capabilities
 2w1a has three *articulations*, a *wrist*, an *elbow* and a *shoulder*. Each *articulation* can be controlled independantly with a motor. To control a motor, we need to indicate a value in degrees, inside the range `[0, 300]`. Lets call the event of controlling an *articulation*, an *articulation instruction*.
 
-Lets now call a *step* a combination of one *articulation instruction* sent simultanously to each *articulation*.
+Lets now call a *step* a combination of one *articulation instruction* sent simultanously to each *articulation*, so a combination of three *articulation instructions*.
 
 #### Needed data to move
 As a human has two symetrical legs, it needs two symetrical *steps* to control its legs, and finaly move itself in a direction. The succession of this two steps is a *cycle*. A human repeat this *cycle* while it wants to move.
@@ -198,3 +198,86 @@ class Genome {
   }
 }
 ```
+
+### Fitness evaluation
+> Lets do a bit of maths
+
+#### Statement
+Lets imagine we're evaluating two different individuals, we will call them `I` and `I'`. We will evaluate the individuals inside a virtual environment. This virtual environment has 3 spatial dimensions, lets call them `x, y, z`. For convenience we will only consider using `x, y` and we will ignore `z`, this one corresponding to the height axle.
+
+Lets imagine an individual inside the virtual environment. When we start the simulation, the robot appear in the virtual world. It has an initial position. Lets call its initial position point `A`.
+
+Lets now tell `I` to make its first *step*. After this move, the robot is at the position `B`. After that, tell the robot to make its second *step*. It is now at position `C`. The first *cycle* has just been executed. Lets now tell 2w1a to make a second move *cycle*. It goes to position `D`, then finishes at postion `E`.
+
+Apply the same reasoning for the second individual `I'`, moving through positions `A', B', C', D', E'`.
+
+Our need now is to quantify "how straight" the robot is moving. For that we will need to use vectors. We will cut the whole robot move into the previously defined *cycles*, evaluate the vector drawn by the first *cycle*, and then compare how similar is the previous vector with the next vectors for each next *cycles*. (So in this case, there is only one vector `CD` after the first one `AB`)
+
+#### Cartesian coordinate system
+> Before using vectors, lets represent graphicaly the moves of our robots
+
+We will imagine one of the best case we could imagine, and one of the worst. Lets say `I` is moving perfectly straight, and `I'` is moving back to its initial position after two *cycles*.
+
+```
+                          +y
+                          |
+                        5 -                   +
+                          |                    E
+                        4 -               +
+                          |                D
+                        3 -           +
+                          |            C
+                        2 -       +
+                          |        B
+                        1 -   +
+                          |    A
+ -x --+---+---+---+---+---+---+---+---+---+---+-- +x
+      -5  -4  -3  -2  -1  |0  1   2   3   4   5
+                       -1 -
+                          |    C'
+                       -2 -   +
+                          |
+                       -3 + D'    +
+                          |        B'
+                       -4 -   +
+                          | E' A'
+                       -5 -
+                          |
+                          -y
+```
+
+#### Coordinates
+> Here are the coordinates of the robots at each step of the evaluation
+
+|        Description         |     `I`      |      `I'`      |
+|----------------------------|:------------:|:--------------:|
+| Initial position           | `A = (1, 1)` | `A' = (1, -4)` |
+| After 1st step             | `B = (2, 2)` | `B' = (2, -3)` |
+| After 2nd step / 1st cycle | `C = (3, 3)` | `C' = (1, -2)` |
+| After 2nd step             | `D = (4, 4)` | `D' = (0, -3)` |
+| After 2nd step / 2nd cycle | `E = (5, 5)` | `E' = (1, -4)` |
+
+#### Vectors
+> Here are the vectors representing each step and cycle of the robot
+
+|     Description      |      `I`      |        `I'`       |
+|----------------------|:-------------:|:-----------------:|
+| 1st step (1st cycle) | `AB = (1; 1)` | `A'B' = (1; 1)`   |
+| 2nd step (1st cycle) | `BC = (1; 1)` | `B'C' = (-1; 1)`  |
+| 1st cycle            | `AC = (2; 2)` | `A'C' = (0; 2)`   |
+| 1st step (2nd cycle) | `CD = (1; 1)` | `C'D' = (-1; -1)` |
+| 2nd step (2nd cycle) | `DE = (1; 1)` | `D'E' = (1; -1)`  |
+| 2nd cycle            | `CE = (2; 2)` | `C'E' = (0; -2)`  |
+
+#### Vectors interpretation
+The goal of 2w1a being "moving straightforward", we need to check that the robot "moves" without staying at the same place, and that its move is "straightforward", so constantly in the same direction. And that's good because those are the characteristics of vectors.
+
+> Don't remember wtf is a vector ? Go [here](https://www.mathsisfun.com/algebra/vectors.html)
+
+As said earlier, we will first evaluate the first cycle's vector:
+- what is its magnitude ? is it null ? (does it have moved?)
+- record its direction
+
+Then we evaluate the second cycle's vector:
+- what is its magnitude ? is it null ? (does it have moved?)
+- is its direction the same as the first cycle's vector ?
