@@ -20,12 +20,9 @@ class GeneticAlgorithm {
   var fitness;
   var params;
 
-  function constructor(params) {
+  function algorithm(params) { // algorithm launcher
     params = params;
     population = initPopulation(); // generate random population
-  }
-
-  function algorithm() { // algorithm launcher
     while (!solutionFound(population, fitness)) { // loop while solution is not found
       var fitness = evaluateFitness(population); // evaluate the fitness, give a mark to an individual, from its genome's potential
       generateOffspring(population, fitness); // generate children from population
@@ -56,16 +53,11 @@ class GeneticAlgorithm {
   var fitness;
   var params;
 
-  function constructor(params) {
-    params = params;
-    population = initPopulation(); // generate random population
-  }
-
   function initPopulation() {
     for (params.populationSize times) {
       var individual;
       for (params.stringToFind.length times) {
-        var character = random.numberInRange<char>('!', '~'); // first and last characters in ascii table
+        var character = random.numberInRange<char>('!', '~'); // first and last ascii printable characters
         individual.genome += character; // the genome of an individual is literally a string
       }
       population += individual;
@@ -73,10 +65,13 @@ class GeneticAlgorithm {
     return population;
   }
 
-  function algorithm() { // algorithm launcher
+  function algorithm(params) { // algorithm launcher
+    params = params;
+    population = initPopulation(); // generate random population
     while (!solutionFound(population)) { // loop while solution is not found
       var fitness = evaluateFitness(population); // evaluate the fitness, give a mark to an individual, from its genome's potential
       harshLife(population, fitness); // kill a part of the population, we do not need it to grow too much
+      // killing individuals before reproduction is very elitist 
       generateOffspring(population); // generate children from curated population
     }
     return population.bestSolution(); // return solution
@@ -109,7 +104,7 @@ class GeneticAlgorithm {
   function harshLife(population) { // kill the last `params.populationRenewal` percents of the population
     var numberOfSentencedToDeath = params.populationRenewal / 100 * population.size;
     for (numberOfSentencedToDeath times) {
-      population.removeLast();
+      population.removeLast(); // population is ordered with better scores first
     }
   }
 
@@ -117,7 +112,7 @@ class GeneticAlgorithm {
     var numberOfNeededChildren = params.populationRenewal / 100 * population.size;
     var children;
     for (numberOfNeededChildren times) {
-      var parents = selectParents(population);
+      var parents = selectParents(population); // pick fully random parents from population
       var child = itsSexTime(parents); // generate child from parents genome
       mutateGenome(child); // apply a probability function to determine if some genes will mutate 
       children += child;
@@ -144,8 +139,9 @@ class GeneticAlgorithm {
   }
 
   function mutateGenome(child) {
-    var number = random.numberInRange<int>(0, 99);
-    if (number < params.mutationRate * 100) { // apply mutation rate probability in reality
+    var currentProbabilty = random.numberInRange<int>(0, 100);
+    var mutationProbabilty = params.mutationRate * 100;
+    if (mutationProbability > currentProbability) { // test mutation rate probability in reality
       child.genome[random.numberInRange<int>(0, child.genome.length - 1)] = random.numberInRange<char>('!', '~');
     }
   }
