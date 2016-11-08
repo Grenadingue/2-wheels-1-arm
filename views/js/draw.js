@@ -40,7 +40,7 @@ var Draw = function () {
          var ready = false;
 
          socket.on('set y axle', function(data) {
-            options.scales.yAxes[0].ticks = {beginAtZero: true, min: 0, max: data.ymax};
+            options.scales.yAxes[0].ticks = {beginAtZero: true, min: 0, max: data.yMax};
             myChart = new Chart(ctx, {type: 'line', data: startingdata, options: options});
             ready = true;
          });
