@@ -14,7 +14,7 @@ $( document ).ready(function() {
    // Do the live simulation using the inputed value
    $("#launch_simulation").on("click", function() {
      var file_name = $(".select_perso option:selected").text();
-     if (file_name != "") {
+     if ($("#launch_simulation").text() == "Display backup") {
        serve.get(file_name).then(function(success) {
           $("#myForm").hide();
           $("canvas").show();
@@ -37,13 +37,14 @@ $( document ).ready(function() {
    });
 
    $("#show_form_param").on("click", function() {
-     $("#saved_file").val("");
      $("#form_select").hide();
      $("#form_param").show();
+     $("#launch_simulation").text("Launch simulation");
    });
 
    $("#show_form_select").on("click", function() {
      $("#form_param").hide();
      $("#form_select").show();
+     $("#launch_simulation").text("Display backup");
    });
 });

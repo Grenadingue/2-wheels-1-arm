@@ -160,7 +160,7 @@ body {
   .masthead,
   .mastfoot,
   .cover-container {
-    width: 700px;
+    width: 900px;
   }
 }
 
@@ -170,4 +170,16 @@ body {
 
  .select_perso {
    color: black;
- }
+   height: 30px;
+   line-height: 30px;
+   border: 1px solid transparent;
+   border-radius: 4px;
+   font: inherit;
+   background-color: #fff;
+}
+
+.p_perso {
+  font-size: 15px;
+  font-style: bold;
+  padding-top: 3%;
+}
