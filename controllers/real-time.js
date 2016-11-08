@@ -14,8 +14,10 @@ module.exports.start = function(app) {
             mutationRate: "0.01",
            }; // `paramObj` shouldn't be raw filled
 
-           clientSocket = socket;
-          algorithm.launchSimulation(paramObj);
+            clientSocket = socket;
+
+            // Emit example for the set of ymax :  clientSocket.emit("set y axle", {theoreticalMaxScore: 55});
+            algorithm.launchSimulation(paramObj);
         });
 
         var i = 0;
