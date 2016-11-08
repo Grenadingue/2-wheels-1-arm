@@ -7,7 +7,7 @@ var Draw = function () {
         scales: {
             yAxes: [{
                 ticks: {
-                    beginAtZero:true
+                    beginAtZero:true,
                 }
             }]
         }
@@ -36,13 +36,21 @@ var Draw = function () {
 
    return {
       launchWS(socket) {
-         var myChart = new Chart(ctx, {type: 'line', data: startingdata, options: options});
+         var myChart = null;
+         var ready = false;
+
+         socket.on('set y axle', function(data) {
+            options.scales.yAxes[0].ticks = {beginAtZero: true, min: 0, max: data.ymax};
+            myChart = new Chart(ctx, {type: 'line', data: startingdata, options: options});
+            ready = true;
+         });
 
 
          /* Simulation of real time rendering */
          var cptr = 1;
 
          socket.on('new_iteration', function (data) {
+            if (!ready) return;
             myChart.data.datasets[0].data.push(data.best);
             myChart.data.datasets[1].data.push(data.mid);
             myChart.config.data.labels.push("Iteration n°" + cptr);
