@@ -16,7 +16,7 @@ module.exports.start = function(app) {
 
             clientSocket = socket;
 
-            // Emit example for the set of ymax :  clientSocket.emit("set y axle", {yMax: 55});
+            // Emit example for the set of ymax :  clientSocket.emit("set y axle", {theoreticalMaxScore: 55});
             algorithm.launchSimulation(paramObj);
         });
 
