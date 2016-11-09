@@ -9,6 +9,9 @@ class		WritableResultModel : public ResultModel
 public:
   WritableResultModel();
   ~WritableResultModel();
+  std::ofstream &WritableResultModel::operator<<(std::ofstream &file,
+						 const WritableResultModel &result);
 };
+
 
 #endif		/* !WRITABLERESULTMODEL_HPP_ */
