@@ -2,6 +2,8 @@
 # define	WRITABLERESULTMODEL_HPP_
 
 # include "ResultModel.hpp"
+# include <iostream>
+# include <fstream>
 
 class		WritableResultModel : public ResultModel
 {
@@ -9,8 +11,7 @@ class		WritableResultModel : public ResultModel
 public:
   WritableResultModel();
   ~WritableResultModel();
-  std::ofstream &WritableResultModel::operator<<(std::ofstream &file,
-						 const WritableResultModel &result);
+  std::ofstream &operator<<(std::ofstream &file);
 };
 
 
