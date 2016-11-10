@@ -1,9 +1,5 @@
 #include "ResultModel.hpp"
 
-ResultModel::ResultModel()
-{
-}
-
 ResultModel::ResultModel(int iteration, int maxScore, double averageScore,
 			 int worstScore)
 {

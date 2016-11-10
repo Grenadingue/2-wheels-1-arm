@@ -11,7 +11,6 @@ protected:
   double _averageScore;
   
 public:
-  ResultModel();
   ResultModel(int iteration, int maxScore, double averageScore, int worstScore);
   ResultModel(int theoreticalMaxScore);
   ResultModel(const ResultModel &);

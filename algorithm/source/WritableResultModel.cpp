@@ -1,14 +1,40 @@
 #include "WritableResultModel.hpp"
 
-WritableResultModel::WritableResultModel()
-{
-}
-
 WritableResultModel::~WritableResultModel()
 {
 }
 
-std::ofstream &WritableResultModel::operator<<(std::ofstream &file)
+int WritableResultModel::getTheoreticalMaxScore() const
+{
+  return this->_theoreticalMaxScore;
+}
+
+int WritableResultModel::getMaxScore() const
+{
+  return this->_maxScore;
+}
+
+double WritableResultModel::getAverageScore() const
+{
+  return this->_averageScore;
+}
+
+int WritableResultModel::getWorstScore() const
+{
+  return this->_worstScore;
+}
+
+int WritableResultModel::getIteration() const
+{
+  return this->_iteration;
+}
+
+void WritableResultModel::setTheoreticalMaxScore(const int maxScore)
+{
+  this->_theoreticalMaxScore = maxScore;
+}
+
+std::ofstream &operator<<(std::ofstream &file, WritableResultModel &result)
 {
   if (file.is_open() == false)
     {
@@ -16,19 +42,20 @@ std::ofstream &WritableResultModel::operator<<(std::ofstream &file)
       //      file = std::cout;
       return file;
     }
-  if (this->_theoreticalMaxScore == -1)
+  if (result.getTheoreticalMaxScore() != -1 && result.getTheoreticalMaxScore() != -2)
     {
-      file << "{ \"theoreticalMaxScore\": " << this->_theoreticalMaxScore <<
+      file << "{ \"theoreticalMaxScore\": " << result.getTheoreticalMaxScore() <<
 	", \"results\": [";
+      return file;
     }
   file << "{ "
-       << "\"iteration\": " << this->_iteration << ","
-       << "\"maxScore\": " << this->_maxScore << ","
-       << "\"averageScore\": " << this->_averageScore << ","
-       << "\"worstScore\": " << this->_worstScore;
- if (this->_theoreticalMaxScore == -2)
-   file << "}]}";
- else
-   file << "},";
- return file;
+       << "\"iteration\": " << result.getIteration() << ","
+       << "\"maxScore\": " << result.getMaxScore() << ","
+       << "\"averageScore\": " << result.getAverageScore() << ","
+       << "\"worstScore\": " << result.getWorstScore();
+  if (result.getTheoreticalMaxScore() == -2)
+    file << "}]}";
+  else
+    file << "},";
+  return file;
 }
