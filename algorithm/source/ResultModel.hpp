@@ -3,9 +3,16 @@
 
 class		ResultModel
 {
-
+protected:
+  int _iteration;
+  int _theoreticalMaxScore;
+  int _maxScore;
+  int _worstScore;
+  double _averageScore;
+  
 public:
-  ResultModel();
+  ResultModel(int iteration, int maxScore, double averageScore, int worstScore);
+  ResultModel(int theoreticalMaxScore);
   ResultModel(const ResultModel &);
   ResultModel(const ResultModel *);
   ~ResultModel();

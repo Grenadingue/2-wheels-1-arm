@@ -21,7 +21,7 @@ inline void GeneticAlgoController::handleNewResult(const ResultModel *result)
 
 void GeneticAlgoController::handleNewResult()
 {
-  ResultModel *result = new ResultModel;
+  ResultModel *result = new ResultModel(5);
 
   //
   // ResultModel should be filled here
