@@ -38,7 +38,7 @@ std::ofstream &operator<<(std::ofstream &file, WritableResultModel *result)
 {
   if (file.is_open() == false)
     {
-      std::cout << "!!! LOG FILE NOT OPENED. LOG WONT BE WRITTEN !!!" << std::endl;
+      std::cout << "[BACKUP_LOGGER] Log file not open, result packet not written" << std::endl;
       //      file = std::cout;
       return file;
     }
