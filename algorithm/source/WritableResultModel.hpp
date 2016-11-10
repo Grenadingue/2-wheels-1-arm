@@ -18,6 +18,6 @@ public:
   ~WritableResultModel();
 };
 
-std::ofstream &operator<<(std::ofstream &stream, WritableResultModel &result);
+std::ofstream &operator<<(std::ofstream &stream, WritableResultModel *result);
 
 #endif		/* !WRITABLERESULTMODEL_HPP_ */

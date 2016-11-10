@@ -34,7 +34,7 @@ void WritableResultModel::setTheoreticalMaxScore(const int maxScore)
   this->_theoreticalMaxScore = maxScore;
 }
 
-std::ofstream &operator<<(std::ofstream &file, WritableResultModel &result)
+std::ofstream &operator<<(std::ofstream &file, WritableResultModel *result)
 {
   if (file.is_open() == false)
     {
@@ -42,18 +42,18 @@ std::ofstream &operator<<(std::ofstream &file, WritableResultModel &result)
       //      file = std::cout;
       return file;
     }
-  if (result.getTheoreticalMaxScore() != -1 && result.getTheoreticalMaxScore() != -2)
+  if (result->getTheoreticalMaxScore() != -1 && result->getTheoreticalMaxScore() != -2)
     {
-      file << "{ \"theoreticalMaxScore\": " << result.getTheoreticalMaxScore() <<
+      file << "{ \"theoreticalMaxScore\": " << result->getTheoreticalMaxScore() <<
 	", \"results\": [";
       return file;
     }
   file << "{ "
-       << "\"iteration\": " << result.getIteration() << ","
-       << "\"maxScore\": " << result.getMaxScore() << ","
-       << "\"averageScore\": " << result.getAverageScore() << ","
-       << "\"worstScore\": " << result.getWorstScore();
-  if (result.getTheoreticalMaxScore() == -2)
+       << "\"iteration\": " << result->getIteration() << ","
+       << "\"maxScore\": " << result->getMaxScore() << ","
+       << "\"averageScore\": " << result->getAverageScore() << ","
+       << "\"worstScore\": " << result->getWorstScore();
+  if (result->getTheoreticalMaxScore() == -2)
     file << "}]}";
   else
     file << "},";
