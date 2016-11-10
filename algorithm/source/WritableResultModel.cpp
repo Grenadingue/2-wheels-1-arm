@@ -39,7 +39,6 @@ std::ofstream &operator<<(std::ofstream &file, WritableResultModel *result)
   if (file.is_open() == false)
     {
       std::cout << "[BACKUP_LOGGER] Log file not open, result packet not written" << std::endl;
-      //      file = std::cout;
       return file;
     }
   if (result->getTheoreticalMaxScore() != -1 && result->getTheoreticalMaxScore() != -2)
