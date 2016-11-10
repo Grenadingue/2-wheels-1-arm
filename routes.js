@@ -26,9 +26,14 @@ module.exports.init = function(app, controllers) {
       res.send({});
   });
 
+  // Get Front CSS files
+  app.get('/views/css/:file_name', function(req, res) {
+      var file_name = req.params.file_name;
+      res.sendFile(path.join(__dirname + '/views/css/' + file_name));
+  });
 
   // Get Front JS files
-  app.get('/views/:file_name', function(req, res) {
+  app.get('/views/js/:file_name', function(req, res) {
       var file_name = req.params.file_name;
       res.sendFile(path.join(__dirname + '/views/js/' + file_name));
   });
