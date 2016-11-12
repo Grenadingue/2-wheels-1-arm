@@ -27,6 +27,7 @@ module.exports.start = function(app) {
              simulationCycles: inputedParams.simulationCycles
             };
 
+            console.log("[Node -> C++ params]");
             console.log(paramObj);
 
             clientSocket = socket;
