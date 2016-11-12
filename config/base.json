@@ -1,5 +1,6 @@
 {
   "port": 8080,
   "algo_port": 8081,
-  "debug": false
+  "debug": false,
+  "saved_file_path": "/save/"
 }

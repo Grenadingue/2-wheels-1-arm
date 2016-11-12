@@ -41,7 +41,16 @@ module.exports.init = function(app, controllers) {
   app.get('/chart.js', function(req, res) {
        res.sendFile(path.join(__dirname + '/node_modules/chart.js/dist/Chart.js'));
   });
+
   app.get('/socket.io.js', function(req, res) {
        res.sendFile(path.join(__dirname + '/node_modules/socket.io-client/socket.io.js'));
+  });
+
+  // Get Front CSS files
+  app.get('/socket_port', function(req, res) {
+    fs.readFile('config/base.json', 'utf8', function(err, data) {
+      let dataJSON = JSON.parse(data);
+      res.send({socket_port: dataJSON.algo_port});
+    });
   });
 }

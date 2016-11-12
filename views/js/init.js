@@ -2,6 +2,7 @@ $( document ).ready(function() {
 
    var serve = Service("http://localhost:8080");
    var drawer = Draw();
+   var socket_port;
 
    // Populate the saved data choice
    serve.get().then(function(success) {
@@ -21,18 +22,23 @@ $( document ).ready(function() {
           drawer.launchFile(success);
        });
      } else {
-       var socket = io.connect('http://localhost:8081');
-       socket.emit('launchSimulation',
-        {
-         serverPort: "8081",
-         backupFile: '/home/foo/bar.csv',
-         populationSize: parseInt($("#popsize").val(), 10),
-         mutationRate: parseInt($("#mutationrate").val(),10)
-        }
-       );
-       $("#myForm").hide();
-       $("canvas").show();
-       drawer.launchWS(socket);
+       $.ajax({
+         method: "GET",
+         url: "/socket_port"
+       }).done(function(data) {
+          socket_port = data.socket_port;
+          var socket = io.connect('http://localhost:' + socket_port);
+           socket.emit('launchSimulation', {
+             populationSize: parseInt($("#populationSize").val()),
+             populationRenewalRate: parseFloat($("#populationRenewalRate").val()),
+             mutationRate: parseFloat($("#mutationRate").val()),
+             simulationCycles: parseInt($("#simulationCycles").val())
+            }
+           );
+           $("#myForm").hide();
+           $("canvas").show();
+           drawer.launchWS(socket);
+        });
      }
    });
 

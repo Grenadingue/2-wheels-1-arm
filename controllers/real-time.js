@@ -1,5 +1,6 @@
 const algorithm = require('../algorithm');
 const io = require('../libraries/socket-io');
+const config = require('../config/base.json');
 
 module.exports.start = function(app) {
     var clientSocket;
@@ -7,12 +8,26 @@ module.exports.start = function(app) {
     // Create socket.io instance
     io.on('connection', function (socket) {
         socket.on('launchSimulation', function (inputedParams) {
-          const paramObj = {
-            serverPort: "8081",
-            backupFile: '/home/foo/bar.csv',
-            populationSize: "42",
-            mutationRate: "0.01",
-           }; // `paramObj` shouldn't be raw filled
+          let serverPort = config.algo_port;
+          let backupFile = config.saved_file_path + new Date().getTime() + '.json';
+
+          // const paramObj = {
+          //   serverPort: "8081",
+          //   backupFile: '/home/foo/bar.csv',
+          //   populationSize: "42",
+          //   mutationRate: "0.01",
+          //  }; // `paramObj` shouldn't be raw filled
+
+           const paramObj = {
+             serverPort: serverPort,
+             backupFile: backupFile,
+             populationSize: inputedParams.populationSize,
+             populationRenewalRate: inputedParams.populationRenewalRate,
+             mutationRate: inputedParams.mutationRate,
+             simulationCycles: inputedParams.simulationCycles
+            };
+
+            console.log(paramObj);
 
             clientSocket = socket;
 
