@@ -15,10 +15,8 @@ module.exports.init = function(app, controllers) {
     });
 
     app.get('/save/:file_name', function(req, res) {
-      var file_name = req.params.file_name;
-      fs.readFile('save/' + file_name, 'utf8', function(err, data) {
-        res.send(JSON.parse(data));
-      });
+      let dataJSON = require(__dirname + '/save/' + req.params.file_name);
+      res.send(dataJSON);
     });
 
   app.post('/params', function (req, res) {
@@ -48,9 +46,7 @@ module.exports.init = function(app, controllers) {
 
   // Get socket port
   app.get('/socket_port', function(req, res) {
-    fs.readFile('config/base.json', 'utf8', function(err, data) {
-      let dataJSON = JSON.parse(data);
-      res.send({socket_port: dataJSON.algo_port});
-    });
+    let dataJSON = require(__dirname + '/config/base.json');
+    res.send({socket_port: dataJSON.algo_port});
   });
 }

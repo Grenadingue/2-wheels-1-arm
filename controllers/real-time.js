@@ -9,14 +9,14 @@ module.exports.start = function(app) {
     io.on('connection', function (socket) {
         socket.on('launchSimulation', function (inputedParams) {
           let serverPort = config.algo_port;
-          let backupFile = config.saved_file_path + new Date().getTime() + '.json';
+          let backupFile = __dirname + config.saved_file_path + new Date().getTime() + '.json';
 
           // const paramObj = {
           //   serverPort: "8081",
           //   backupFile: '/home/foo/bar.csv',
           //   populationSize: "42",
           //   mutationRate: "0.01",
-          //  }; // `paramObj` shouldn't be raw filled
+          //  };
 
            const paramObj = {
              serverPort: serverPort,
