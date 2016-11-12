@@ -1,6 +1,7 @@
 const algorithm = require('../algorithm');
 const io = require('../libraries/socket-io');
 const config = require('../config/base.json');
+const path = require('path');
 
 module.exports.start = function(app) {
     var clientSocket;
@@ -9,7 +10,10 @@ module.exports.start = function(app) {
     io.on('connection', function (socket) {
         socket.on('launchSimulation', function (inputedParams) {
           let serverPort = config.algo_port;
-          let backupFile = __dirname + config.saved_file_path + new Date().getTime() + '.json';
+
+          let appDir = path.dirname(require.main.filename);
+          let fileName = new Date().getTime() + '.json';
+          let backupFile = appDir + config.saved_file_path + fileName;
 
           // const paramObj = {
           //   serverPort: "8081",
