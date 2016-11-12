@@ -1,5 +1,7 @@
 const algorithm = require('../algorithm');
 const io = require('../libraries/socket-io');
+const config = require('../config/base.json');
+const path = require('path');
 
 module.exports.start = function(app) {
     var clientSocket;
@@ -7,12 +9,30 @@ module.exports.start = function(app) {
     // Create socket.io instance
     io.on('connection', function (socket) {
         socket.on('launchSimulation', function (inputedParams) {
-          const paramObj = {
-            serverPort: "8081",
-            backupFile: '/home/foo/bar.csv',
-            populationSize: "42",
-            mutationRate: "0.01",
-           }; // `paramObj` shouldn't be raw filled
+          let serverPort = config.algo_port;
+
+          let appDir = path.dirname(require.main.filename);
+          let fileName = new Date().getTime() + '.json';
+          let backupFile = appDir + config.saved_file_path + fileName;
+
+          // const paramObj = {
+          //   serverPort: "8081",
+          //   backupFile: '/home/foo/bar.csv',
+          //   populationSize: "42",
+          //   mutationRate: "0.01",
+          //  };
+
+           const paramObj = {
+             serverPort: serverPort,
+             backupFile: backupFile,
+             populationSize: inputedParams.populationSize,
+             populationRenewalRate: inputedParams.populationRenewalRate,
+             mutationRate: inputedParams.mutationRate,
+             simulationCycles: inputedParams.simulationCycles
+            };
+
+            console.log("[Node -> C++ params]");
+            console.log(paramObj);
 
             clientSocket = socket;
 
