@@ -25,6 +25,11 @@ public:
   virtual void operator()(const AlgoParameters *);
   virtual void _workLoop();
 
+  // emit algorithm data
+  void _emitTheoreticalMaxScore();
+  void _emitNewResult(unsigned long long int);
+  void _emitSolutionFound();
+
   // Genetic algorithm
   void _geneticAlgorithm();
   bool _solutionFound();

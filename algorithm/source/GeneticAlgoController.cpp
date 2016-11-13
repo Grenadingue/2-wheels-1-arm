@@ -19,12 +19,28 @@ inline void GeneticAlgoController::handleNewResult(const ResultModel *result)
   _mainController.handleNewResult(result);
 }
 
+// not used
 void GeneticAlgoController::handleNewResult()
 {
-  ResultModel *result = new ResultModel(5);
+}
 
-  //
-  // ResultModel should be filled here
+void GeneticAlgoController::_emitTheoreticalMaxScore()
+{
+  ResultModel *result = new ResultModel(100);
+
+  handleNewResult(result);
+}
+
+void GeneticAlgoController::_emitNewResult(unsigned long long int i)
+{
+  ResultModel *result = new ResultModel(i, i * 8, i * 4, i * 2);
+
+  handleNewResult(result);
+}
+
+void GeneticAlgoController::_emitSolutionFound()
+{
+  ResultModel *result = new ResultModel(-2);
 
   handleNewResult(result);
 }
@@ -58,6 +74,8 @@ void GeneticAlgoController::_workLoop()
   else
     std::cout << "[MATRIX] Unable to enter the matrix" << std::endl;
   std::cout << "[ALGO] Job finished: closing" << std::endl;
+  std::this_thread::sleep_for(std::chrono::seconds(5));
+  // wait to be sure that all emit events has been processed by other threads
   _mainController.handleFinishedJob();
 }
 
@@ -69,15 +87,19 @@ void GeneticAlgoController::_geneticAlgorithm()
     return;
   std::cout << "[ALGO] Population initialized" << std::endl
 	    << "[ALGO] Genetic algorithm initialized" << std::endl;
-  while (!_solutionFound() && i != 2)
+  _emitTheoreticalMaxScore();
+  while (!_solutionFound() && i != 4)
     {
-      if (!_evaluateFitness())
-	return;
+      // if (!_evaluateFitness())
+      // 	return;
+      std::this_thread::sleep_for(std::chrono::seconds(1)); // simulate work
+
       //
       // Update parameters and pass results to it
-      handleNewResult();
+      _emitNewResult(i);
       ++i;
     }
+  _emitSolutionFound();
   std::cout << "[ALGO] Solution found !" << std::endl;
   _leaveVirtualWorld();
   std::cout << "[MATRIX] We leaved the matrix" << std::endl;
