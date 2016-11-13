@@ -1,0 +1,53 @@
+{
+  "theoreticalMaxScore": 100,
+  "results": [
+    {
+      "iteration": 0,
+      "maxScore": 0,
+      "averageScore": 0,
+      "worstScore": 0
+    },
+    {
+      "iteration": 1,
+      "maxScore": 8,
+      "averageScore": 4,
+      "worstScore": 2
+    },
+    {
+      "iteration": 2,
+      "maxScore": 16,
+      "averageScore": 8,
+      "worstScore": 4
+    },
+    {
+      "iteration": 3,
+      "maxScore": 24,
+      "averageScore": 12,
+      "worstScore": 6
+    },
+    {
+      "iteration": 4,
+      "maxScore": 32,
+      "averageScore": 16,
+      "worstScore": 8
+    },
+    {
+      "iteration": 5,
+      "maxScore": 40,
+      "averageScore": 20,
+      "worstScore": 10
+    },
+    {
+      "iteration": 6,
+      "maxScore": 48,
+      "averageScore": 24,
+      "worstScore": 12
+    },
+    {
+      "iteration": 7,
+      "maxScore": 56,
+      "averageScore": 28,
+      "worstScore": 14
+    }
+  ]
+}
