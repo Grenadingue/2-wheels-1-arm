@@ -4,57 +4,37 @@ WritableResultModel::~WritableResultModel()
 {
 }
 
-int WritableResultModel::getTheoreticalMaxScore() const
-{
-  return this->_theoreticalMaxScore;
-}
-
-int WritableResultModel::getMaxScore() const
-{
-  return this->_maxScore;
-}
-
-double WritableResultModel::getAverageScore() const
-{
-  return this->_averageScore;
-}
-
-int WritableResultModel::getWorstScore() const
-{
-  return this->_worstScore;
-}
-
-int WritableResultModel::getIteration() const
-{
-  return this->_iteration;
-}
-
-void WritableResultModel::setTheoreticalMaxScore(const int maxScore)
-{
-  this->_theoreticalMaxScore = maxScore;
-}
-
-std::ofstream &operator<<(std::ofstream &file, WritableResultModel *result)
+std::ofstream &operator<<(std::ofstream &file, const WritableResultModel &result)
 {
   if (file.is_open() == false)
     {
       std::cout << "[BACKUP_LOGGER] Log file not open, result packet not written" << std::endl;
       return file;
     }
-  if (result->getTheoreticalMaxScore() != -1 && result->getTheoreticalMaxScore() != -2)
+  if (result.getTheoreticalMaxScore() >= 0)
     {
-      file << "{ \"theoreticalMaxScore\": " << result->getTheoreticalMaxScore() <<
-	", \"results\": [";
+      file << "{" << std::endl
+	   << "  \"theoreticalMaxScore\": " << result.getTheoreticalMaxScore() << "," << std::endl
+	   << "  \"results\": [" << std::endl;
       return file;
     }
-  file << "{ "
-       << "\"iteration\": " << result->getIteration() << ","
-       << "\"maxScore\": " << result->getMaxScore() << ","
-       << "\"averageScore\": " << result->getAverageScore() << ","
-       << "\"worstScore\": " << result->getWorstScore();
-  if (result->getTheoreticalMaxScore() == -2)
-    file << "}]}";
+  else if (result.getTheoreticalMaxScore() != -2)
+    {
+      if (result.getIteration() != 0)
+	file << "," << std::endl;
+      file << "    {" << std::endl
+	   << "      \"iteration\": " << result.getIteration() << "," << std::endl
+	   << "      \"maxScore\": " << result.getMaxScore() << "," << std::endl
+	   << "      \"averageScore\": " << result.getAverageScore() << "," << std::endl
+	   << "      \"worstScore\": " << result.getWorstScore() << std::endl;
+    }
+  if (result.getTheoreticalMaxScore() == -2)
+    {
+      file << std::endl
+	   << "  ]"  << std::endl
+	   << "}" << std::endl;
+    }
   else
-    file << "},";
+    file << "    }";
   return file;
 }
