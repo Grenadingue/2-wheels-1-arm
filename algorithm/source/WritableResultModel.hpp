@@ -7,17 +7,10 @@
 
 class		WritableResultModel : public ResultModel
 {
-
 public:
-  int getTheoreticalMaxScore() const;
-  int getIteration() const;
-  int getMaxScore() const;
-  double getAverageScore() const;
-  int getWorstScore() const;
-  void setTheoreticalMaxScore(const int maxScore);
   ~WritableResultModel();
 };
 
-std::ofstream &operator<<(std::ofstream &stream, WritableResultModel *result);
+std::ofstream &operator<<(std::ofstream &stream, const WritableResultModel &result);
 
 #endif		/* !WRITABLERESULTMODEL_HPP_ */

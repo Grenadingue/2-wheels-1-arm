@@ -26,16 +26,18 @@ void BackupDataController::operator()(const std::string *fileName)
 
 void BackupDataController::_workLoop()
 {
-  const WritableResultModel *result = NULL;
+  const ResultModel *result = NULL;
   std::ofstream stream;
 
   stream.open("test_algo.json", std::ofstream::out);
   while (!_close)
     {
       result = NULL;
-      if ((result = static_cast<const WritableResultModel *>(_getNextResult())))
+      if ((result = _getNextResult()))
 	{
-	  stream << result;
+	  const WritableResultModel & wResult = *static_cast<const WritableResultModel *>(result);
+
+	  stream << wResult;
 	  delete result;
 	}
       std::this_thread::sleep_for(std::chrono::milliseconds(300));
