@@ -23,8 +23,19 @@ void WebServerBridge::_workLoop()
       result = NULL;
       if ((result = _getNextResult()))
 	{
+	  if (result->getTheoreticalMaxScore() == -1)
+	    {
+	      _client->emit("new result", std::string("this is a test"));
+	    }
+	  else if (result->getTheoreticalMaxScore() == -2)
+	    {
+	      _client->emit("solution found", std::string("this is a test"));
+	    }
+	  else
+	    {
+	       _client->emit("theoretical max score", sio::int_message::create(400));
+	    }
 	  delete result;
-	  _client->emit("new result", std::string("this is a test"));
 	}
       std::this_thread::sleep_for(std::chrono::milliseconds(300));
     }

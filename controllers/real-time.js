@@ -47,5 +47,14 @@ module.exports.start = function(app) {
             clientSocket.emit('new_iteration', { best: i * 4, mid: i * 2 }); // Simulate a valid result
             ++i;
         });
+
+        socket.on('theoretical max score', function (theoreticalMaxScore) {
+            console.log('[WEB_SERVER] theoretical max score:', theoreticalMaxScore);
+            clientSocket.emit("set y axle", {theoreticalMaxScore: theoreticalMaxScore});
+        });
+
+        socket.on('solution found', function (solution) {
+            console.log('[WEB_SERVER] solution found:', solution);
+        });
     });
 };
