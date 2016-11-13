@@ -88,7 +88,7 @@ void GeneticAlgoController::_geneticAlgorithm()
   std::cout << "[ALGO] Population initialized" << std::endl
 	    << "[ALGO] Genetic algorithm initialized" << std::endl;
   _emitTheoreticalMaxScore();
-  while (!_solutionFound() && i != 4)
+  while (!_solutionFound() && i != 8)
     {
       // if (!_evaluateFitness())
       // 	return;
