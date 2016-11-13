@@ -45,26 +45,22 @@ var Draw = function () {
             ready = true;
          });
 
-
-         /* Simulation of real time rendering */
-         var cptr = 1;
-
          socket.on('new_iteration', function (data) {
             if (!ready) return;
-            myChart.data.datasets[0].data.push(data.best);
-            myChart.data.datasets[1].data.push(data.mid);
-            myChart.config.data.labels.push("Iteration n°" + cptr);
-            cptr++;
+            myChart.data.datasets[0].data.push(data.maxScore);
+            myChart.data.datasets[1].data.push(data.averageScore);
+            myChart.config.data.labels.push("Iteration n°" + (data.iteration + 1));
             myChart.update();
          });
       },
-      launchFile(data) {
 
+      launchFile(data) {
+        options.scales.yAxes[0].ticks = {beginAtZero: true, min: 0, max: data.theoreticalMaxScore};
          /* Read the inputed file line by line to populate the data */
-         for (var i = 0; i < data.length; ++i) {
-            startingdata.datasets[0].data.push(data[i].best);
-            startingdata.datasets[1].data.push(data[i].mid);
-            startingdata.labels.push("Iteration n°" + i);
+         for (var i = 0; i < data.results.length; ++i) {
+            startingdata.datasets[0].data.push(data.results[i].maxScore);
+            startingdata.datasets[1].data.push(data.results[i].averageScore);
+            startingdata.labels.push("Iteration n°" + (data.results[i].iteration + 1));
          }
          var myChart = new Chart(ctx, {type: 'line', data: startingdata, options: options});
 

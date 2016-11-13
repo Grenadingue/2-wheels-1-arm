@@ -15,13 +15,6 @@ module.exports.start = function(app) {
           let fileName = new Date().getTime() + '.json';
           let backupFile = appDir + config.saved_file_path + fileName;
 
-          // const paramObj = {
-          //   serverPort: "8081",
-          //   backupFile: '/home/foo/bar.csv',
-          //   populationSize: "42",
-          //   mutationRate: "0.01",
-          //  };
-
            const paramObj = {
              serverPort: serverPort,
              backupFile: backupFile,
@@ -36,16 +29,12 @@ module.exports.start = function(app) {
 
             clientSocket = socket;
 
-            // Emit example for the set of ymax :  clientSocket.emit("set y axle", {theoreticalMaxScore: 55});
             algorithm.launchSimulation(paramObj);
         });
 
-        var i = 0;
         socket.on('new result', function (result) {
             console.log('[WEB_SERVER] new result:', result);
-            // Working with a result using this format {best: 1, mid: 1}
-            clientSocket.emit('new_iteration', { best: i * 4, mid: i * 2 }); // Simulate a valid result
-            ++i;
+            clientSocket.emit('new_iteration', result); // format: { iteration: 0, maxScore: 0, averageScore: 0, worstScore: 0 }
         });
 
         socket.on('theoretical max score', function (theoreticalMaxScore) {
