@@ -40,6 +40,7 @@ add_executable(
 	${PROJECT_F}/Object.cpp
 	${PROJECT_F}/Articulation.cpp
 	${PROJECT_F}/Maths.cpp
+	${PROJECT_F}/Vector.cpp
 )
 
 # Include headers directories
