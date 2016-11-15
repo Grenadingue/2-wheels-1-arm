@@ -2,23 +2,27 @@
 # define	GENOME_HPP_
 
 # include <list>
+# include <vector>
 
 # include "Individual.hpp"
 
-template<typename gene_t>
-class		Individual::Genome
+class	       Individual::Genome
 {
-public:
-  typedef std::list<gene_t> genes_t;
-
+  struct gene_t {
+    float wrist;
+    float elbow;
+    float shoulder;
+  };
 private:
-  genes_t _genes;
+  std::vector<gene_t> _genes;
 
 public:
   Genome();
   Genome(const Genome&);
   ~Genome();
   Genome& operator=(const Genome&);
+  gene_t& operator[](const int pos);
+  gene_t& operator[](const unsigned int pos);
 };
 
 #endif		/* !GENOME_HPP_ */

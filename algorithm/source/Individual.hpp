@@ -2,17 +2,19 @@
 # define	INDIVIDUAL_HPP_
 
 # include "_2w1a.hpp"
+# include "Fitness.hpp"
 
 class		Individual : public _2w1a
 {
 public:
-  template<typename gene_t> class Genome;
-  typedef Genome<int> genome_t;
+  class Genome;
 
 private:
-  genome_t *_genome;
+  Fitness* _fitness;
+  Genome* _genome;
 
 public:
+  Fitness& fitness();
   Individual(const _2w1a &);
   virtual ~Individual();
 };

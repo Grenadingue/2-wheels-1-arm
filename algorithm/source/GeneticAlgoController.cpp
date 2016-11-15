@@ -1,8 +1,14 @@
 #include <iostream>
 #include <iomanip>
 #include <chrono>
+#include <algorithm>
 #include "GeneticAlgoController.hpp"
 #include "MainController.hpp"
+
+bool GeneticAlgoController::sortIndividuals(Individual *first, Individual *seccond)
+{
+  return first->fitness().score() > seccond->fitness().score();
+}
 
 GeneticAlgoController::GeneticAlgoController(MainController &mainController)
   : _mainController(mainController)
@@ -14,14 +20,66 @@ GeneticAlgoController::~GeneticAlgoController()
   std::cout << "GeneticAlgoController::~GeneticAlgoController()" << std::endl;
 }
 
+void GeneticAlgoController::_rateIndividual(Individual &individual)
+{
+  (void) individual;
+}
+
+void GeneticAlgoController::_sortPopulationByScoreDesc()
+{
+  std::sort(_population.begin(), _population.end(), sortIndividuals);
+}
+
+std::vector<Individual *> *GeneticAlgoController::_generateOffSpring()
+{
+  return new std::vector<Individual *>();
+}
+
+std::pair<Individual *, Individual *> GeneticAlgoController::_selectParents()
+{
+  std::pair<Individual *, Individual *> ret;
+  return ret;
+}
+
+Individual *GeneticAlgoController::_itsSexTime(std::pair<Individual *, Individual *> &parents)
+{
+  (void) parents;
+  return NULL;
+}
+
+void GeneticAlgoController::_mutateChildGenome(Individual &child)
+{
+  (void) child;
+}
+
+void GeneticAlgoController::_insertChildrenInPopulation(std::vector<Individual *> *individual)
+{
+  _population.insert(_population.end(), individual->begin(), individual->end());
+}
+
+void GeneticAlgoController::_harshLife()
+{
+}
+
+Individual *GeneticAlgoController::_bestSolution()
+{
+  _sortPopulationByScoreDesc();
+  return _population[0];
+}
+
 inline void GeneticAlgoController::handleNewResult(const ResultModel *result)
 {
   _mainController.handleNewResult(result);
 }
 
-// not used
 void GeneticAlgoController::handleNewResult()
 {
+  ResultModel *result = new ResultModel(5);
+
+  //
+  // ResultModel should be filled here
+
+  handleNewResult(result);
 }
 
 void GeneticAlgoController::_emitTheoreticalMaxScore()
@@ -44,6 +102,7 @@ void GeneticAlgoController::_emitSolutionFound()
 
   handleNewResult(result);
 }
+
 
 void GeneticAlgoController::operator()()
 {
@@ -74,8 +133,6 @@ void GeneticAlgoController::_workLoop()
   else
     std::cout << "[MATRIX] Unable to enter the matrix" << std::endl;
   std::cout << "[ALGO] Job finished: closing" << std::endl;
-  std::this_thread::sleep_for(std::chrono::seconds(5));
-  // wait to be sure that all emit events has been processed by other threads
   _mainController.handleFinishedJob();
 }
 
@@ -87,19 +144,15 @@ void GeneticAlgoController::_geneticAlgorithm()
     return;
   std::cout << "[ALGO] Population initialized" << std::endl
 	    << "[ALGO] Genetic algorithm initialized" << std::endl;
-  _emitTheoreticalMaxScore();
-  while (!_solutionFound() && i != 8)
+  while (!_solutionFound() && i != 2)
     {
-      // if (!_evaluateFitness())
-      // 	return;
-      std::this_thread::sleep_for(std::chrono::seconds(1)); // simulate work
-
+      if (!_evaluateFitness())
+	return;
       //
       // Update parameters and pass results to it
-      _emitNewResult(i);
+      handleNewResult();
       ++i;
     }
-  _emitSolutionFound();
   std::cout << "[ALGO] Solution found !" << std::endl;
   _leaveVirtualWorld();
   std::cout << "[MATRIX] We leaved the matrix" << std::endl;
