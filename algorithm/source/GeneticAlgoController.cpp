@@ -4,8 +4,9 @@
 #include "GeneticAlgoController.hpp"
 #include "MainController.hpp"
 
-GeneticAlgoController::GeneticAlgoController(MainController &mainController)
-  : _mainController(mainController)
+GeneticAlgoController::GeneticAlgoController(const IParameters *parameters,
+					     MainController &mainController)
+  : AThreadedDataHandler(parameters), _mainController(mainController)
 {
 }
 

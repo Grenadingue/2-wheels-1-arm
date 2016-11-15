@@ -4,7 +4,10 @@
 # include <map>
 # include <string>
 # include "IDataHandler.hpp"
-# include "AlgoParameters.hpp"
+
+class WebServerBridgeParameters;
+class BackupDataParameters;
+class AlgoParameters;
 
 class WebServerBridge;
 class BackupDataController;
@@ -29,8 +32,13 @@ public:
   void handleFinishedJob();
 
 private:
-  bool _parseParameters(const std::map<std::string, std::string> &, AlgoParameters &, std::string &);
-  void _initControllers(const AlgoParameters *, const std::string *);
+  bool _parseParameters(const std::map<std::string, std::string> &,
+			AlgoParameters *,
+			WebServerBridgeParameters *,
+			BackupDataParameters *);
+  void _initControllers(const AlgoParameters *,
+			const WebServerBridgeParameters *,
+			const BackupDataParameters *);
 };
 
 #endif		/* !MAINCONTROLLER_HPP_ */

@@ -4,8 +4,8 @@
 #include "Client.hpp"
 #include "MainController.hpp"
 
-WebServerBridge::WebServerBridge()
-  : _client(new Client("http://localhost:8081"))
+WebServerBridge::WebServerBridge(const IParameters *parameters)
+  : AThreadedDataHandler(parameters), _client(new Client("http://localhost:8081"))
 {
 }
 

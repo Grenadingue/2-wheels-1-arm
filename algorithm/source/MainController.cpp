@@ -14,17 +14,18 @@ MainController::~MainController()
 
 void MainController::operator()(const std::map<std::string, std::string> *rawParams)
 {
-  AlgoParameters *algoParams = new AlgoParameters(0, 0, 0, 0);
-  std::string *dataBackupFileName = new std::string;
+  AlgoParameters *algoParams = NULL;
+  WebServerBridgeParameters *webServerParams = NULL;
+  BackupDataParameters *backupDataParams = NULL;
 
-  if (!_parseParameters(*rawParams, *algoParams, *dataBackupFileName))
+  if (!_parseParameters(*rawParams, algoParams, webServerParams, backupDataParams))
     {
-      std::cerr << "Error: Parameters parsing failure" << std::endl <<
-	"Aborting" << std::endl;
+      std::cerr << "Error: Parameters parsing failure" << std::endl
+		<< "Aborting" << std::endl;
       return;
     }
 
-  _initControllers(algoParams, dataBackupFileName);
+  _initControllers(algoParams, webServerParams, backupDataParams);
 }
 
 void MainController::handleNewResult(const ResultModel *result)
@@ -51,10 +52,13 @@ void MainController::handleFinishedJob()
 }
 
 bool MainController::_parseParameters(const std::map<std::string, std::string> &rawParams,
-				      AlgoParameters &params, std::string &dataBackupFileName)
+				      AlgoParameters *algoParams,
+				      WebServerBridgeParameters *webServerParams,
+				      BackupDataParameters *backupDataParams)
 {
-  (void)params;
-  (void)dataBackupFileName;
+  algoParams = new AlgoParameters(0, 0, 0, 0);
+  webServerParams = new WebServerBridgeParameters(0);
+  backupDataParams = new BackupDataParameters("");
 
   std::cout << "[C++_ADDON] Input parameters:" << std::endl;
   for (auto parameter : rawParams)
@@ -65,13 +69,14 @@ bool MainController::_parseParameters(const std::map<std::string, std::string> &
 }
 
 void MainController::_initControllers(const AlgoParameters *algoParams,
-				      const std::string *dataBackupFileName)
+				      const WebServerBridgeParameters *webServerParams,
+				      const BackupDataParameters *backupDataParams)
 {
-  _webServerBridge = new WebServerBridge;
-  _backupData = new BackupDataController;
-  _geneticAlgorithm = new GeneticAlgoController(*this);
+  _webServerBridge = new WebServerBridge(webServerParams);
+  _backupData = new BackupDataController(backupDataParams);
+  _geneticAlgorithm = new GeneticAlgoController(algoParams, *this);
 
   (*_webServerBridge)();
-  (*_backupData)(dataBackupFileName);
-  (*_geneticAlgorithm)(algoParams);
+  (*_backupData)();
+  (*_geneticAlgorithm)();
 }

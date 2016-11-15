@@ -1,7 +1,7 @@
 #include "AThreadedDataHandler.hpp"
 
-AThreadedDataHandler::AThreadedDataHandler()
-  : _close(false)
+AThreadedDataHandler::AThreadedDataHandler(const IParameters *parameters)
+  : _close(false), _parameters(parameters)
 {
 }
 

@@ -4,24 +4,14 @@
 #include "BackupDataController.hpp"
 #include "WritableResultModel.hpp"
 
-BackupDataController::BackupDataController()
+BackupDataController::BackupDataController(const IParameters *parameters)
+  : AThreadedDataHandler(parameters)
 {
 }
 
 BackupDataController::~BackupDataController()
 {
   std::cout << "BackupDataController::~BackupDataController" << std::endl;
-}
-
-void BackupDataController::operator()()
-{
-  std::cout << "Error: Cannot start BackupDataController() without parameters" << std::endl;
-}
-
-void BackupDataController::operator()(const std::string *fileName)
-{
-  (void)fileName;
-  _thread = std::thread(&BackupDataController::_workLoop, this);
 }
 
 void BackupDataController::_workLoop()

@@ -13,7 +13,7 @@ private:
   MainController &_mainController;
 
 public:
-  GeneticAlgoController(MainController &);
+  GeneticAlgoController(const IParameters *, MainController &);
   virtual ~GeneticAlgoController();
 
   // Inherited from IDataHandler & AThreadedDataHandler
