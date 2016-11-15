@@ -12,6 +12,8 @@
 			   "source/BackupDataController.cpp",
 			   "source/GeneticAlgoController.cpp",
 			   "source/AlgoParameters.cpp",
+			   "source/WebServerBridgeParameters.cpp",
+			   "source/BackupDataParameters.cpp",
 			   "source/Client.cpp",
 			   "source/ResultModel.cpp",
 			   "source/WritableResultModel.cpp",
