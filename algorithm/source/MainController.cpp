@@ -14,7 +14,7 @@ MainController::~MainController()
 
 void MainController::operator()(const std::map<std::string, std::string> *rawParams)
 {
-  AlgoParameters *algoParams = new AlgoParameters;
+  AlgoParameters *algoParams = new AlgoParameters(0, 0, 0, 0);
   std::string *dataBackupFileName = new std::string;
 
   if (!_parseParameters(*rawParams, *algoParams, *dataBackupFileName))

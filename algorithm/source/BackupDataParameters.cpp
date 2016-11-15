@@ -1,6 +1,7 @@
 #include "BackupDataParameters.hpp"
 
-BackupDataParameters::BackupDataParameters()
+BackupDataParameters::BackupDataParameters(const std::string &filePath_)
+  : filePath(filePath_)
 {
 }
 
