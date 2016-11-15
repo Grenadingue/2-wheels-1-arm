@@ -1,6 +1,6 @@
 #include "WebServerBridgeParameters.hpp"
 
-WebServerBridgeParameters::WebServerBridgeParameters(const std::string &serverPort_)
+WebServerBridgeParameters::WebServerBridgeParameters(unsigned short serverPort_)
   : serverPort(serverPort_)
 {
 }

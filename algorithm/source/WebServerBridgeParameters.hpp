@@ -8,9 +8,9 @@
 class		WebServerBridgeParameters : public IParameters
 {
 public:
-  const std::string serverPort;
+  const unsigned short serverPort;
 
-  WebServerBridgeParameters(const std::string &);
+  WebServerBridgeParameters(unsigned short);
   virtual ~WebServerBridgeParameters();
 };
 
