@@ -4,6 +4,8 @@ const config = require('../config/base.json');
 const path = require('path');
 
 module.exports.start = function(app) {
+    "use strict";
+
     var clientSocket;
 
     // Create socket.io instance

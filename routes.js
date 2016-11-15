@@ -2,6 +2,8 @@ const path = require('path');
 const fs = require('fs');
 
 module.exports.init = function(app, controllers) {
+    "use strict";
+
     // Index
     app.get('/', function(req, res) {
         res.sendFile(path.join(__dirname + '/views/index.html'));
