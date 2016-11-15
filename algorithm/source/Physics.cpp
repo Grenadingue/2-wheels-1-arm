@@ -14,7 +14,7 @@ Physics::~Physics()
 
 bool Physics::enterTheMatrix()
 {
-  return vrep::start("127.0.0.1", 19997, _handle);
+  return vrep::start("127.0.0.1", 10000, _handle);
 }
 
 void Physics::getOffTheMatrix(bool force)

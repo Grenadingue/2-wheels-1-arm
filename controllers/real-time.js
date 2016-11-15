@@ -1,6 +1,7 @@
 const algorithm = require('../algorithm');
 const io = require('../libraries/socket-io');
 const config = require('../config/base.json');
+const vrepPool = require('./vrep-launcher');
 const path = require('path');
 
 module.exports.start = function(app) {
@@ -23,7 +24,8 @@ module.exports.start = function(app) {
              populationSize: inputedParams.populationSize,
              populationRenewalRate: inputedParams.populationRenewalRate,
              mutationRate: inputedParams.mutationRate,
-             simulationCycles: inputedParams.simulationCycles
+             simulationCycles: inputedParams.simulationCycles,
+             vrepPool: vrepPool.launch(inputedParams.vrepPool)
             };
 
             console.log("[Node -> C++ params]");
@@ -31,7 +33,7 @@ module.exports.start = function(app) {
 
             clientSocket = socket;
 
-            algorithm.launchSimulation(paramObj);
+            setTimeout(function() {algorithm.launchSimulation(paramObj)}, 2000);
         });
 
         socket.on('new result', function (result) {
