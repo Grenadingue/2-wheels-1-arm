@@ -66,7 +66,8 @@ bool MainController::_parseParameters(std::map<std::string, std::string> &rawPar
       float mutationRate = std::stof(rawParams["mutationRate"]);
       int simulationCycles = std::stoi(rawParams["simulationCycles"]);
       algoParams = new AlgoParameters(populationSize, populationRenewalRate,
-				      mutationRate, simulationCycles);
+				      mutationRate, simulationCycles,
+				      {new VrepParameters(19997)});
     }
   else
     return false;

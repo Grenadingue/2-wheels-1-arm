@@ -3,7 +3,7 @@
 
 # include "_2w1a.hpp"
 
-class		Individual : public _2w1a
+class		Individual
 {
 public:
   template<typename gene_t> class Genome;
@@ -11,10 +11,14 @@ public:
 
 private:
   genome_t *_genome;
+  _2w1a *_body;
 
 public:
-  Individual(const _2w1a &);
+  Individual();
   virtual ~Individual();
+
+  void useBody(_2w1a *);
+  _2w1a *body();
 };
 
 #endif		/* !INDIVIDUAL_HPP_ */
