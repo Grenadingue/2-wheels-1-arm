@@ -52,12 +52,12 @@ void MainController::handleFinishedJob()
 }
 
 bool MainController::_parseParameters(const std::map<std::string, std::string> &rawParams,
-				      AlgoParameters *algoParams,
-				      WebServerBridgeParameters *webServerParams,
-				      BackupDataParameters *backupDataParams)
+				      AlgoParameters *&algoParams,
+				      WebServerBridgeParameters *&webServerParams,
+				      BackupDataParameters *&backupDataParams)
 {
   algoParams = new AlgoParameters(0, 0, 0, 0);
-  webServerParams = new WebServerBridgeParameters(0);
+  webServerParams = new WebServerBridgeParameters(8081);
   backupDataParams = new BackupDataParameters("");
 
   std::cout << "[C++_ADDON] Input parameters:" << std::endl;

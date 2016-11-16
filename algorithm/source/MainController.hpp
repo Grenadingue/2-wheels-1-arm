@@ -33,9 +33,9 @@ public:
 
 private:
   bool _parseParameters(const std::map<std::string, std::string> &,
-			AlgoParameters *,
-			WebServerBridgeParameters *,
-			BackupDataParameters *);
+			AlgoParameters *&,
+			WebServerBridgeParameters *&,
+			BackupDataParameters *&);
   void _initControllers(const AlgoParameters *,
 			const WebServerBridgeParameters *,
 			const BackupDataParameters *);
