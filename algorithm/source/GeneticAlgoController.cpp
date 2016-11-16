@@ -75,6 +75,34 @@ void GeneticAlgoController::_cleanVrepPool()
     }
 }
 
+void GeneticAlgoController::_pushSimulationEvent(VrepSimulationEvent *event)
+{
+  static unsigned int vrepInstanceIndex = 0;
+
+  if (vrepInstanceIndex >= _vrepPool.size())
+    vrepInstanceIndex = 0;
+  _vrepPool[vrepInstanceIndex]->handleNewResult(event);
+  ++vrepInstanceIndex;
+}
+
+void GeneticAlgoController::_waitForSimulationsResults()
+{
+  std::cout << "[ALGO] Waiting for all simulations finished" << std::endl;
+  while (_events.size() != _population.size())
+    {
+      std::this_thread::sleep_for(std::chrono::milliseconds(300));
+    }
+
+  std::cout << "[ALGO] All simulations finished!" << std::endl;
+
+  _mutex.lock();
+  while (!_events.empty())
+    {
+      _events.pop();
+    }
+  _mutex.unlock();
+}
+
 void GeneticAlgoController::_workLoop()
 {
   std::cout << "[ALGO] Initializing genetic algorithm" << std::endl;
@@ -146,32 +174,4 @@ bool GeneticAlgoController::_evaluateFitness()
     }
   _waitForSimulationsResults();
   return true;
-}
-
-void GeneticAlgoController::_pushSimulationEvent(VrepSimulationEvent *event)
-{
-  static unsigned int vrepInstanceIndex = 0;
-
-  if (vrepInstanceIndex >= _vrepPool.size())
-    vrepInstanceIndex = 0;
-  _vrepPool[vrepInstanceIndex]->handleNewResult(event);
-  ++vrepInstanceIndex;
-}
-
-void GeneticAlgoController::_waitForSimulationsResults()
-{
-  std::cout << "[ALGO] Waiting for all simulations finished" << std::endl;
-  while (_events.size() != _population.size())
-    {
-      std::this_thread::sleep_for(std::chrono::milliseconds(300));
-    }
-
-  std::cout << "[ALGO] All simulations finished!" << std::endl;
-
-  _mutex.lock();
-  while (!_events.empty())
-    {
-      _events.pop();
-    }
-  _mutex.unlock();
 }
