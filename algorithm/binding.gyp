@@ -25,7 +25,8 @@
 			   "source/Physics.cpp",
 			   "source/Object.cpp",
 			   "source/Articulation.cpp",
-			   "source/Maths.cpp"
+			   "source/Maths.cpp",
+			   "source/Vector.cpp"			   
 		],
 		"include_dirs": [
 			"lib/socket.io-client/socket.io-client-cpp/src",
