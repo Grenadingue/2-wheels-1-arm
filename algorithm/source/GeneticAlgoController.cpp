@@ -5,11 +5,6 @@
 #include "GeneticAlgoController.hpp"
 #include "MainController.hpp"
 
-bool GeneticAlgoController::sortIndividuals(Individual *first, Individual *seccond)
-{
-  return first->fitness().score() > seccond->fitness().score();
-}
-
 GeneticAlgoController::GeneticAlgoController(MainController &mainController)
   : _mainController(mainController)
 {
@@ -18,53 +13,6 @@ GeneticAlgoController::GeneticAlgoController(MainController &mainController)
 GeneticAlgoController::~GeneticAlgoController()
 {
   std::cout << "GeneticAlgoController::~GeneticAlgoController()" << std::endl;
-}
-
-void GeneticAlgoController::_rateIndividual(Individual &individual)
-{
-  (void) individual;
-}
-
-void GeneticAlgoController::_sortPopulationByScoreDesc()
-{
-  std::sort(_population.begin(), _population.end(), sortIndividuals);
-}
-
-std::vector<Individual *> *GeneticAlgoController::_generateOffSpring()
-{
-  return new std::vector<Individual *>();
-}
-
-std::pair<Individual *, Individual *> GeneticAlgoController::_selectParents()
-{
-  std::pair<Individual *, Individual *> ret;
-  return ret;
-}
-
-Individual *GeneticAlgoController::_itsSexTime(std::pair<Individual *, Individual *> &parents)
-{
-  (void) parents;
-  return NULL;
-}
-
-void GeneticAlgoController::_mutateChildGenome(Individual &child)
-{
-  (void) child;
-}
-
-void GeneticAlgoController::_insertChildrenInPopulation(std::vector<Individual *> *individual)
-{
-  _population.insert(_population.end(), individual->begin(), individual->end());
-}
-
-void GeneticAlgoController::_harshLife()
-{
-}
-
-Individual *GeneticAlgoController::_bestSolution()
-{
-  _sortPopulationByScoreDesc();
-  return _population[0];
 }
 
 inline void GeneticAlgoController::handleNewResult(const ResultModel *result)
@@ -156,11 +104,6 @@ void GeneticAlgoController::_geneticAlgorithm()
   std::cout << "[MATRIX] We leaved the matrix" << std::endl;
 }
 
-bool GeneticAlgoController::_solutionFound()
-{
-  return false;
-}
-
 bool GeneticAlgoController::_initializePopulation()
 {
   Individual *individual = NULL;
@@ -171,6 +114,11 @@ bool GeneticAlgoController::_initializePopulation()
       _population.push_back(individual);
     }
   return true;
+}
+
+bool GeneticAlgoController::_solutionFound()
+{
+  return false;
 }
 
 bool GeneticAlgoController::_evaluateFitness()
@@ -257,4 +205,56 @@ bool GeneticAlgoController::_evaluateFitness()
       std::cout << std::endl;
     }
   return true;
+}
+
+void GeneticAlgoController::_rateIndividual(Individual &individual)
+{
+  (void) individual;
+}
+
+bool GeneticAlgoController::sortIndividuals(Individual *first, Individual *seccond)
+{
+  return first->fitness().score() > seccond->fitness().score();
+}
+
+void GeneticAlgoController::_sortPopulationByScoreDesc()
+{
+  std::sort(_population.begin(), _population.end(), sortIndividuals);
+}
+
+Individual *GeneticAlgoController::_bestSolution()
+{
+  _sortPopulationByScoreDesc();
+  return _population[0];
+}
+
+std::pair<Individual *, Individual *> GeneticAlgoController::_selectParents()
+{
+  std::pair<Individual *, Individual *> ret;
+  return ret;
+}
+
+Individual *GeneticAlgoController::_itsSexTime(std::pair<Individual *, Individual *> &parents)
+{
+  (void) parents;
+  return NULL;
+}
+
+std::vector<Individual *> *GeneticAlgoController::_generateOffSpring()
+{
+  return new std::vector<Individual *>();
+}
+
+void GeneticAlgoController::_mutateChildGenome(Individual &child)
+{
+  (void) child;
+}
+
+void GeneticAlgoController::_insertChildrenInPopulation(std::vector<Individual *> *individual)
+{
+  _population.insert(_population.end(), individual->begin(), individual->end());
+}
+
+void GeneticAlgoController::_harshLife()
+{
 }
