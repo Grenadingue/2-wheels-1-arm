@@ -26,6 +26,12 @@ module.exports.start = function(app) {
              simulationCycles: inputedParams.simulationCycles
             };
 
+            Object.keys(paramObj).forEach(function(key) {
+              if (paramObj[key] !== null) {
+                paramObj[key] = paramObj[key].toString();
+              }
+            });
+
             console.log("[Node -> C++ params]");
             console.log(paramObj);
 
