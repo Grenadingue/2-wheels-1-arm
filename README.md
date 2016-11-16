@@ -38,7 +38,7 @@ See [sample code README](sample_code/README.md)
 * v-rep virtual environment need to be setup
 * `npm run dev`
 
-*Note: Server will automaticaly restart after file change*  
+*Note: Server will automaticaly restart after file change*
 *Note2: Works for node.js files, does not work for c++ files*
 
 #### How to build/rebuild C++ side?
@@ -53,3 +53,7 @@ See [sample code README](sample_code/README.md)
 #### How to launch development executable algorithm?
 * v-rep virtual environment need to be setup
 * Execute `algorithm/build_dev/2w1a_dev`
+
+#### Config file
+* You have to do your own config file using the config/base.example.json
+* `cp config/base.example.json config/base.json`

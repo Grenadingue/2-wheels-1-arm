@@ -9,7 +9,7 @@ class		IDataHandler
 public:
   virtual ~IDataHandler() {}
 
-  virtual void handleNewResult(const ResultModel *) = 0;
+  virtual void handleNewResult(const IEvent *) = 0;
 };
 
 #endif		/* !IDATAHANDLER_HPP_ */

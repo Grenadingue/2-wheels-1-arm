@@ -3,6 +3,7 @@
 
 # include <map>
 # include "AThreadedDataHandler.hpp"
+# include "WebServerBridgeParameters.hpp"
 
 class		WebServerBridge : public AThreadedDataHandler
 {
@@ -12,7 +13,7 @@ private:
   Client *_client;
 
 public:
-  WebServerBridge();
+  WebServerBridge(const IParameters *);
   ~WebServerBridge();
 
   // Inherited from AThreadedDataHandler
