@@ -7,6 +7,8 @@
 
 class		BackupDataController : public AThreadedDataHandler
 {
+private:
+  const BackupDataParameters *_parameters;
 
 public:
   BackupDataController(const IParameters *);

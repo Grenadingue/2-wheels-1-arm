@@ -5,7 +5,8 @@
 #include "WritableResultModel.hpp"
 
 BackupDataController::BackupDataController(const IParameters *parameters)
-  : AThreadedDataHandler(parameters)
+  : AThreadedDataHandler(parameters),
+    _parameters(static_cast<const BackupDataParameters *>(parameters))
 {
 }
 
@@ -19,7 +20,7 @@ void BackupDataController::_workLoop()
   const ResultModel *result = NULL;
   std::ofstream stream;
 
-  stream.open("test_algo.json", std::ofstream::out);
+  stream.open(_parameters->filePath, std::ofstream::out);
   while (!_close)
     {
       result = NULL;
