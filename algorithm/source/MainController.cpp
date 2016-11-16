@@ -12,7 +12,7 @@ MainController::~MainController()
 {
 }
 
-void MainController::operator()(const std::map<std::string, std::string> *rawParams)
+void MainController::operator()(std::map<std::string, std::string> *rawParams)
 {
   AlgoParameters *algoParams = NULL;
   WebServerBridgeParameters *webServerParams = NULL;
@@ -51,11 +51,36 @@ void MainController::handleFinishedJob()
   delete this;
 }
 
-bool MainController::_parseParameters(const std::map<std::string, std::string> &rawParams,
+bool MainController::_parseParameters(std::map<std::string, std::string> &rawParams,
 				      AlgoParameters *&algoParams,
 				      WebServerBridgeParameters *&webServerParams,
 				      BackupDataParameters *&backupDataParams)
 {
+  if (rawParams.find("populationSize") != rawParams.end() ||
+      rawParams.find("populationRenewalRate") != rawParams.end() ||
+      rawParams.find("mutationRate") != rawParams.end() ||
+      rawParams.find("simulationCycles") != rawParams.end())
+    {
+      int populationSize = std::stoi(rawParams["populationSize"]);
+      float populationRenewalRate = std::stof(rawParams["populationRenewalRate"]);
+      float mutationRate = std::stof(rawParams["mutationRate"]);
+      int simulationCycles = std::stoi(rawParams["simulationCycles"]);
+      algoParams = new AlgoParameters(populationSize, populationRenewalRate,
+				      mutationRate, simulationCycles);
+    }
+  else
+    return false;
+
+  if (rawParams.find("serverPort") != rawParams.end())
+    webServerParams = new WebServerBridgeParameters(std::stoi(rawParams["serverPort"]));
+  else
+    return false;
+
+  if (rawParams.find("backupFile") != rawParams.end())
+    backupDataParams = new BackupDataParameters(rawParams["backupFile"]);
+  else
+    return false;
+
   algoParams = new AlgoParameters(0, 0, 0, 0);
   webServerParams = new WebServerBridgeParameters(8081);
   backupDataParams = new BackupDataParameters("test_algo.json");

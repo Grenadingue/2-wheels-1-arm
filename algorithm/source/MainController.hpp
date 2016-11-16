@@ -24,7 +24,7 @@ public:
   MainController();
   ~MainController();
 
-  void operator()(const std::map<std::string, std::string> *);
+  void operator()(std::map<std::string, std::string> *);
 
   // Inherited from IDataHandler
   virtual void handleNewResult(const ResultModel *);
@@ -32,7 +32,7 @@ public:
   void handleFinishedJob();
 
 private:
-  bool _parseParameters(const std::map<std::string, std::string> &,
+  bool _parseParameters(std::map<std::string, std::string> &,
 			AlgoParameters *&,
 			WebServerBridgeParameters *&,
 			BackupDataParameters *&);
