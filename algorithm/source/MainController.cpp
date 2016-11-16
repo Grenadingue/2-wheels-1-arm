@@ -81,10 +81,6 @@ bool MainController::_parseParameters(std::map<std::string, std::string> &rawPar
   else
     return false;
 
-  algoParams = new AlgoParameters(0, 0, 0, 0);
-  webServerParams = new WebServerBridgeParameters(8081);
-  backupDataParams = new BackupDataParameters("test_algo.json");
-
   std::cout << "[C++_ADDON] Input parameters:" << std::endl;
   for (auto parameter : rawParams)
     {
