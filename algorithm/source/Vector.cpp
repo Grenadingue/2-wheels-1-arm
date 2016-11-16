@@ -40,14 +40,13 @@ float Vector::getDiretionDiff(const Vector &v) const
   float N = Na * Nb;
 
   float DirectionDiff;
-  
+
   if (N == 0) {
     DirectionDiff = 0;
   } else {
     float C = (firstVector.first * secondVector.first + firstVector.second * secondVector.second) / (Na * Nb);
     DirectionDiff = Maths::Radians<float>::toDegrees(acos(C));
   }
-
 
   return(DirectionDiff);
 }
