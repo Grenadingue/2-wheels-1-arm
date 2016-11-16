@@ -2,6 +2,10 @@
 
 Individual::Genome::Genome()
 {
+  Individual::Genome::gene_t gene;
+  
+  _genes.push_back(gene);
+  _genes.push_back(gene);
 }
 
 Individual::Genome::Genome(const Genome &other)

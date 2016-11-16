@@ -152,6 +152,12 @@ bool GeneticAlgoController::_initializePopulation()
   for (int i = 0; i != _parameters->populationSize; ++i)
     {
       individual = new Individual();
+      individual->genome()[0].wrist = _random.realInRange<float>(0, 300);
+      individual->genome()[0].shoulder = _random.realInRange<float>(0, 300);
+      individual->genome()[0].elbow = _random.realInRange<float>(0, 300);
+      individual->genome()[1].wrist = _random.realInRange<float>(0, 300);
+      individual->genome()[1].shoulder = _random.realInRange<float>(0, 300);
+      individual->genome()[1].elbow = _random.realInRange<float>(0, 300);
       _population.push_back(individual);
     }
   return true;
