@@ -24,6 +24,7 @@ inline void GeneticAlgoController::handleNewResult(const ResultModel *result)
 // not used
 void GeneticAlgoController::handleNewResult()
 {
+  std::cout << "[ALGO] RECEIVED NEW EVENT" << std::endl;
 }
 
 void GeneticAlgoController::_emitTheoreticalMaxScore()
@@ -103,9 +104,8 @@ void GeneticAlgoController::_geneticAlgorithm()
   _emitTheoreticalMaxScore();
   while (!_solutionFound() && i != 8)
     {
-      // if (!_evaluateFitness())
-      // 	return;
-      std::this_thread::sleep_for(std::chrono::seconds(1)); // simulate work
+      if (!_evaluateFitness())
+      	return;
 
       //
       // Update parameters and pass results to it
@@ -139,9 +139,40 @@ bool GeneticAlgoController::_evaluateFitness()
 {
   for (Individual *individual : _population)
     {
+      VrepSimulationEvent *simulation =
+	new VrepSimulationEvent(individual, _parameters->simulationCycles);
+
       std::cout << "[ALGO] Evaluating individual fitness" << std::endl;
-      // call remote thread
-      std::cout << std::endl;
+      _pushSimulationEvent(simulation);
     }
+  _waitForSimulationsResults();
   return true;
+}
+
+void GeneticAlgoController::_pushSimulationEvent(VrepSimulationEvent *event)
+{
+  static unsigned int vrepInstanceIndex = 0;
+
+  if (vrepInstanceIndex >= _vrepPool.size())
+    vrepInstanceIndex = 0;
+  _vrepPool[vrepInstanceIndex]->handleNewResult(event);
+  ++vrepInstanceIndex;
+}
+
+void GeneticAlgoController::_waitForSimulationsResults()
+{
+  std::cout << "[ALGO] Waiting for all simulations finished" << std::endl;
+  while (_events.size() != _population.size())
+    {
+      std::this_thread::sleep_for(std::chrono::milliseconds(300));
+    }
+
+  std::cout << "[ALGO] All simulations finished!" << std::endl;
+
+  _mutex.lock();
+  while (!_events.empty())
+    {
+      _events.pop();
+    }
+  _mutex.unlock();
 }

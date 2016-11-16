@@ -17,6 +17,8 @@
 			   "source/BackupDataParameters.cpp",
 			   "source/VrepParameters.cpp",
 			   "source/Client.cpp",
+			   "source/VrepSimulationEvent.cpp",
+			   "source/VrepSimulationFinished.cpp",
 			   "source/ResultModel.cpp",
 			   "source/WritableResultModel.cpp",
 			   "source/World.cpp",

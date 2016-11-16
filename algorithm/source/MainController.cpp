@@ -28,9 +28,9 @@ void MainController::operator()(std::map<std::string, std::string> *rawParams)
   _initControllers(algoParams, webServerParams, backupDataParams);
 }
 
-void MainController::handleNewResult(const ResultModel *result)
+void MainController::handleNewResult(const IEvent *result)
 {
-  _webServerBridge->handleNewResult(new ResultModel(result));
+  _webServerBridge->handleNewResult(new ResultModel(static_cast<const ResultModel *>(result)));
   _backupData->handleNewResult(result);
 }
 

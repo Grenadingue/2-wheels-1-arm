@@ -1,5 +1,7 @@
 #include <iostream>
 #include "VrepThreadedController.hpp"
+#include "VrepSimulationFinished.hpp"
+#include "Individual.hpp"
 
 VrepThreadedController::VrepThreadedController(const IParameters *parameters,
 					       AThreadedDataHandler *parentController)
@@ -45,99 +47,118 @@ void VrepThreadedController::_workLoop()
 
 bool VrepThreadedController::_handleIncommingEvents()
 {
-  const ResultModel *result = NULL;
+  const IEvent *event = NULL;
 
   while (!_close)
     {
-      result = NULL;
-      if ((result = _getNextResult()))
+      event = NULL;
+      if ((event = _getNextResult()))
 	{
-	  _simulate();
-	  delete result;
+	  std::cout << "[MATRIX] New simulation request received" << std::endl;
+
+	  VrepSimulationEvent *simEvent = (VrepSimulationEvent *)event;
+
+	  VrepSimulationFinished::eStatus status =  VrepSimulationFinished::SUCCESS;
+	  if (!_simulate(simEvent))
+	    status = VrepSimulationFinished::FAILURE;
+
+	  VrepSimulationFinished *retEvent = new VrepSimulationFinished(simEvent->individual(), status);
+
+	  _parentController->handleNewResult(retEvent);
+
+	  std::cout << "[MATRIX] Simulation event processed" << std::endl;
+	  delete event;
 	}
       std::this_thread::sleep_for(std::chrono::milliseconds(300));
     }
   return true;
 }
 
-bool VrepThreadedController::_simulate()
+bool VrepThreadedController::_simulate(VrepSimulationEvent *event)
 {
-  // if (_startSimulation())
-  // 	{
-  // 	  std::cout << "[MATRIX] Simulation started" << std::endl;
-  // 	  for (int i = 0; i != 1; ++i)
-  // 	    {
-  // 	      vrep::position_t pos;
-  // 	      vrep::orientation_t ori;
+  Individual *individual = event->individual();
 
-  // 	      if (!individual->getPositionOnMap(pos) || !individual->getOrientationOnMap(ori))
-  // 		{
-  // 		  std::cout << "[MATRIX] Unable to retrieve 2w1a coordinates on map" << std::endl;
-  // 		  break;
-  // 		}
-  // 	      std::cout << "[MATRIX] Position:\tx: " << (pos.x >= 0 ? " " : "") << pos.x
-  // 			<< ", y: " << (pos.y >= 0 ? " " : "") << pos.y
-  // 			<< ", z: " << (pos.z >= 0 ? " " : "") << pos.z << std::endl
-  // 			<< "[MATRIX] Orientation:\tx: " << (ori.x >= 0 ? " " : "") << ori.x
-  // 			<< ", y: " << (ori.y >= 0 ? " " : "") << ori.y
-  // 			<< ", z: " << (ori.z >= 0 ? " " : "") << ori.z << std::endl << std::endl;
+  std::cout << "[MATRIX] Starting simulation..." << std::endl;
+  individual->useBody(_robot);
+  if (_startSimulation())
+    {
+      std::cout << "[MATRIX] Simulation started" << std::endl;
+      for (int i = 0; i != event->simulationCycles; ++i)
+	{
+	  vrep::position_t pos;
+	  vrep::orientation_t ori;
 
-  // 	      float wristPos = _random.realInRange<float>(0, 300),
-  // 		elbowPos = _random.realInRange<float>(0, 300),
-  // 		shoulderPos = _random.realInRange<float>(0, 300);
+	  if (!individual->body()->getPositionOnMap(pos) || !individual->body()->getOrientationOnMap(ori))
+	    {
+	      std::cout << "[MATRIX] Unable to retrieve 2w1a coordinates on map" << std::endl;
+	      break;
+	    }
+	  std::cout << "[MATRIX] Position:\tx: " << (pos.x >= 0 ? " " : "") << pos.x
+		    << ", y: " << (pos.y >= 0 ? " " : "") << pos.y
+		    << ", z: " << (pos.z >= 0 ? " " : "") << pos.z << std::endl
+		    << "[MATRIX] Orientation:\tx: " << (ori.x >= 0 ? " " : "") << ori.x
+		    << ", y: " << (ori.y >= 0 ? " " : "") << ori.y
+		    << ", z: " << (ori.z >= 0 ? " " : "") << ori.z << std::endl << std::endl;
 
-  // 	      std::cout << "[MATRIX] Wrist motor target position:\t\t" << wristPos
-  // 			<< " degrees" << std::endl
-  // 			<< "[MATRIX] Elbow motor target position:\t\t" << elbowPos
-  // 			<< " degrees" << std::endl
-  // 			<< "[MATRIX] Shoulder motor target position:\t" << shoulderPos
-  // 			<< " degrees" << std::endl << std::endl;
+	  float wristPos = _random.realInRange<float>(0, 300),
+	    elbowPos = _random.realInRange<float>(0, 300),
+	    shoulderPos = _random.realInRange<float>(0, 300);
 
-  // 	      if (!individual->wrist().setTargetPosition(wristPos) ||
-  // 		  !individual->elbow().setTargetPosition(elbowPos) ||
-  // 		  !individual->shoulder().setTargetPosition(shoulderPos))
-  // 		{
-  // 		  std::cout << "[MATRIX] Unable to set 2w1a articulations target postions" << std::endl;
-  // 		  break;
-  // 		}
+	  std::cout << "[MATRIX] Wrist motor target position:\t\t" << wristPos
+		    << " degrees" << std::endl
+		    << "[MATRIX] Elbow motor target position:\t\t" << elbowPos
+		    << " degrees" << std::endl
+		    << "[MATRIX] Shoulder motor target position:\t" << shoulderPos
+		    << " degrees" << std::endl << std::endl;
 
-  // 	      std::this_thread::sleep_for(std::chrono::seconds(3));
+	  if (!individual->body()->wrist().setTargetPosition(wristPos) ||
+	      !individual->body()->elbow().setTargetPosition(elbowPos) ||
+	      !individual->body()->shoulder().setTargetPosition(shoulderPos))
+	    {
+	      std::cout << "[MATRIX] Unable to set 2w1a articulations target postions" << std::endl;
+	      break;
+	    }
 
-  // 	      if (!individual->wrist().getPosition(wristPos) ||
-  // 		  !individual->elbow().getPosition(elbowPos) ||
-  // 		  !individual->shoulder().getPosition(shoulderPos))
-  // 		{
-  // 		  std::cout << "[MATRIX] Unable to set 2w1a articulations target postions" << std::endl;
-  // 		  break;
-  // 		}
+	  std::this_thread::sleep_for(std::chrono::seconds(3));
 
-  // 	      std::cout << "[MATRIX] Wrist motor reached position:\t\t" << wristPos
-  // 			<< " degrees" << std::endl
-  // 			<< "[MATRIX] Elbow motor reached position:\t\t" << elbowPos
-  // 			<< " degrees" << std::endl
-  // 			<< "[MATRIX] Shoulder motor reached position:\t" << shoulderPos
-  // 			<< " degrees" << std::endl << std::endl;
+	  if (!individual->body()->wrist().getPosition(wristPos) ||
+	      !individual->body()->elbow().getPosition(elbowPos) ||
+	      !individual->body()->shoulder().getPosition(shoulderPos))
+	    {
+	      std::cout << "[MATRIX] Unable to set 2w1a articulations target postions" << std::endl;
+	      break;
+	    }
 
-  // 	      if (!individual->getPositionOnMap(pos) || !individual->getOrientationOnMap(ori))
-  // 		{
-  // 		  std::cout << "[MATRIX] Unable to retrieve 2w1a coordinates on map" << std::endl;
-  // 		  break;
-  // 		}
-  // 	      std::cout << "[MATRIX] Position:\tx: " << (pos.x >= 0 ? " " : "") << pos.x
-  // 			<< ", y: " << (pos.y >= 0 ? " " : "") << pos.y
-  // 			<< ", z: " << (pos.z >= 0 ? " " : "") << pos.z << std::endl
-  // 			<< "[MATRIX] Orientation:\tx: " << (ori.x >= 0 ? " " : "") << ori.x
-  // 			<< ", y: " << (ori.y >= 0 ? " " : "") << ori.y
-  // 			<< ", z: " << (ori.z >= 0 ? " " : "") << ori.z << std::endl << std::endl;
-  // 	    }
-  // 	  if (!_stopSimulation())
-  // 	    {
-  // 	      std::cout << "[MATRIX] Unable to stop simulation" << std::endl;
-  // 	      return false;
-  // 	    }
-  // 	  std::this_thread::sleep_for(std::chrono::seconds(1));
-  // 	  std::cout << "[MATRIX] Simulation ended" << std::endl;
-  // 	}
+	  std::cout << "[MATRIX] Wrist motor reached position:\t\t" << wristPos
+		    << " degrees" << std::endl
+		    << "[MATRIX] Elbow motor reached position:\t\t" << elbowPos
+		    << " degrees" << std::endl
+		    << "[MATRIX] Shoulder motor reached position:\t" << shoulderPos
+		    << " degrees" << std::endl << std::endl;
+
+	  if (!individual->body()->getPositionOnMap(pos) || !individual->body()->getOrientationOnMap(ori))
+	    {
+	      std::cout << "[MATRIX] Unable to retrieve 2w1a coordinates on map" << std::endl;
+	      break;
+	    }
+	  std::cout << "[MATRIX] Position:\tx: " << (pos.x >= 0 ? " " : "") << pos.x
+		    << ", y: " << (pos.y >= 0 ? " " : "") << pos.y
+		    << ", z: " << (pos.z >= 0 ? " " : "") << pos.z << std::endl
+		    << "[MATRIX] Orientation:\tx: " << (ori.x >= 0 ? " " : "") << ori.x
+		    << ", y: " << (ori.y >= 0 ? " " : "") << ori.y
+		    << ", z: " << (ori.z >= 0 ? " " : "") << ori.z << std::endl << std::endl;
+	}
+      if (!_stopSimulation())
+	{
+	  std::cout << "[MATRIX] Unable to stop simulation" << std::endl;
+	  return false;
+	}
+      std::this_thread::sleep_for(std::chrono::seconds(1));
+      std::cout << "[MATRIX] Simulation ended" << std::endl;
+    }
+  else
+    std::cout << "[MATRIX] Unable to start simulation" << std::endl;
+  individual->useBody(NULL);
   return true;
 }
 
@@ -179,4 +200,14 @@ _2w1a *VrepThreadedController::_retrieve2w1a()
       _robot = new _2w1a(*robot, *wrist, *elbow, *shoulder);
     }
   return _robot;
+}
+
+int VrepThreadedController::nbProcessedEvents()
+{
+  int nb = 0;
+
+  _mutex.lock();
+  nb = _events.size();
+  _mutex.unlock();
+  return nb;
 }

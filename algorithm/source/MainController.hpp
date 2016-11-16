@@ -27,7 +27,7 @@ public:
   void operator()(std::map<std::string, std::string> *);
 
   // Inherited from IDataHandler
-  virtual void handleNewResult(const ResultModel *);
+  virtual void handleNewResult(const IEvent *);
 
   void handleFinishedJob();
 

@@ -31,6 +31,8 @@ add_executable(
 	${PROJECT_F}/BackupDataParameters.cpp
 	${PROJECT_F}/VrepParameters.cpp
 	${PROJECT_F}/Client.cpp
+	${PROJECT_F}/VrepSimulationEvent.cpp
+	${PROJECT_F}/VrepSimulationFinished.cpp
 	${PROJECT_F}/ResultModel.cpp
 	${PROJECT_F}/WritableResultModel.cpp
 	${PROJECT_F}/World.cpp

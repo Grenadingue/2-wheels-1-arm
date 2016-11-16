@@ -4,6 +4,7 @@
 # include "AThreadedDataHandler.hpp"
 # include "VrepThreadedController.hpp"
 # include "AlgoParameters.hpp"
+# include "VrepSimulationEvent.hpp"
 # include "World.hpp"
 
 class MainController;
@@ -34,6 +35,8 @@ public:
   // vrep pool
   bool _instanciateVrepPool();
   void _cleanVrepPool();
+  void _pushSimulationEvent(VrepSimulationEvent *);
+  void _waitForSimulationsResults();
 
   // Genetic algorithm
   void _geneticAlgorithm();

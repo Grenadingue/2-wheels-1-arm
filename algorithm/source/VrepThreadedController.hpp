@@ -5,6 +5,8 @@
 # include "VrepParameters.hpp"
 # include "Physics.hpp"
 # include "_2w1a.hpp"
+# include "VrepSimulationEvent.hpp"
+# include "MotherNature.hpp"
 
 class		VrepThreadedController : public AThreadedDataHandler
 {
@@ -13,6 +15,7 @@ private:
   AThreadedDataHandler *_parentController;
   _2w1a *_robot;
   Physics _physics;
+  MotherNature _random;
 
 public:
   VrepThreadedController(const IParameters *, AThreadedDataHandler *);
@@ -21,8 +24,9 @@ public:
   // Inherited from AThreadedDataHandler
   virtual void _workLoop();
 
+private:
   bool _handleIncommingEvents();
-  bool _simulate();
+  bool _simulate(VrepSimulationEvent *);
 
   // vrep
   bool _enterVirtualWorld();
@@ -30,6 +34,9 @@ public:
   bool _startSimulation();
   bool _stopSimulation();
   _2w1a *_retrieve2w1a();
+
+public:
+  int nbProcessedEvents();
 };
 
 #endif		/* !VREPTHREADEDCONTROLLER_HPP_ */
