@@ -46,17 +46,6 @@ void GeneticAlgoController::_emitSolutionFound()
   handleNewResult(result);
 }
 
-void GeneticAlgoController::operator()()
-{
-  std::cout << "Error: Cannot start GeneticAlgoController() without parameters" << std::endl;
-}
-
-void GeneticAlgoController::operator()(const AlgoParameters *parameters)
-{
-  (void)parameters;
-  _thread = std::thread(&GeneticAlgoController::_workLoop, this);
-}
-
 void GeneticAlgoController::_workLoop()
 {
   std::cout << "[ALGO] Initializing genetic algorithm" << std::endl;

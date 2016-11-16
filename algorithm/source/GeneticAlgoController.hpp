@@ -21,8 +21,6 @@ public:
   virtual void handleNewResult();
 
   // Inherited from AThreadedDataHandler
-  virtual void operator()();
-  virtual void operator()(const AlgoParameters *);
   virtual void _workLoop();
 
   // emit algorithm data
