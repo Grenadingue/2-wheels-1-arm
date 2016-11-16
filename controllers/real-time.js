@@ -43,7 +43,8 @@ module.exports.start = function(app) {
                 console.log("<----------------------------->");
                 console.log(paramObj);
                 console.log("<----------------------------->");
-                algorithm.launchSimulation(paramObj)
+                algorithm.launchSimulation(paramObj);
+                vrepPool.stop();
             });
         });
 
