@@ -32,7 +32,8 @@
 			   "source/Object.cpp",
 			   "source/Articulation.cpp",
 			   "source/Fitness.cpp",
-			   "source/Maths.cpp"
+			   "source/Maths.cpp",
+			   "source/Vector.cpp"
 		],
 		"include_dirs": [
 			"lib/socket.io-client/socket.io-client-cpp/src",
@@ -45,7 +46,7 @@
 					"libraries": [
 								"-rdynamic ../lib/socket.io-client/build/libsioclient.a",
 								"-lboost_system", "-lboost_date_time", "-lboost_random",
-								"-lpthread",
+								"-lpthread", "-lm"
 					]
 		},
 		"conditions": [
