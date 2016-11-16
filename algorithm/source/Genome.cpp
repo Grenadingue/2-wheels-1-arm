@@ -1,23 +1,34 @@
 #include "Genome.hpp"
 
-template<typename gene_t>
-Individual::Genome<gene_t>::Genome()
+Individual::Genome::Genome()
 {
 }
 
-template<typename gene_t>
-Individual::Genome<gene_t>::Genome(const Genome &other)
+Individual::Genome::Genome(const Genome &other)
 {
   (void)other;
 }
 
-template<typename gene_t>
-Individual::Genome<gene_t>::~Genome()
+Individual::Genome::~Genome()
 {
 }
 
-template<typename gene_t>
-Individual::Genome<gene_t> &Individual::Genome<gene_t>::operator=(const Genome &other)
+Individual::Genome::gene_t& Individual::Genome::at(int pos)
+{
+  return _genes[pos];
+}
+
+Individual::Genome::gene_t& Individual::Genome::operator[](int pos)
+{
+  return _genes[pos];
+}
+
+Individual::Genome::gene_t& Individual::Genome::operator[](unsigned int pos)
+{
+  return _genes[pos];
+}
+
+Individual::Genome& Individual::Genome::operator=(const Genome &other)
 {
   (void)other;
   return (*this);

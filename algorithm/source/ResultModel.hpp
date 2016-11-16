@@ -1,7 +1,9 @@
 #ifndef		RESULTMODEL_HPP_
 # define	RESULTMODEL_HPP_
 
-class		ResultModel
+# include "IEvent.hpp"
+
+class		ResultModel : public IEvent
 {
 protected:
   int _iteration;
@@ -15,7 +17,7 @@ public:
   ResultModel(int theoreticalMaxScore);
   ResultModel(const ResultModel &);
   ResultModel(const ResultModel *);
-  ~ResultModel();
+  virtual ~ResultModel();
   ResultModel &operator=(const ResultModel &);
 
   int getTheoreticalMaxScore() const;

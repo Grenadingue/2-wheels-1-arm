@@ -1,11 +1,14 @@
 #include <iostream>
 #include <iomanip>
 #include <chrono>
+#include <algorithm>
 #include "GeneticAlgoController.hpp"
 #include "MainController.hpp"
 
-GeneticAlgoController::GeneticAlgoController(MainController &mainController)
-  : _mainController(mainController)
+GeneticAlgoController::GeneticAlgoController(const IParameters *parameters,
+					     MainController &mainController)
+  : AThreadedDataHandler(parameters), _mainController(mainController),
+    _parameters(static_cast<const AlgoParameters *>(parameters))
 {
 }
 
@@ -19,7 +22,6 @@ inline void GeneticAlgoController::handleNewResult(const ResultModel *result)
   _mainController.handleNewResult(result);
 }
 
-// not used
 void GeneticAlgoController::handleNewResult()
 {
 }
@@ -45,31 +47,70 @@ void GeneticAlgoController::_emitSolutionFound()
   handleNewResult(result);
 }
 
-void GeneticAlgoController::operator()()
+bool GeneticAlgoController::_instanciateVrepPool()
 {
-  std::cout << "Error: Cannot start GeneticAlgoController() without parameters" << std::endl;
+  std::cout << "[MATRIX] Instanciating vrep remote pool" << std::endl;
+  for (const VrepParameters *instanceParams : _parameters->vrepParameters)
+    {
+      VrepThreadedController *vrepInstance = new VrepThreadedController(instanceParams, this);
+
+      std::cout << "[MATRIX] Instanciating vrep remote api on port "
+		<< instanceParams->serverPort << "..." << std::endl;
+      _vrepPool.push_back(vrepInstance);
+      (*vrepInstance)();
+    }
+  return true;
 }
 
-void GeneticAlgoController::operator()(const AlgoParameters *parameters)
+void GeneticAlgoController::_cleanVrepPool()
 {
-  (void)parameters;
-  _thread = std::thread(&GeneticAlgoController::_workLoop, this);
+  for (VrepThreadedController *vrepInstance : _vrepPool)
+    {
+      vrepInstance->askForClose();
+    }
+  for (VrepThreadedController *vrepInstance : _vrepPool)
+    {
+      vrepInstance->waitForClose();
+      delete vrepInstance;
+    }
+}
+
+void GeneticAlgoController::_pushSimulationEvent(VrepSimulationEvent *event)
+{
+  static unsigned int vrepInstanceIndex = 0;
+
+  if (vrepInstanceIndex >= _vrepPool.size())
+    vrepInstanceIndex = 0;
+  _vrepPool[vrepInstanceIndex]->handleNewResult(event);
+  ++vrepInstanceIndex;
+}
+
+void GeneticAlgoController::_waitForSimulationsResults()
+{
+  std::cout << "[ALGO] Waiting for all simulations finished" << std::endl;
+  while (_events.size() != _population.size())
+    {
+      std::this_thread::sleep_for(std::chrono::milliseconds(300));
+    }
+
+  std::cout << "[ALGO] All simulations finished!" << std::endl;
+
+  _mutex.lock();
+  while (!_events.empty())
+    {
+      _events.pop();
+    }
+  _mutex.unlock();
 }
 
 void GeneticAlgoController::_workLoop()
 {
   std::cout << "[ALGO] Initializing genetic algorithm" << std::endl;
-  if (_enterVirtualWorld())
+  if (_instanciateVrepPool())
     {
-      std::cout << "[MATRIX] We are in the matrix" << std::endl;
-      if (_retrieve2w1a())
-	{
-	  std::cout << "[MATRIX] 2w1a retrieved" << std::endl;
-	  std::cout << std::fixed << std::setprecision(8); // set float precision
-	  _geneticAlgorithm();
-	}
-      else
-	std::cout << "[MATRIX] Unable to retrieve 2w1a" << std::endl;
+      std::cout << "[MATRIX] Matrix pool instanciated" << std::endl;
+      std::cout << std::fixed << std::setprecision(8); // set float precision
+      _geneticAlgorithm();
     }
   else
     std::cout << "[MATRIX] Unable to enter the matrix" << std::endl;
@@ -90,9 +131,8 @@ void GeneticAlgoController::_geneticAlgorithm()
   _emitTheoreticalMaxScore();
   while (!_solutionFound() && i != 8)
     {
-      // if (!_evaluateFitness())
-      // 	return;
-      std::this_thread::sleep_for(std::chrono::seconds(1)); // simulate work
+      if (!_evaluateFitness())
+	return;
 
       //
       // Update parameters and pass results to it
@@ -101,8 +141,20 @@ void GeneticAlgoController::_geneticAlgorithm()
     }
   _emitSolutionFound();
   std::cout << "[ALGO] Solution found !" << std::endl;
-  _leaveVirtualWorld();
+  _cleanVrepPool();
   std::cout << "[MATRIX] We leaved the matrix" << std::endl;
+}
+
+bool GeneticAlgoController::_initializePopulation()
+{
+  Individual *individual = NULL;
+
+  for (int i = 0; i != _parameters->populationSize; ++i)
+    {
+      individual = new Individual();
+      _population.push_back(individual);
+    }
+  return true;
 }
 
 bool GeneticAlgoController::_solutionFound()
@@ -110,100 +162,146 @@ bool GeneticAlgoController::_solutionFound()
   return false;
 }
 
-bool GeneticAlgoController::_initializePopulation()
-{
-  Individual *individual = NULL;
-
-  for (int i = 0; i != 5; ++i)
-    {
-      individual = new Individual(*_robot);
-      _population.push_back(individual);
-    }
-  return true;
-}
-
 bool GeneticAlgoController::_evaluateFitness()
 {
   for (Individual *individual : _population)
     {
+      VrepSimulationEvent *simulation =
+	new VrepSimulationEvent(individual, _parameters->simulationCycles);
+
       std::cout << "[ALGO] Evaluating individual fitness" << std::endl;
-      if (_startSimulation())
-	{
-	  std::cout << "[MATRIX] Simulation started" << std::endl;
-	  for (int i = 0; i != 1; ++i)
-	    {
-	      vrep::position_t pos;
-	      vrep::orientation_t ori;
-
-	      if (!individual->getPositionOnMap(pos) || !individual->getOrientationOnMap(ori))
-		{
-		  std::cout << "[MATRIX] Unable to retrieve 2w1a coordinates on map" << std::endl;
-		  break;
-		}
-	      std::cout << "[MATRIX] Position:\tx: " << (pos.x >= 0 ? " " : "") << pos.x
-			<< ", y: " << (pos.y >= 0 ? " " : "") << pos.y
-			<< ", z: " << (pos.z >= 0 ? " " : "") << pos.z << std::endl
-			<< "[MATRIX] Orientation:\tx: " << (ori.x >= 0 ? " " : "") << ori.x
-			<< ", y: " << (ori.y >= 0 ? " " : "") << ori.y
-			<< ", z: " << (ori.z >= 0 ? " " : "") << ori.z << std::endl << std::endl;
-
-	      float wristPos = _random.realInRange<float>(0, 300),
-		elbowPos = _random.realInRange<float>(0, 300),
-		shoulderPos = _random.realInRange<float>(0, 300);
-
-	      std::cout << "[MATRIX] Wrist motor target position:\t\t" << wristPos
-			<< " degrees" << std::endl
-			<< "[MATRIX] Elbow motor target position:\t\t" << elbowPos
-			<< " degrees" << std::endl
-			<< "[MATRIX] Shoulder motor target position:\t" << shoulderPos
-			<< " degrees" << std::endl << std::endl;
-
-	      if (!individual->wrist().setTargetPosition(wristPos) ||
-		  !individual->elbow().setTargetPosition(elbowPos) ||
-		  !individual->shoulder().setTargetPosition(shoulderPos))
-		{
-		  std::cout << "[MATRIX] Unable to set 2w1a articulations target postions" << std::endl;
-		  break;
-		}
-
-	      std::this_thread::sleep_for(std::chrono::seconds(3));
-
-	      if (!individual->wrist().getPosition(wristPos) ||
-		  !individual->elbow().getPosition(elbowPos) ||
-		  !individual->shoulder().getPosition(shoulderPos))
-		{
-		  std::cout << "[MATRIX] Unable to set 2w1a articulations target postions" << std::endl;
-		  break;
-		}
-
-	      std::cout << "[MATRIX] Wrist motor reached position:\t\t" << wristPos
-			<< " degrees" << std::endl
-			<< "[MATRIX] Elbow motor reached position:\t\t" << elbowPos
-			<< " degrees" << std::endl
-			<< "[MATRIX] Shoulder motor reached position:\t" << shoulderPos
-			<< " degrees" << std::endl << std::endl;
-
-	      if (!individual->getPositionOnMap(pos) || !individual->getOrientationOnMap(ori))
-		{
-		  std::cout << "[MATRIX] Unable to retrieve 2w1a coordinates on map" << std::endl;
-		  break;
-		}
-	      std::cout << "[MATRIX] Position:\tx: " << (pos.x >= 0 ? " " : "") << pos.x
-			<< ", y: " << (pos.y >= 0 ? " " : "") << pos.y
-			<< ", z: " << (pos.z >= 0 ? " " : "") << pos.z << std::endl
-			<< "[MATRIX] Orientation:\tx: " << (ori.x >= 0 ? " " : "") << ori.x
-			<< ", y: " << (ori.y >= 0 ? " " : "") << ori.y
-			<< ", z: " << (ori.z >= 0 ? " " : "") << ori.z << std::endl << std::endl;
-	    }
-	  if (!_stopSimulation())
-	    {
-	      std::cout << "[MATRIX] Unable to stop simulation" << std::endl;
-	      return false;
-	    }
-	  std::this_thread::sleep_for(std::chrono::seconds(1));
-	  std::cout << "[MATRIX] Simulation ended" << std::endl;
-	}
-      std::cout << std::endl;
+      _pushSimulationEvent(simulation);
     }
+  _waitForSimulationsResults();
   return true;
+}
+
+void GeneticAlgoController::_rateIndividual(Individual &individual)
+{
+  (void) individual;
+}
+
+bool GeneticAlgoController::sortIndividuals(Individual *first, Individual *seccond)
+{
+  return first->fitness().score() > seccond->fitness().score();
+}
+
+void GeneticAlgoController::_sortPopulationByScoreDesc()
+{
+  std::sort(_population.begin(), _population.end(), sortIndividuals);
+}
+
+Individual *GeneticAlgoController::_bestSolution()
+{
+  _sortPopulationByScoreDesc();
+  return _population[0];
+}
+
+std::vector<Individual *> *GeneticAlgoController::_generateOffSpring()
+{
+  std::vector<Individual *>		*offSpring = new std::vector<Individual *>();
+  int					offSpringCount = _parameters->populationRenewalRate * _parameters->populationSize;
+  std::pair<Individual *, Individual *>	parents;
+  int					i = 0;
+
+  _sortPopulationByScoreDesc();
+  while (i != offSpringCount)
+    {
+      parents = _selectParents();
+      offSpring->push_back(_itsSexTime(parents));
+      ++i;
+    }
+  _harshLife();
+  _population.insert(_population.end(), offSpring->begin(), offSpring->end());
+  return offSpring;
+}
+
+
+std::pair<Individual *, Individual *> GeneticAlgoController::_selectParents()
+{
+  std::pair<Individual *, Individual *> ret;
+
+  ret.first = _population[_random.intInRange<int>(0, _parameters->populationSize - 1)];
+  ret.second = _population[_random.intInRange<int>(0, _parameters->populationSize - 1)];
+  return ret;
+}
+
+Individual *GeneticAlgoController::_itsSexTime(std::pair<Individual *, Individual *> &parents)
+{
+  Individual	*individual = new Individual();
+  float		currentProbability;
+  float		mutationProbability = _parameters->mutationRate * 100;
+  
+  // First movement wrist
+  currentProbability = _random.realInRange<float>(0, 100);
+  if (mutationProbability > currentProbability)
+    individual->genome()[0].wrist = _mutateChildGenome();
+  else
+    individual->genome()[0].wrist = getRandomGene(parents);
+  // First movement elbow
+  currentProbability = _random.realInRange<float>(0, 100);
+  if (mutationProbability > currentProbability)
+    individual->genome()[0].elbow = _mutateChildGenome();
+  else
+    individual->genome()[0].elbow =  getRandomGene(parents);
+  // First movement shoulder
+  currentProbability = _random.realInRange<float>(0, 100);
+  if (mutationProbability > currentProbability)
+    individual->genome()[0].shoulder = _mutateChildGenome();
+  else
+    individual->genome()[0].shoulder =  getRandomGene(parents);
+  // Second movement wrist
+  currentProbability = _random.realInRange<float>(0, 100);
+  if (mutationProbability > currentProbability)
+    individual->genome()[1].wrist = _mutateChildGenome();
+  else
+    individual->genome()[1].wrist =  getRandomGene(parents);
+  // Second movement elbow
+  currentProbability = _random.realInRange<float>(0, 100);
+  if (mutationProbability > currentProbability)
+    individual->genome()[1].elbow = _mutateChildGenome();
+  else
+    individual->genome()[1].elbow =  getRandomGene(parents);
+  // Second movement shoulder
+  currentProbability = _random.realInRange<float>(0, 100);
+  if (mutationProbability > currentProbability)
+    individual->genome()[1].shoulder = _mutateChildGenome();
+  else
+    individual->genome()[1].shoulder =  getRandomGene(parents);
+  return individual;
+}
+
+float GeneticAlgoController::getRandomGene(std::pair<Individual *, Individual *> &parents)
+{
+  int selected = _random.intInRange<int>(0, 5);
+  int movement = _random.intInRange<int>(0, 1);
+  
+  if (selected == 0)
+    return parents.first->genome()[movement].wrist;
+  else if (selected == 1)
+    return parents.first->genome()[movement].elbow;
+  else if (selected == 2)
+    return parents.first->genome()[movement].shoulder;
+  else if (selected == 3)
+    return parents.second->genome()[movement].wrist;
+  else if (selected == 4)
+    return parents.second->genome()[movement].elbow;
+  else if (selected == 5)
+    return parents.second->genome()[movement].shoulder;
+  return 0;
+}
+
+float GeneticAlgoController::_mutateChildGenome()
+{
+  return _random.realInRange<float>(0, 300);
+}
+
+void GeneticAlgoController::_insertChildrenInPopulation(std::vector<Individual *> *individual)
+{
+  _population.insert(_population.end(), individual->begin(), individual->end());
+}
+
+void GeneticAlgoController::_harshLife()
+{
+  _population.erase(_population.end() - _parameters->populationRenewalRate * _parameters->populationSize, _population.end());
 }

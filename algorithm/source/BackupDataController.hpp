@@ -3,17 +3,18 @@
 
 # include <string>
 # include "AThreadedDataHandler.hpp"
+# include "BackupDataParameters.hpp"
 
 class		BackupDataController : public AThreadedDataHandler
 {
+private:
+  const BackupDataParameters *_parameters;
 
 public:
-  BackupDataController();
+  BackupDataController(const IParameters *);
   ~BackupDataController();
 
   // Inherited from AThreadedDataHandler
-  virtual void operator()();
-  virtual void operator()(const std::string *);
   virtual void _workLoop();
 };
 
