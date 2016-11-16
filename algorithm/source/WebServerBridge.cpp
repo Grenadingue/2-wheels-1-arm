@@ -5,8 +5,12 @@
 #include "MainController.hpp"
 
 WebServerBridge::WebServerBridge(const IParameters *parameters)
-  : AThreadedDataHandler(parameters), _client(new Client("http://localhost:8081"))
+  : AThreadedDataHandler(parameters),
+    _client(new Client("http://localhost:" +
+		       std::to_string(static_cast<const WebServerBridgeParameters *>
+				      (parameters)->serverPort)))
 {
+  std::cout << std::to_string(static_cast<const WebServerBridgeParameters *>(parameters)->serverPort) << std::endl;
 }
 
 WebServerBridge::~WebServerBridge()
