@@ -30,23 +30,23 @@ inline void AThreadedDataHandler::askAndWaitForClose()
   waitForClose();
 }
 
-void AThreadedDataHandler::handleNewResult(const ResultModel *result)
+void AThreadedDataHandler::handleNewResult(const IEvent *event)
 {
   _mutex.lock();
-  _results.push(result);
+  _events.push(event);
   _mutex.unlock();
 }
 
-const ResultModel *AThreadedDataHandler::_getNextResult()
+const IEvent *AThreadedDataHandler::_getNextResult()
 {
-  const ResultModel *result = NULL;
+  const IEvent *event = NULL;
 
   _mutex.lock();
-  if (!_results.empty())
+  if (!_events.empty())
     {
-      result = _results.front();
-      _results.pop();
+      event = _events.front();
+      _events.pop();
     }
   _mutex.unlock();
-  return result;
+  return event;
 }

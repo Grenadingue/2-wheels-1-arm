@@ -13,7 +13,7 @@ class		AThreadedDataHandler : public IDataHandler
 protected:
   std::thread _thread;
   std::mutex _mutex;
-  std::queue<const ResultModel *> _results;
+  std::queue<const IEvent *> _events;
   bool _close;
   const IParameters *_parameters;
 
@@ -29,10 +29,10 @@ public:
   virtual void askAndWaitForClose();
 
   // Inherited from IDataHandler
-  virtual void handleNewResult(const ResultModel *);
+  virtual void handleNewResult(const IEvent *);
 
 protected:
-  const ResultModel *_getNextResult();
+  const IEvent *_getNextResult();
 };
 
 #endif		/* !ATHREADEDDATAHANDLER_HPP_ */

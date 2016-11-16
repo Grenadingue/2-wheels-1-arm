@@ -24,7 +24,7 @@ void WebServerBridge::_workLoop()
   while (!_close)
     {
       result = NULL;
-      if ((result = _getNextResult()))
+      if ((result = static_cast<const ResultModel *>(_getNextResult())))
 	{
 	  if (result->getTheoreticalMaxScore() == -1)
 	    {

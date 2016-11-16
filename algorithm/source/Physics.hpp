@@ -19,7 +19,7 @@ public:
   Physics();
   ~Physics();
 
-  bool enterTheMatrix();
+  bool enterTheMatrix(unsigned short);
   void getOffTheMatrix(bool = false);
   bool startSimulation();
   bool endSimulation();

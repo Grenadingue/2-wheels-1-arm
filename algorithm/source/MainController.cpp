@@ -28,9 +28,9 @@ void MainController::operator()(std::map<std::string, std::string> *rawParams)
   _initControllers(algoParams, webServerParams, backupDataParams);
 }
 
-void MainController::handleNewResult(const ResultModel *result)
+void MainController::handleNewResult(const IEvent *result)
 {
-  _webServerBridge->handleNewResult(new ResultModel(result));
+  _webServerBridge->handleNewResult(new ResultModel(static_cast<const ResultModel *>(result)));
   _backupData->handleNewResult(result);
 }
 
@@ -66,7 +66,8 @@ bool MainController::_parseParameters(std::map<std::string, std::string> &rawPar
       float mutationRate = std::stof(rawParams["mutationRate"]);
       int simulationCycles = std::stoi(rawParams["simulationCycles"]);
       algoParams = new AlgoParameters(populationSize, populationRenewalRate,
-				      mutationRate, simulationCycles);
+				      mutationRate, simulationCycles,
+				      {new VrepParameters(19997)});
     }
   else
     return false;

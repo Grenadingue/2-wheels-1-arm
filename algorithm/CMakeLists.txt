@@ -25,10 +25,14 @@ add_executable(
 	${PROJECT_F}/WebServerBridge.cpp
 	${PROJECT_F}/BackupDataController.cpp
 	${PROJECT_F}/GeneticAlgoController.cpp
+	${PROJECT_F}/VrepThreadedController.cpp
 	${PROJECT_F}/AlgoParameters.cpp
 	${PROJECT_F}/WebServerBridgeParameters.cpp
 	${PROJECT_F}/BackupDataParameters.cpp
+	${PROJECT_F}/VrepParameters.cpp
 	${PROJECT_F}/Client.cpp
+	${PROJECT_F}/VrepSimulationEvent.cpp
+	${PROJECT_F}/VrepSimulationFinished.cpp
 	${PROJECT_F}/ResultModel.cpp
 	${PROJECT_F}/WritableResultModel.cpp
 	${PROJECT_F}/World.cpp

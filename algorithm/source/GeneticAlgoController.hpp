@@ -2,7 +2,9 @@
 # define	GENETICALGOCONTROLLER_HPP_
 
 # include "AThreadedDataHandler.hpp"
+# include "VrepThreadedController.hpp"
 # include "AlgoParameters.hpp"
+# include "VrepSimulationEvent.hpp"
 # include "World.hpp"
 
 class MainController;
@@ -12,6 +14,7 @@ class		GeneticAlgoController : public AThreadedDataHandler, public World
 private:
   MainController &_mainController;
   const AlgoParameters *_parameters;
+  std::vector<VrepThreadedController *> _vrepPool;
 
 public:
   GeneticAlgoController(const IParameters *, MainController &);
@@ -28,6 +31,12 @@ public:
   void _emitTheoreticalMaxScore();
   void _emitNewResult(unsigned long long int);
   void _emitSolutionFound();
+
+  // vrep pool
+  bool _instanciateVrepPool();
+  void _cleanVrepPool();
+  void _pushSimulationEvent(VrepSimulationEvent *);
+  void _waitForSimulationsResults();
 
   // Genetic algorithm
   void _geneticAlgorithm();

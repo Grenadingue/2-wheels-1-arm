@@ -24,7 +24,7 @@ void BackupDataController::_workLoop()
   while (!_close)
     {
       result = NULL;
-      if ((result = _getNextResult()))
+      if ((result = static_cast<const ResultModel *>(_getNextResult())))
 	{
 	  const WritableResultModel & wResult = *static_cast<const WritableResultModel *>(result);
 
