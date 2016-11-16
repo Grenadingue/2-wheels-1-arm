@@ -24,7 +24,6 @@ inline void GeneticAlgoController::handleNewResult(const ResultModel *result)
 // not used
 void GeneticAlgoController::handleNewResult()
 {
-  std::cout << "[ALGO] RECEIVED NEW EVENT" << std::endl;
 }
 
 void GeneticAlgoController::_emitTheoreticalMaxScore()
