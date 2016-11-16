@@ -4,7 +4,9 @@
 #include "BackupDataController.hpp"
 #include "WritableResultModel.hpp"
 
-BackupDataController::BackupDataController()
+BackupDataController::BackupDataController(const IParameters *parameters)
+  : AThreadedDataHandler(parameters),
+    _parameters(static_cast<const BackupDataParameters *>(parameters))
 {
 }
 
@@ -13,23 +15,12 @@ BackupDataController::~BackupDataController()
   std::cout << "BackupDataController::~BackupDataController" << std::endl;
 }
 
-void BackupDataController::operator()()
-{
-  std::cout << "Error: Cannot start BackupDataController() without parameters" << std::endl;
-}
-
-void BackupDataController::operator()(const std::string *fileName)
-{
-  (void)fileName;
-  _thread = std::thread(&BackupDataController::_workLoop, this);
-}
-
 void BackupDataController::_workLoop()
 {
   const ResultModel *result = NULL;
   std::ofstream stream;
 
-  stream.open("test_algo.json", std::ofstream::out);
+  stream.open(_parameters->filePath, std::ofstream::out);
   while (!_close)
     {
       result = NULL;

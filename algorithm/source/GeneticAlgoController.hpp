@@ -11,9 +11,10 @@ class		GeneticAlgoController : public AThreadedDataHandler, public World
 {
 private:
   MainController &_mainController;
+  const AlgoParameters *_parameters;
 
 public:
-  GeneticAlgoController(MainController &);
+  GeneticAlgoController(const IParameters *, MainController &);
   virtual ~GeneticAlgoController();
 
   // Inherited from IDataHandler & AThreadedDataHandler
@@ -21,8 +22,6 @@ public:
   virtual void handleNewResult();
 
   // Inherited from AThreadedDataHandler
-  virtual void operator()();
-  virtual void operator()(const AlgoParameters *);
   virtual void _workLoop();
 
   // emit algorithm data

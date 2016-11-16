@@ -4,8 +4,10 @@
 #include "GeneticAlgoController.hpp"
 #include "MainController.hpp"
 
-GeneticAlgoController::GeneticAlgoController(MainController &mainController)
-  : _mainController(mainController)
+GeneticAlgoController::GeneticAlgoController(const IParameters *parameters,
+					     MainController &mainController)
+  : AThreadedDataHandler(parameters), _mainController(mainController),
+    _parameters(static_cast<const AlgoParameters *>(parameters))
 {
 }
 
@@ -43,17 +45,6 @@ void GeneticAlgoController::_emitSolutionFound()
   ResultModel *result = new ResultModel(-2);
 
   handleNewResult(result);
-}
-
-void GeneticAlgoController::operator()()
-{
-  std::cout << "Error: Cannot start GeneticAlgoController() without parameters" << std::endl;
-}
-
-void GeneticAlgoController::operator()(const AlgoParameters *parameters)
-{
-  (void)parameters;
-  _thread = std::thread(&GeneticAlgoController::_workLoop, this);
 }
 
 void GeneticAlgoController::_workLoop()
@@ -114,7 +105,7 @@ bool GeneticAlgoController::_initializePopulation()
 {
   Individual *individual = NULL;
 
-  for (int i = 0; i != 5; ++i)
+  for (int i = 0; i != _parameters->populationSize; ++i)
     {
       individual = new Individual(*_robot);
       _population.push_back(individual);

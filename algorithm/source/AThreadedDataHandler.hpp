@@ -5,6 +5,7 @@
 # include <mutex>
 # include <queue>
 
+# include "IParameters.hpp"
 # include "IDataHandler.hpp"
 
 class		AThreadedDataHandler : public IDataHandler
@@ -14,9 +15,10 @@ protected:
   std::mutex _mutex;
   std::queue<const ResultModel *> _results;
   bool _close;
+  const IParameters *_parameters;
 
 public:
-  AThreadedDataHandler();
+  AThreadedDataHandler(const IParameters *);
   virtual ~AThreadedDataHandler();
 
   virtual void operator()();
