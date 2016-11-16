@@ -67,3 +67,4 @@ set_target_properties(sioclient PROPERTIES IMPORTED_LOCATION ${SIO_BUILD_F}/libs
 target_link_libraries(2w1a_dev sioclient)
 target_link_libraries(2w1a_dev ${Boost_LIBRARIES})
 target_link_libraries(2w1a_dev pthread)
+target_link_libraries(2w1a_dev m)

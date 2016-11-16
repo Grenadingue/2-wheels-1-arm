@@ -38,7 +38,7 @@
 					"libraries": [
 								"-rdynamic ../lib/socket.io-client/build/libsioclient.a",
 								"-lboost_system", "-lboost_date_time", "-lboost_random",
-								"-lpthread",
+								"-lpthread", "-lm"
 					]
 		},
 		"conditions": [
