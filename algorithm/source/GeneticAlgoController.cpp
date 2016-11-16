@@ -81,8 +81,8 @@ void GeneticAlgoController::_geneticAlgorithm()
   _emitTheoreticalMaxScore();
   while (!_solutionFound() && i != 8)
     {
-      // if (!_evaluateFitness())
-      // 	return;
+      if (!_evaluateFitness())
+       	return;
       std::this_thread::sleep_for(std::chrono::seconds(1)); // simulate work
 
       //
@@ -156,9 +156,6 @@ bool GeneticAlgoController::_evaluateFitness()
 		  std::cout << "[MATRIX] Unable to set 2w1a articulations target postions" << std::endl;
 		  break;
 		}
-
-	      std::this_thread::sleep_for(std::chrono::seconds(3));
-
 	      if (!individual->wrist().getPosition(wristPos) ||
 		  !individual->elbow().getPosition(elbowPos) ||
 		  !individual->shoulder().getPosition(shoulderPos))
@@ -186,12 +183,12 @@ bool GeneticAlgoController::_evaluateFitness()
 			<< ", y: " << (ori.y >= 0 ? " " : "") << ori.y
 			<< ", z: " << (ori.z >= 0 ? " " : "") << ori.z << std::endl << std::endl;
 	    }
+	  individual->waitWhileMoving(10);
 	  if (!_stopSimulation())
 	    {
 	      std::cout << "[MATRIX] Unable to stop simulation" << std::endl;
 	      return false;
 	    }
-	  std::this_thread::sleep_for(std::chrono::seconds(1));
 	  std::cout << "[MATRIX] Simulation ended" << std::endl;
 	}
       std::cout << std::endl;

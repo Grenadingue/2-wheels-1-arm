@@ -28,7 +28,7 @@ public:
   Physics::Articulation &shoulder();
 
   bool isMoving();
-  void waitWhileMoving();
+  void waitWhileMoving(int timeout);
 };
 
 #endif		/* !_2W1A_HPP_ */

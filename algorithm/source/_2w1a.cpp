@@ -6,7 +6,8 @@ _2w1a::_2w1a(const Physics::Object &robot,
   : Object(robot),
     _wrist(static_cast<Physics::Articulation &>(wrist)),
     _elbow(static_cast<Physics::Articulation &>(elbow)),
-    _shoulder(static_cast<Physics::Articulation &>(shoulder))
+    _shoulder(static_cast<Physics::Articulation &>(shoulder)),
+    _firstMove(true)
 {
 }
 
@@ -65,8 +66,15 @@ bool	_2w1a::isMoving()
   return false;
 }
 
-void	_2w1a::waitWhileMoving()
+void	_2w1a::waitWhileMoving(int timeout)
 {
+  std::chrono::time_point<std::chrono::system_clock> start, now;
+  start = std::chrono::system_clock::now();
   while (isMoving())
-    std::this_thread::sleep_for(std::chrono::milliseconds(600));
+    {
+      if (std::chrono::duration_cast<std::chrono::seconds>
+	  (std::chrono::system_clock::now()-start).count() >= timeout)
+	break;
+      std::this_thread::sleep_for(std::chrono::milliseconds(600));
+    }
 }
