@@ -21,11 +21,10 @@ module.exports.start = function(app) {
            const paramObj = {
              serverPort: serverPort,
              backupFile: backupFile,
-             populationSize: inputedParams.populationSize,
-             populationRenewalRate: inputedParams.populationRenewalRate,
-             mutationRate: inputedParams.mutationRate,
-             simulationCycles: inputedParams.simulationCycles,
-             vrepPool: vrepPool.launch(inputedParams.vrepPool)
+             populationSize: parseInt(inputedParams.populationSize, 10),
+             populationRenewalRate: parseInt(inputedParams.populationRenewalRate, 10),
+             mutationRate: parseInt(inputedParams.mutationRate, 10),
+             simulationCycles: parseInt(inputedParams.simulationCycles, 10)
             };
 
             console.log("[Node -> C++ params]");
@@ -33,7 +32,8 @@ module.exports.start = function(app) {
 
             clientSocket = socket;
 
-            setTimeout(function() {algorithm.launchSimulation(paramObj)}, 2000);
+            // vrepPool.launch(parseInt(inputedParams.vrepPool, 10), )
+            algorithm.launchSimulation(app, paramObj);
         });
 
         socket.on('new result', function (result) {
