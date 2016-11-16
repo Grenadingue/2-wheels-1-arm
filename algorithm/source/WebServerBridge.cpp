@@ -10,7 +10,6 @@ WebServerBridge::WebServerBridge(const IParameters *parameters)
 		       std::to_string(static_cast<const WebServerBridgeParameters *>
 				      (parameters)->serverPort)))
 {
-  std::cout << std::to_string(static_cast<const WebServerBridgeParameters *>(parameters)->serverPort) << std::endl;
 }
 
 WebServerBridge::~WebServerBridge()
