@@ -28,6 +28,7 @@ void GeneticAlgoController::handleNewResult()
 
 void GeneticAlgoController::_emitTheoreticalMaxScore()
 {
+  // we define 100 as max score because we don't have fitness yet
   ResultModel *result = new ResultModel(100);
 
   handleNewResult(result);
@@ -35,13 +36,25 @@ void GeneticAlgoController::_emitTheoreticalMaxScore()
 
 void GeneticAlgoController::_emitNewResult(unsigned long long int i)
 {
-  ResultModel *result = new ResultModel(i, i * 8, i * 4, i * 2);
+  int min = -1, max = 0;
+  double average = 0;
 
-  handleNewResult(result);
+  for (Individual *individual : _population)
+    {
+      int score = individual->fitness().score();
+
+      min = min == -1 || score < min ? score : min;
+      average += score;
+      max = score > max ? score : max;
+    }
+  average = average / (float)_population.size();
+
+  handleNewResult(new ResultModel(i, min, (int)average, max));
 }
 
 void GeneticAlgoController::_emitSolutionFound()
 {
+  // for now solution is not returned, we will display it in a speacial vrep instance
   ResultModel *result = new ResultModel(-2);
 
   handleNewResult(result);
