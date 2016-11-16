@@ -13,12 +13,17 @@ Individual::Genome::~Genome()
 {
 }
 
-Individual::Genome::gene_t& Individual::Genome::operator[](const int pos)
+Individual::Genome::gene_t& Individual::Genome::at(int pos)
 {
   return _genes[pos];
 }
 
-Individual::Genome::gene_t& Individual::Genome::operator[](const unsigned int pos)
+Individual::Genome::gene_t& Individual::Genome::operator[](int pos)
+{
+  return _genes[pos];
+}
+
+Individual::Genome::gene_t& Individual::Genome::operator[](unsigned int pos)
 {
   return _genes[pos];
 }

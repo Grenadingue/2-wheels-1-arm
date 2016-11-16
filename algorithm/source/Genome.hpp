@@ -21,8 +21,9 @@ public:
   Genome(const Genome&);
   ~Genome();
   Genome& operator=(const Genome&);
-  gene_t& operator[](const int pos);
-  gene_t& operator[](const unsigned int pos);
+  gene_t& at(int pos);
+  gene_t& operator[](int pos);
+  gene_t& operator[](unsigned int pos);
 };
 
 #endif		/* !GENOME_HPP_ */

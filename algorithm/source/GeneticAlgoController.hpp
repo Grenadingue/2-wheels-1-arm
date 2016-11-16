@@ -6,6 +6,7 @@
 # include "AlgoParameters.hpp"
 # include "VrepSimulationEvent.hpp"
 # include "World.hpp"
+# include "Genome.hpp"
 
 class MainController;
 
@@ -54,9 +55,10 @@ private:
 
   // Offspring generation
   std::vector<Individual *> *_generateOffSpring();
-  std::pair<Individual *, Individual *> _selectParents();
   Individual *_itsSexTime(std::pair<Individual *, Individual *> &parents);
-  void _mutateChildGenome(Individual &child);
+  std::pair<Individual *, Individual *> _selectParents();
+  float getRandomGene(std::pair<Individual *, Individual *> &parents);
+  float _mutateChildGenome();
   void _insertChildrenInPopulation(std::vector<Individual *> *children);
 
   // Kill a part of the population
