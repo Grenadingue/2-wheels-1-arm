@@ -236,6 +236,7 @@ std::pair<Individual *, Individual *> GeneticAlgoController::_selectParents()
 	validated = true;
     }
   ret.first = _population[chosenOne];
+  validated = false;
   while (!validated)
     {
       chosenOne = _random.intInRange<int>(0, _parameters->populationSize - 1);
