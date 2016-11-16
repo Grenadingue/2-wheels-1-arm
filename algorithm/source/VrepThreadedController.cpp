@@ -83,6 +83,23 @@ bool VrepThreadedController::_simulate(VrepSimulationEvent *event)
   if (_startSimulation())
     {
       std::cout << "[MATRIX] Simulation started" << std::endl;
+      float wristPos = 250,
+	elbowPos = 120,
+	shoulderPos = 150;
+
+      std::cout << "[MATRIX] Wrist motor target position:\t\t" << wristPos
+		<< " degrees" << std::endl
+		<< "[MATRIX] Elbow motor target position:\t\t" << elbowPos
+		<< " degrees" << std::endl
+		<< "[MATRIX] Shoulder motor target position:\t" << shoulderPos
+		<< " degrees" << std::endl << std::endl;
+
+      if (!individual->body()->wrist().setTargetPosition(wristPos) ||
+	  !individual->body()->elbow().setTargetPosition(elbowPos) ||
+	  !individual->body()->shoulder().setTargetPosition(shoulderPos))
+	{
+	  std::cout << "[MATRIX] Unable to set 2w1a articulations target postions" << std::endl;
+	}
       for (int i = 0; i != event->simulationCycles; ++i)
 	{
 	  vrep::position_t pos;
@@ -100,9 +117,9 @@ bool VrepThreadedController::_simulate(VrepSimulationEvent *event)
 		    << ", y: " << (ori.y >= 0 ? " " : "") << ori.y
 		    << ", z: " << (ori.z >= 0 ? " " : "") << ori.z << std::endl << std::endl;
 
-	  float wristPos = _random.realInRange<float>(0, 300),
-	    elbowPos = _random.realInRange<float>(0, 300),
-	    shoulderPos = _random.realInRange<float>(0, 300);
+	  wristPos = _random.realInRange<float>(0, 300);
+	  elbowPos = _random.realInRange<float>(0, 300);
+	  shoulderPos = _random.realInRange<float>(0, 300);
 
 	  std::cout << "[MATRIX] Wrist motor target position:\t\t" << wristPos
 		    << " degrees" << std::endl
