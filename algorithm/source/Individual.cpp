@@ -1,8 +1,9 @@
 #include "Individual.hpp"
 #include "Fitness.hpp"
+#include "Genome.hpp"
 
 Individual::Individual()
-  :  _fitness(new Fitness), _body(NULL)
+  :  _fitness(new Fitness), _body(NULL), _genome(new Genome())
 {
 }
 

@@ -31,6 +31,7 @@
 			   "source/Physics.cpp",
 			   "source/Object.cpp",
 			   "source/Articulation.cpp",
+			   "source/Fitness.cpp",
 			   "source/Maths.cpp"
 		],
 		"include_dirs": [
