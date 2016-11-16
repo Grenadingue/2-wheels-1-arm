@@ -38,7 +38,6 @@ module.exports.start = function(app) {
 
             clientSocket = socket;
 
-            // ;
             vrepPool.launch(parseInt(inputedParams.vrepPool, 10)).then(function (argument) {
                 paramObj.vrepPool = argument.toString();
                 console.log("<----------------------------->");
