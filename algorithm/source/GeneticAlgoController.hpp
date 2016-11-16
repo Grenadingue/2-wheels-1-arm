@@ -4,14 +4,12 @@
 # include "AThreadedDataHandler.hpp"
 # include "AlgoParameters.hpp"
 # include "World.hpp"
-# include "Individual.hpp"
 
 class MainController;
 
 class		GeneticAlgoController : public AThreadedDataHandler, public World
 {
 private:
-  std::vector<Individual *> _population;
   MainController &_mainController;
 
 public:
