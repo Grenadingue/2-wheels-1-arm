@@ -105,7 +105,7 @@ bool GeneticAlgoController::_initializePopulation()
 {
   Individual *individual = NULL;
 
-  for (int i = 0; i != 5; ++i)
+  for (int i = 0; i != _parameters->populationSize; ++i)
     {
       individual = new Individual(*_robot);
       _population.push_back(individual);
