@@ -119,7 +119,7 @@ bool VrepThreadedController::_simulate(VrepSimulationEvent *event)
 	      break;
 	    }
 
-	  std::this_thread::sleep_for(std::chrono::seconds(3));
+	  individual->waitWhileMoving(10);
 
 	  if (!individual->body()->wrist().getPosition(wristPos) ||
 	      !individual->body()->elbow().getPosition(elbowPos) ||
