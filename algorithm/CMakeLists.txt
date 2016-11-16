@@ -45,6 +45,7 @@ add_executable(
 	${PROJECT_F}/Physics.cpp
 	${PROJECT_F}/Object.cpp
 	${PROJECT_F}/Articulation.cpp
+	${PROJECT_F}/Fitness.cpp
 	${PROJECT_F}/Maths.cpp
 )
 

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <chrono>
+#include <algorithm>
 #include "GeneticAlgoController.hpp"
 #include "MainController.hpp"
 
@@ -21,7 +22,6 @@ inline void GeneticAlgoController::handleNewResult(const ResultModel *result)
   _mainController.handleNewResult(result);
 }
 
-// not used
 void GeneticAlgoController::handleNewResult()
 {
 }
@@ -132,7 +132,7 @@ void GeneticAlgoController::_geneticAlgorithm()
   while (!_solutionFound() && i != 8)
     {
       if (!_evaluateFitness())
-      	return;
+	return;
 
       //
       // Update parameters and pass results to it
@@ -143,11 +143,6 @@ void GeneticAlgoController::_geneticAlgorithm()
   std::cout << "[ALGO] Solution found !" << std::endl;
   _cleanVrepPool();
   std::cout << "[MATRIX] We leaved the matrix" << std::endl;
-}
-
-bool GeneticAlgoController::_solutionFound()
-{
-  return false;
 }
 
 bool GeneticAlgoController::_initializePopulation()
@@ -162,6 +157,11 @@ bool GeneticAlgoController::_initializePopulation()
   return true;
 }
 
+bool GeneticAlgoController::_solutionFound()
+{
+  return false;
+}
+
 bool GeneticAlgoController::_evaluateFitness()
 {
   for (Individual *individual : _population)
@@ -174,4 +174,134 @@ bool GeneticAlgoController::_evaluateFitness()
     }
   _waitForSimulationsResults();
   return true;
+}
+
+void GeneticAlgoController::_rateIndividual(Individual &individual)
+{
+  (void) individual;
+}
+
+bool GeneticAlgoController::sortIndividuals(Individual *first, Individual *seccond)
+{
+  return first->fitness().score() > seccond->fitness().score();
+}
+
+void GeneticAlgoController::_sortPopulationByScoreDesc()
+{
+  std::sort(_population.begin(), _population.end(), sortIndividuals);
+}
+
+Individual *GeneticAlgoController::_bestSolution()
+{
+  _sortPopulationByScoreDesc();
+  return _population[0];
+}
+
+std::vector<Individual *> *GeneticAlgoController::_generateOffSpring()
+{
+  std::vector<Individual *>		*offSpring = new std::vector<Individual *>();
+  int					offSpringCount = _parameters->populationRenewalRate * _parameters->populationSize;
+  std::pair<Individual *, Individual *>	parents;
+  int					i = 0;
+
+  _sortPopulationByScoreDesc();
+  while (i != offSpringCount)
+    {
+      parents = _selectParents();
+      offSpring->push_back(_itsSexTime(parents));
+      ++i;
+    }
+  _harshLife();
+  _population.insert(_population.end(), offSpring->begin(), offSpring->end());
+  return offSpring;
+}
+
+
+std::pair<Individual *, Individual *> GeneticAlgoController::_selectParents()
+{
+  std::pair<Individual *, Individual *> ret;
+
+  ret.first = _population[_random.intInRange<int>(0, _parameters->populationSize - 1)];
+  ret.second = _population[_random.intInRange<int>(0, _parameters->populationSize - 1)];
+  return ret;
+}
+
+Individual *GeneticAlgoController::_itsSexTime(std::pair<Individual *, Individual *> &parents)
+{
+  Individual	*individual = new Individual();
+  float		currentProbability;
+  float		mutationProbability = _parameters->mutationRate * 100;
+  
+  // First movement wrist
+  currentProbability = _random.realInRange<float>(0, 100);
+  if (mutationProbability > currentProbability)
+    individual->genome()[0].wrist = _mutateChildGenome();
+  else
+    individual->genome()[0].wrist = getRandomGene(parents);
+  // First movement elbow
+  currentProbability = _random.realInRange<float>(0, 100);
+  if (mutationProbability > currentProbability)
+    individual->genome()[0].elbow = _mutateChildGenome();
+  else
+    individual->genome()[0].elbow =  getRandomGene(parents);
+  // First movement shoulder
+  currentProbability = _random.realInRange<float>(0, 100);
+  if (mutationProbability > currentProbability)
+    individual->genome()[0].shoulder = _mutateChildGenome();
+  else
+    individual->genome()[0].shoulder =  getRandomGene(parents);
+  // Second movement wrist
+  currentProbability = _random.realInRange<float>(0, 100);
+  if (mutationProbability > currentProbability)
+    individual->genome()[1].wrist = _mutateChildGenome();
+  else
+    individual->genome()[1].wrist =  getRandomGene(parents);
+  // Second movement elbow
+  currentProbability = _random.realInRange<float>(0, 100);
+  if (mutationProbability > currentProbability)
+    individual->genome()[1].elbow = _mutateChildGenome();
+  else
+    individual->genome()[1].elbow =  getRandomGene(parents);
+  // Second movement shoulder
+  currentProbability = _random.realInRange<float>(0, 100);
+  if (mutationProbability > currentProbability)
+    individual->genome()[1].shoulder = _mutateChildGenome();
+  else
+    individual->genome()[1].shoulder =  getRandomGene(parents);
+  return individual;
+}
+
+float GeneticAlgoController::getRandomGene(std::pair<Individual *, Individual *> &parents)
+{
+  int selected = _random.intInRange<int>(0, 5);
+  int movement = _random.intInRange<int>(0, 1);
+  
+  if (selected == 0)
+    return parents.first->genome()[movement].wrist;
+  else if (selected == 1)
+    return parents.first->genome()[movement].elbow;
+  else if (selected == 2)
+    return parents.first->genome()[movement].shoulder;
+  else if (selected == 3)
+    return parents.second->genome()[movement].wrist;
+  else if (selected == 4)
+    return parents.second->genome()[movement].elbow;
+  else if (selected == 5)
+    return parents.second->genome()[movement].shoulder;
+  return 0;
+}
+
+float GeneticAlgoController::_mutateChildGenome()
+{
+  return _random.realInRange<float>(0, 300);
+}
+
+void GeneticAlgoController::_insertChildrenInPopulation(std::vector<Individual *> *individual)
+{
+  _population.insert(_population.end(), individual->begin(), individual->end());
+}
+
+void GeneticAlgoController::_harshLife()
+{
+  _population.erase(_population.end() - _parameters->populationRenewalRate * _parameters->populationSize, _population.end());
 }
