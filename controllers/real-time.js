@@ -38,8 +38,15 @@ module.exports.start = function(app) {
 
             clientSocket = socket;
 
-            algorithm.launchSimulation(paramObj);
-            // vrepPool.launch(parseInt(inputedParams.vrepPool, 10, paramObj), )
+            // ;
+            vrepPool.launch(parseInt(inputedParams.vrepPool, 10)).then(function (argument) {
+                paramObj.vrepPool = argument.toString();
+                console.log("<----------------------------->");
+                console.log(paramObj);
+                console.log("<----------------------------->");
+                algorithm.launchSimulation(paramObj)
+                vrepPool.stop();
+            });
         });
 
         socket.on('new result', function (result) {
