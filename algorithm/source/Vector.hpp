@@ -7,14 +7,14 @@ class Vector
 {
 
 public:
-  Vector(std::pair <float, float> first_coordinate_, std::pair <float, float> second_coordinate_);
+  Vector(std::pair <float, float> firstCoordinate_, std::pair <float, float> secondCoordinate_);
   ~Vector();
-  float getLength();
+  float getMagnitude();
   float getCoordinates();
-  float getAngle(Vector);
+  float getDiretionDiff(const Vector v);
 
-  const std::pair <float, float> first_coordinate;
-  const std::pair <float, float> second_coordinate;
+  const std::pair <float, float> firstCoordinate;
+  const std::pair <float, float> secondCoordinate;
 };
 
 #endif		/* !VECTOR_HPP_ */
