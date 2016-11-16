@@ -12,9 +12,9 @@ Physics::~Physics()
     delete objectKeyValue.second;
 }
 
-bool Physics::enterTheMatrix()
+bool Physics::enterTheMatrix(unsigned short port)
 {
-  return vrep::start("127.0.0.1", 19997, _handle);
+  return vrep::start("127.0.0.1", port, _handle);
 }
 
 void Physics::getOffTheMatrix(bool force)

@@ -4,7 +4,33 @@
 # include "_2w1a.hpp"
 # include "Fitness.hpp"
 
-class		Individual : public _2w1a
+// class		Individual
+// {
+// public:
+//   class Genome;
+
+// private:
+// <<<<<<< HEAD
+//   Fitness* _fitness;
+//   Genome* _genome;
+
+// public:
+//   Fitness& fitness();
+//   Individual(const _2w1a &);
+// =======
+//   genome_t *_genome;
+//   _2w1a *_body;
+
+// public:
+//   Individual();
+// >>>>>>> master
+//   virtual ~Individual();
+
+//   void useBody(_2w1a *);
+//   _2w1a *body();
+// };
+
+class		Individual
 {
 public:
   class Genome;
@@ -12,11 +38,15 @@ public:
 private:
   Fitness* _fitness;
   Genome* _genome;
+  _2w1a *_body;
 
 public:
-  Fitness& fitness();
-  Individual(const _2w1a &);
+  Individual();
   virtual ~Individual();
+
+  Fitness& fitness();
+  void useBody(_2w1a *);
+  _2w1a *body();
 };
 
 #endif		/* !INDIVIDUAL_HPP_ */

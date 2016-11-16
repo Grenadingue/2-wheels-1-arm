@@ -19,7 +19,7 @@ var Draw = function () {
                   label: "Best",
                   strokeColor: "rgba(220,220,220,1)",
                   pointColor: "rgba(220,220,220,1)",
-                  borderColor: "red",
+                  borderColor: "green",
                   pointStrokeColor: "#fff",
                   data: []
                },
@@ -28,6 +28,14 @@ var Draw = function () {
                   strokeColor: "rgba(151,187,205,1)",
                   pointColor: "rgba(151,187,205,1)",
                   borderColor: "blue",
+                  pointStrokeColor: "#fff",
+                  data: []
+               },
+               {
+                  label: "Worst",
+                  strokeColor: "rgba(220,220,220,1)",
+                  pointColor: "rgba(220,220,220,1)",
+                  borderColor: "red",
                   pointStrokeColor: "#fff",
                   data: []
                }
@@ -49,6 +57,7 @@ var Draw = function () {
             if (!ready) return;
             myChart.data.datasets[0].data.push(data.maxScore);
             myChart.data.datasets[1].data.push(data.averageScore);
+            myChart.data.datasets[2].data.push(data.worstScore);
             myChart.config.data.labels.push("Iteration n°" + (data.iteration + 1));
             myChart.update();
          });
@@ -60,6 +69,7 @@ var Draw = function () {
          for (var i = 0; i < data.results.length; ++i) {
             startingdata.datasets[0].data.push(data.results[i].maxScore);
             startingdata.datasets[1].data.push(data.results[i].averageScore);
+            startingdata.datasets[2].data.push(data.results[i].worstScore);
             startingdata.labels.push("Iteration n°" + (data.results[i].iteration + 1));
          }
          var myChart = new Chart(ctx, {type: 'line', data: startingdata, options: options});

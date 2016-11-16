@@ -4,6 +4,8 @@ const config = require('../config/base.json');
 const path = require('path');
 
 module.exports.start = function(app) {
+    "use strict";
+
     var clientSocket;
 
     // Create socket.io instance
@@ -23,6 +25,12 @@ module.exports.start = function(app) {
              mutationRate: inputedParams.mutationRate,
              simulationCycles: inputedParams.simulationCycles
             };
+
+            Object.keys(paramObj).forEach(function(key) {
+              if (paramObj[key] !== null) {
+                paramObj[key] = paramObj[key].toString();
+              }
+            });
 
             console.log("[Node -> C++ params]");
             console.log(paramObj);
