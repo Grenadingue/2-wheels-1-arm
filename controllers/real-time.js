@@ -44,7 +44,6 @@ module.exports.start = function(app) {
                 console.log(paramObj);
                 console.log("<----------------------------->");
                 algorithm.launchSimulation(paramObj)
-                vrepPool.stop();
             });
         });
 
@@ -60,6 +59,7 @@ module.exports.start = function(app) {
 
         socket.on('solution found', function (solution) {
             console.log('[WEB_SERVER] solution found:', solution);
+            vrepPool.stop();
         });
     });
 };
