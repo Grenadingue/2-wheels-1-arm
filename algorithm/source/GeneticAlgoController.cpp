@@ -226,9 +226,23 @@ std::vector<Individual *> *GeneticAlgoController::_generateOffSpring()
 std::pair<Individual *, Individual *> GeneticAlgoController::_selectParents()
 {
   std::pair<Individual *, Individual *> ret;
+  int					chosenOne;
+  bool					validated = false;
 
-  ret.first = _population[_random.intInRange<int>(0, _parameters->populationSize - 1)];
-  ret.second = _population[_random.intInRange<int>(0, _parameters->populationSize - 1)];
+  while (!validated)
+    {
+      chosenOne = _random.intInRange<int>(0, _parameters->populationSize - 1);
+      if (_random.intInRange<int>(0, _parameters->populationSize) > chosenOne)
+	validated = true;
+    }
+  ret.first = _population[chosenOne];
+  while (!validated)
+    {
+      chosenOne = _random.intInRange<int>(0, _parameters->populationSize - 1);
+      if (_random.intInRange<int>(0, _parameters->populationSize) > chosenOne)
+	validated = true;
+    }
+  ret.second = _population[chosenOne];
   return ret;
 }
 
