@@ -6,7 +6,8 @@
 
 GeneticAlgoController::GeneticAlgoController(const IParameters *parameters,
 					     MainController &mainController)
-  : AThreadedDataHandler(parameters), _mainController(mainController)
+  : AThreadedDataHandler(parameters), _mainController(mainController),
+    _parameters(static_cast<const AlgoParameters *>(parameters))
 {
 }
 

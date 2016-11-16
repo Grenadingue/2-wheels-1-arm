@@ -11,6 +11,7 @@ class		GeneticAlgoController : public AThreadedDataHandler, public World
 {
 private:
   MainController &_mainController;
+  const AlgoParameters *_parameters;
 
 public:
   GeneticAlgoController(const IParameters *, MainController &);
