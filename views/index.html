@@ -18,21 +18,27 @@
 </head>
 
 <body>
-  <div class="site-wrapper">
-
+  <canvas style="display: none; padding: 5%; position: absolute;" id="myChart"></canvas>
+  <div class="cover-container">
+    <div class="masthead clearfix">
+      <div style="margin-top: 30px;">
+        <h3 class="masthead-center"><a href="" style="color: #fff;">AI - Evolution Programs - Genetic Algorithms</a></h3>
+      </div>
+    </div>
+    <div class="mastfoot">
+      <div class="inner">
+        <p>Project made by <a>Nicolas</a>, <a>Adrien</a>, <a>Etienne</a>, <a>Toma</a></p>
+      </div>
+  </div>
+</div>
+<div class="site-wrapper" style="position: absolute" id="myForm">
       <div class="site-wrapper-inner">
-
         <div class="cover-container">
-
-          <div class="masthead clearfix">
-            <div style="margin-top: 30px;">
-              <h3 class="masthead-center"><a href="" style="color: #fff">AI - Evolution Programs</a></h3>
-            </div>
-          </div>
-
-          <div class="inner cover" id="myForm">
+          <div class="inner cover">
             <h1 class="cover-heading">Two wheels one arm</h1>
             <br/>
+            <h4 id="error_message">
+            </h4>
             <h4 class="form-group col-xs-12 col-md-12">
               <a id="show_form_param">Configure algorithm launcher</a>
               or
@@ -46,7 +52,7 @@
                   </p>
                   </div>
                   <div class="form-group col-xs-2 col-md-2">
-                   <input id="populationSize" value="10" type="text" class="form-control" aria-describedby="basic-addon1">
+                   <input id="populationSize" name="population size" type="text" class="form-control" value="200">
                 </div>
                 <div class="col-xs-2 col-md-2">
                   <p class="p_perso text-right">
@@ -54,7 +60,7 @@
                   </p>
                 </div>
                 <div class="form-group col-xs-2 col-md-2">
-                 <input id="populationRenewalRate" value="10" type="text" class="form-control" aria-describedby="basic-addon2">
+                 <input id="populationRenewalRate" name="population renewal rate" type="text" class="form-control" value="0.33">
               </div>
               <div class="col-xs-2 col-md-2">
                 <p class="p_perso text-right">
@@ -62,7 +68,7 @@
                 </p>
                 </div>
                 <div class="form-group col-xs-2 col-md-2">
-                 <input id="mutationRate" value="10"  type="text" class="form-control" aria-describedby="basic-addon1">
+                 <input id="mutationRate" name="mutation rate" type="text" class="form-control" value="0.01">
               </div>
             </div>
             <div class="row">
@@ -72,44 +78,32 @@
                 </p>
               </div>
               <div class="form-group col-xs-2 col-md-2">
-               <input id="simulationCycles" value="10"  type="text" class="form-control" aria-describedby="basic-addon2">
-              </div>
-              <div class="col-xs-2 col-md-2">
-                <p class="p_perso text-right">
-                  V-REP Pool
-                </p>
-              </div>
-              <div class="form-group col-xs-2 col-md-2">
-               <input id="vrepPool" value="5" type="text" class="form-control" aria-describedby="basic-addon2">
-              </div>
+               <input id="simulationCycles" name="simulation cycles" type="text" class="form-control" value="3">
             </div>
-          </div>
-            <div style="display: none" class="row" id="form_select">
-               <div class="form-group">
-                 <select id="saved_file" class="select_perso">
-                 </select>
-               </div>
-            </div>
-            <br/>
-            <p class="lead">
-              <a id="launch_simulation" class="btn btn-lg btn-default">Launch simulation</a>
+          <div class="col-xs-2 col-md-2">
+            <p class="p_perso text-right">
+              Error acceptability rate
             </p>
           </div>
-
+          <div class="form-group col-xs-2 col-md-2">
+           <input id="errorAcceptabilityRate" name="error acceptability rate" type="float" class="form-control" value="0.07">
         </div>
-
-        <canvas style="display: none; padding: 5%" id="myChart"></canvas>
-
-        <div class="cover-container inner cover">
-
-          <div class="mastfoot">
-            <div class="inner">
-              <p>Project made by <a>Nicolas</a>, <a>Adrien</a>, <a>Etienne</a>, <a>Toma</a></p>
-            </div>
-          </div>
-
-        </div>
-
+        </div
       </div>
+    </div>
+    <div style="display: none" class="row" id="form_select">
+       <div class="form-group">
+         <select id="saved_file" class="select_perso">
+         </select>
+       </div>
+    </div>
+    <br/>
+    <p class="lead">
+      <a id="launch_simulation" class="btn btn-lg btn-default">Launch simulation</a>
+    </p>
+  </div>
+</div>
+</div>
+</div>
 </body>
 </html>

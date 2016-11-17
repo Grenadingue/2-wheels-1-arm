@@ -2,6 +2,6 @@
   "port": 8080,
   "algo_port": 8081,
   "debug": false,
-  "vrep_pool" : [19997],
-  "saved_file_path": "/save/"
+  "saved_file_path": "/save/",
+  "vrep_pool" : [19997]
 }
