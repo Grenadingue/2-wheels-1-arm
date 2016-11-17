@@ -57,6 +57,14 @@ void GeneticAlgoController::_emitSolutionFound()
   // for now solution is not returned, we will display it in a speacial vrep instance
   ResultModel *result = new ResultModel(-2);
 
+  _sortPopulationByScoreDesc();
+  std::cout << "[MATRIX] Salution is:" << std::endl;
+  std::cout << "[MATRIX] First movement wrist: " << _population[0]->genome()[0].wrist
+	    << " ------- First movement elbow: " << _population[0]->genome()[0].elbow
+	    << " ------- First movement shoulder: " << _population[0]->genome()[0].shoulder << std::endl;
+  std::cout << "[MATRIX] Second movement wrist: " << _population[0]->genome()[1].wrist
+	    << " ------- Second movement elbow: " << _population[0]->genome()[1].elbow
+	    << " ------- Second movement shoulder: " << _population[0]->genome()[1].shoulder << std::endl;
   handleNewResult(result);
 }
 
