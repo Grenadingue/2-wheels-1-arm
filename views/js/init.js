@@ -32,8 +32,7 @@ $( document ).ready(function() {
              populationSize: parseInt($("#populationSize").val()),
              populationRenewalRate: parseFloat($("#populationRenewalRate").val()),
              mutationRate: parseFloat($("#mutationRate").val()),
-             simulationCycles: parseInt($("#simulationCycles").val()),
-             vrepPool: parseInt($("#vrepPool").val())
+             simulationCycles: parseInt($("#simulationCycles").val())
             }
            );
            $("#myForm").hide();
