@@ -6,11 +6,6 @@ Vector::Vector(std::pair <float, float> firstCoordinate_, std::pair <float, floa
 {
 }
 
-Vector::Vector(const Vector &v)
-: firstCoordinate(v.firstCoordinate), secondCoordinate(v.secondCoordinate)
-{
-}
-
 Vector::~Vector()
 {
 }
