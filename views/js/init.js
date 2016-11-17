@@ -26,14 +26,23 @@ $( document ).ready(function() {
          method: "GET",
          url: "/socket_port"
        }).done(function(data) {
+          $("#error_message").html("");
+          var inp = $("input");
+          for (var i in inp) {
+            if(inp[i].type == "text") {
+              if (inp[i].value === "" || isNaN(inp[i].value)) {
+                return $("#error_message").append("Missing or wrong " + inp[i].name + " parameter");
+              }
+            }
+          }
           socket_port = data.socket_port;
           var socket = io.connect('http://localhost:' + socket_port);
-           socket.emit('launchSimulation', {
+           socket.emit("launchSimulation", {
              populationSize: parseInt($("#populationSize").val()),
              populationRenewalRate: parseFloat($("#populationRenewalRate").val()),
              mutationRate: parseFloat($("#mutationRate").val()),
              simulationCycles: parseInt($("#simulationCycles").val()),
-             vrepPool: parseInt($("#vrepPool").val())
+             errorAcceptabilityRate: parseFloat($("#errorAcceptabilityRate").val())
             }
            );
            $("#myForm").hide();
