@@ -42,7 +42,6 @@ $( document ).ready(function() {
              populationRenewalRate: parseFloat($("#populationRenewalRate").val()),
              mutationRate: parseFloat($("#mutationRate").val()),
              simulationCycles: parseInt($("#simulationCycles").val()),
-             vrepPoolSize: parseInt($("#vrepPoolSize").val()),
              errorAcceptabilityRate: parseFloat($("#errorAcceptabilityRate").val())
             }
            );
