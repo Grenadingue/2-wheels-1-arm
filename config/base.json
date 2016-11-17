@@ -3,6 +3,5 @@
   "algo_port": 8081,
   "debug": false,
   "vrep_path": "/Users/quimeo/vrep/vrep.app/Contents/MacOS/vrep",
-  "vrep_pool" : [19997],
   "saved_file_path": "/save/"
 }
