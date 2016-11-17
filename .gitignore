@@ -21,5 +21,8 @@ npm-debug.log
 # WebStorm
 .idea
 
+# Vrep Config
+base.json
+
 # apple
 .DS_Store
