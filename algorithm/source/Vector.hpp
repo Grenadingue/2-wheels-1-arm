@@ -9,6 +9,7 @@ class Vector
 
 public:
   Vector(std::pair <float, float> firstCoordinate_, std::pair <float, float> secondCoordinate_);
+  Vector(const Vector &v);
   ~Vector();
   float getMagnitude();
   std::pair <float, float> getCoordinates() const;
