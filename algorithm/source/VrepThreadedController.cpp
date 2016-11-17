@@ -20,26 +20,21 @@ void VrepThreadedController::_workLoop()
 {
   if (_enterVirtualWorld())
     {
-      std::cout << "[MATRIX] We are in the matrix from port "
-		<< _parameters->serverPort << std::endl;
+      std::cout << "[MATRIX " << _parameters->serverPort << "] We are in the matrix" << std::endl;
       if (_retrieve2w1a())
   	{
-  	  std::cout << "[MATRIX] 2w1a retrieved from port "
-		    << _parameters->serverPort << std::endl;
+  	  std::cout << "[MATRIX " << _parameters->serverPort << "] 2w1a retrieved from port " << std::endl;
 	  if (!_handleIncommingEvents())
 	    {
-	      std::cout << "[MATRIX] Fatal remote api error on port "
-			<< _parameters->serverPort << std::endl;
+	      std::cout << "[MATRIX " << _parameters->serverPort << "] Fatal remote api error on port " << std::endl;
 	    }
   	}
       else
-  	std::cout << "[MATRIX] Unable to retrieve 2w1a from port "
-		  << _parameters->serverPort << std::endl;
+  	std::cout << "[MATRIX " << _parameters->serverPort << "] Unable to retrieve 2w1a from port " << std::endl;
     }
   else
     {
-      std::cout << "[MATRIX] Unable to enter the matrix from port "
-		<< _parameters->serverPort << std::endl;
+      std::cout << "[MATRIX " << _parameters->serverPort << "] Unable to enter the matrix from port " << std::endl;
       return;
     }
   _leaveVirtualWorld();
@@ -54,7 +49,7 @@ bool VrepThreadedController::_handleIncommingEvents()
       event = NULL;
       if ((event = _getNextResult()))
 	{
-	  std::cout << "[MATRIX] New simulation request received" << std::endl;
+	  std::cout << "[MATRIX " << _parameters->serverPort << "] New simulation request received" << std::endl;
 
 	  VrepSimulationEvent *simEvent = (VrepSimulationEvent *)event;
 
@@ -66,7 +61,7 @@ bool VrepThreadedController::_handleIncommingEvents()
 
 	  _parentController->handleNewResult(retEvent);
 
-	  std::cout << "[MATRIX] Simulation event processed" << std::endl;
+	  std::cout << "[MATRIX " << _parameters->serverPort << "] Simulation event processed" << std::endl;
 	  delete event;
 	}
       std::this_thread::sleep_for(std::chrono::milliseconds(300));
@@ -78,27 +73,27 @@ bool VrepThreadedController::_simulate(VrepSimulationEvent *event)
 {
   Individual *individual = event->individual();
 
-  std::cout << "[MATRIX] Starting simulation..." << std::endl;
+  std::cout << "[MATRIX " << _parameters->serverPort << "] Starting simulation..." << std::endl;
   individual->useBody(_robot);
   if (_startSimulation())
     {
-      std::cout << "[MATRIX] Simulation started" << std::endl;
+      std::cout << "[MATRIX " << _parameters->serverPort << "] Simulation started" << std::endl;
       float wristPos = 250,
 	elbowPos = 120,
 	shoulderPos = 150;
 
-      std::cout << "[MATRIX] Wrist motor target position:\t\t" << wristPos
+      std::cout << "[MATRIX " << _parameters->serverPort << "] Wrist motor target position:\t\t" << wristPos
 		<< " degrees" << std::endl
-		<< "[MATRIX] Elbow motor target position:\t\t" << elbowPos
+		<< "[MATRIX " << _parameters->serverPort << "] Elbow motor target position:\t\t" << elbowPos
 		<< " degrees" << std::endl
-		<< "[MATRIX] Shoulder motor target position:\t" << shoulderPos
+		<< "[MATRIX " << _parameters->serverPort << "] Shoulder motor target position:\t" << shoulderPos
 		<< " degrees" << std::endl << std::endl;
 
       if (!individual->body()->wrist().setTargetPosition(wristPos) ||
 	  !individual->body()->elbow().setTargetPosition(elbowPos) ||
 	  !individual->body()->shoulder().setTargetPosition(shoulderPos))
 	{
-	  std::cout << "[MATRIX] Unable to set 2w1a articulations target postions" << std::endl;
+	  std::cout << "[MATRIX " << _parameters->serverPort << "] Unable to set 2w1a articulations target postions" << std::endl;
 	}
       for (int i = 0; i != event->simulationCycles; ++i)
 	{
@@ -107,13 +102,13 @@ bool VrepThreadedController::_simulate(VrepSimulationEvent *event)
 
 	  if (!individual->body()->getPositionOnMap(pos) || !individual->body()->getOrientationOnMap(ori))
 	    {
-	      std::cout << "[MATRIX] Unable to retrieve 2w1a coordinates on map" << std::endl;
+	      std::cout << "[MATRIX " << _parameters->serverPort << "] Unable to retrieve 2w1a coordinates on map" << std::endl;
 	      break;
 	    }
-	  std::cout << "[MATRIX] Position:\tx: " << (pos.x >= 0 ? " " : "") << pos.x
+	  std::cout << "[MATRIX " << _parameters->serverPort << "] Position:\tx: " << (pos.x >= 0 ? " " : "") << pos.x
 		    << ", y: " << (pos.y >= 0 ? " " : "") << pos.y
 		    << ", z: " << (pos.z >= 0 ? " " : "") << pos.z << std::endl
-		    << "[MATRIX] Orientation:\tx: " << (ori.x >= 0 ? " " : "") << ori.x
+		    << "[MATRIX " << _parameters->serverPort << "] Orientation:\tx: " << (ori.x >= 0 ? " " : "") << ori.x
 		    << ", y: " << (ori.y >= 0 ? " " : "") << ori.y
 		    << ", z: " << (ori.z >= 0 ? " " : "") << ori.z << std::endl << std::endl;
 
@@ -121,18 +116,18 @@ bool VrepThreadedController::_simulate(VrepSimulationEvent *event)
 	  elbowPos = _random.realInRange<float>(0, 300);
 	  shoulderPos = _random.realInRange<float>(0, 300);
 
-	  std::cout << "[MATRIX] Wrist motor target position:\t\t" << wristPos
+	  std::cout << "[MATRIX " << _parameters->serverPort << "] Wrist motor target position:\t\t" << wristPos
 		    << " degrees" << std::endl
-		    << "[MATRIX] Elbow motor target position:\t\t" << elbowPos
+		    << "[MATRIX " << _parameters->serverPort << "] Elbow motor target position:\t\t" << elbowPos
 		    << " degrees" << std::endl
-		    << "[MATRIX] Shoulder motor target position:\t" << shoulderPos
+		    << "[MATRIX " << _parameters->serverPort << "] Shoulder motor target position:\t" << shoulderPos
 		    << " degrees" << std::endl << std::endl;
 
 	  if (!individual->body()->wrist().setTargetPosition(wristPos) ||
 	      !individual->body()->elbow().setTargetPosition(elbowPos) ||
 	      !individual->body()->shoulder().setTargetPosition(shoulderPos))
 	    {
-	      std::cout << "[MATRIX] Unable to set 2w1a articulations target postions" << std::endl;
+	      std::cout << "[MATRIX " << _parameters->serverPort << "] Unable to set 2w1a articulations target postions" << std::endl;
 	      break;
 	    }
 
@@ -142,39 +137,39 @@ bool VrepThreadedController::_simulate(VrepSimulationEvent *event)
 	      !individual->body()->elbow().getPosition(elbowPos) ||
 	      !individual->body()->shoulder().getPosition(shoulderPos))
 	    {
-	      std::cout << "[MATRIX] Unable to set 2w1a articulations target postions" << std::endl;
+	      std::cout << "[MATRIX " << _parameters->serverPort << "] Unable to set 2w1a articulations target postions" << std::endl;
 	      break;
 	    }
 
-	  std::cout << "[MATRIX] Wrist motor reached position:\t\t" << wristPos
+	  std::cout << "[MATRIX " << _parameters->serverPort << "] Wrist motor reached position:\t\t" << wristPos
 		    << " degrees" << std::endl
-		    << "[MATRIX] Elbow motor reached position:\t\t" << elbowPos
+		    << "[MATRIX " << _parameters->serverPort << "] Elbow motor reached position:\t\t" << elbowPos
 		    << " degrees" << std::endl
-		    << "[MATRIX] Shoulder motor reached position:\t" << shoulderPos
+		    << "[MATRIX " << _parameters->serverPort << "] Shoulder motor reached position:\t" << shoulderPos
 		    << " degrees" << std::endl << std::endl;
 
 	  if (!individual->body()->getPositionOnMap(pos) || !individual->body()->getOrientationOnMap(ori))
 	    {
-	      std::cout << "[MATRIX] Unable to retrieve 2w1a coordinates on map" << std::endl;
+	      std::cout << "[MATRIX " << _parameters->serverPort << "] Unable to retrieve 2w1a coordinates on map" << std::endl;
 	      break;
 	    }
-	  std::cout << "[MATRIX] Position:\tx: " << (pos.x >= 0 ? " " : "") << pos.x
+	  std::cout << "[MATRIX " << _parameters->serverPort << "] Position:\tx: " << (pos.x >= 0 ? " " : "") << pos.x
 		    << ", y: " << (pos.y >= 0 ? " " : "") << pos.y
 		    << ", z: " << (pos.z >= 0 ? " " : "") << pos.z << std::endl
-		    << "[MATRIX] Orientation:\tx: " << (ori.x >= 0 ? " " : "") << ori.x
+		    << "[MATRIX " << _parameters->serverPort << "] Orientation:\tx: " << (ori.x >= 0 ? " " : "") << ori.x
 		    << ", y: " << (ori.y >= 0 ? " " : "") << ori.y
 		    << ", z: " << (ori.z >= 0 ? " " : "") << ori.z << std::endl << std::endl;
 	}
       if (!_stopSimulation())
 	{
-	  std::cout << "[MATRIX] Unable to stop simulation" << std::endl;
+	  std::cout << "[MATRIX " << _parameters->serverPort << "] Unable to stop simulation" << std::endl;
 	  return false;
 	}
       std::this_thread::sleep_for(std::chrono::seconds(1));
-      std::cout << "[MATRIX] Simulation ended" << std::endl;
+      std::cout << "[MATRIX " << _parameters->serverPort << "] Simulation ended" << std::endl;
     }
   else
-    std::cout << "[MATRIX] Unable to start simulation" << std::endl;
+    std::cout << "[MATRIX " << _parameters->serverPort << "] Unable to start simulation" << std::endl;
   individual->useBody(NULL);
   return true;
 }
