@@ -24,6 +24,7 @@ module.exports.start = function(app) {
              populationRenewalRate: inputedParams.populationRenewalRate,
              mutationRate: inputedParams.mutationRate,
              simulationCycles: inputedParams.simulationCycles,
+             errorAcceptabilityRate: inputedParams.errorAcceptabilityRate,
              vrepPool: config.vrep_pool
             };
 

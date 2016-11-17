@@ -1,8 +1,9 @@
 var Draw = function () {
    //Initialize the graph with empty data
    var ctx = $("#myChart");
+   var defaults = {};
+   Chart.defaults.global.defaultFontSize = 19;
    var options = {
-      responsive: true,
       maintainAspectRatio: false,
         scales: {
             yAxes: [{
@@ -19,7 +20,7 @@ var Draw = function () {
                   label: "Best",
                   strokeColor: "rgba(220,220,220,1)",
                   pointColor: "rgba(220,220,220,1)",
-                  borderColor: "green",
+                  borderColor: "red",
                   pointStrokeColor: "#fff",
                   data: []
                },
@@ -27,7 +28,7 @@ var Draw = function () {
                   label: "Average",
                   strokeColor: "rgba(151,187,205,1)",
                   pointColor: "rgba(151,187,205,1)",
-                  borderColor: "blue",
+                  borderColor: "yellow",
                   pointStrokeColor: "#fff",
                   data: []
                },
@@ -35,7 +36,7 @@ var Draw = function () {
                   label: "Worst",
                   strokeColor: "rgba(220,220,220,1)",
                   pointColor: "rgba(220,220,220,1)",
-                  borderColor: "red",
+                  borderColor: "white",
                   pointStrokeColor: "#fff",
                   data: []
                }

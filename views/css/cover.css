@@ -183,3 +183,7 @@ body {
   font-style: bold;
   padding-top: 3%;
 }
+
+#error_message {
+  color: red;
+}
