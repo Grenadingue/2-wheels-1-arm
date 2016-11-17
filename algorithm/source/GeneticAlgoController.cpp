@@ -43,13 +43,13 @@ void GeneticAlgoController::_emitNewResult(unsigned long long int i)
     {
       int score = individual->fitness().score();
 
-      min = min == -1 || score < min ? score : min;
+      min = (((min == -1) || (score < min)) ? score : min);
       average += score;
-      max = score > max ? score : max;
+      max = ((score > max) ? score : max);
     }
   average = average / (float)_population.size();
-
-  handleNewResult(new ResultModel(i, min, (int)average, max));
+  std::cout << "[ALGO] max = " << max << ", avg = " << average << ", min = " << min << std::endl;
+  handleNewResult(new ResultModel(i, max, (int)average, min));
 }
 
 void GeneticAlgoController::_emitSolutionFound()
