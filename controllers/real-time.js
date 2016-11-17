@@ -1,6 +1,7 @@
 const algorithm = require('../algorithm');
 const io = require('../libraries/socket-io');
 const config = require('../config/base.json');
+const vrepPool = require('./vrep-launcher');
 const path = require('path');
 
 module.exports.start = function(app) {
@@ -27,12 +28,24 @@ module.exports.start = function(app) {
              errorAcceptabilityRate: inputedParams.errorAcceptabilityRate
             };
 
+            Object.keys(paramObj).forEach(function(key) {
+              if (paramObj[key] !== null) {
+                paramObj[key] = paramObj[key].toString();
+              }
+            });
+
             console.log("[Node -> C++ params]");
             console.log(paramObj);
 
             clientSocket = socket;
 
-            algorithm.launchSimulation(paramObj);
+            vrepPool.launch(parseInt(inputedParams.vrepPool, 10)).then(function (argument) {
+                paramObj.vrepPool = argument.toString();
+                console.log("<----------------------------->");
+                console.log(paramObj);
+                console.log("<----------------------------->");
+                algorithm.launchSimulation(paramObj);
+            });
         });
 
         socket.on('new result', function (result) {
@@ -47,6 +60,7 @@ module.exports.start = function(app) {
 
         socket.on('solution found', function (solution) {
             console.log('[WEB_SERVER] solution found:', solution);
+            vrepPool.stop();
         });
     });
 };

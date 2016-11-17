@@ -4,8 +4,11 @@
 #include "Client.hpp"
 #include "MainController.hpp"
 
-WebServerBridge::WebServerBridge()
-  : _client(new Client("http://localhost:8081"))
+WebServerBridge::WebServerBridge(const IParameters *parameters)
+  : AThreadedDataHandler(parameters),
+    _client(new Client("http://localhost:" +
+		       std::to_string(static_cast<const WebServerBridgeParameters *>
+				      (parameters)->serverPort)))
 {
 }
 
@@ -21,7 +24,7 @@ void WebServerBridge::_workLoop()
   while (!_close)
     {
       result = NULL;
-      if ((result = _getNextResult()))
+      if ((result = static_cast<const ResultModel *>(_getNextResult())))
 	{
 	  if (result->getTheoreticalMaxScore() == -1)
 	    {

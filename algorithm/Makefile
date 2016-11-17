@@ -35,6 +35,7 @@ PROJ_SRCS = 	$(CODE_F)/MainController.cpp \
 		$(CODE_F)/Physics.cpp \
 		$(CODE_F)/Object.cpp \
 		$(CODE_F)/Articulation.cpp \
+		$(CODE_F)/Fitness.cpp \
 		$(CODE_F)/Maths.cpp
 
 # Objs

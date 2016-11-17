@@ -30,7 +30,7 @@ $( document ).ready(function() {
           var inp = $("input");
           for (var i in inp) {
             if(inp[i].type == "text") {
-              if (inp[i].value == "" || isNaN(inp[i].value)) {
+              if (inp[i].value === "" || isNaN(inp[i].value)) {
                 return $("#error_message").append("Missing or wrong " + inp[i].name + " parameter");
               }
             }
