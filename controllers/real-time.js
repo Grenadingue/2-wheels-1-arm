@@ -23,7 +23,9 @@ module.exports.start = function(app) {
              populationSize: inputedParams.populationSize,
              populationRenewalRate: inputedParams.populationRenewalRate,
              mutationRate: inputedParams.mutationRate,
-             simulationCycles: inputedParams.simulationCycles
+             simulationCycles: inputedParams.simulationCycles,
+             vrepPoolSize: inputedParams.vrepPoolSize,
+             errorAcceptabilityRate: inputedParams.errorAcceptabilityRate
             };
 
             console.log("[Node -> C++ params]");
