@@ -17,18 +17,23 @@
 </head>
 
 <body>
-  <canvas style="display: none; padding: 5%; position: absolute; z-index: 10;" id="myChart"></canvas>
-  <div class="site-wrapper" style="position: absolute">
+  <canvas style="display: none; padding: 5%; position: absolute;" id="myChart"></canvas>
+  <div class="cover-container">
+    <div class="masthead clearfix">
+      <div style="margin-top: 30px;">
+        <h3 class="masthead-center"><a href="" style="color: #fff;">AI - Evolution Programs - Genetic Algorithms</a></h3>
+      </div>
+    </div>
+    <div class="mastfoot">
+      <div class="inner">
+        <p>Project made by <a>Nicolas</a>, <a>Adrien</a>, <a>Etienne</a>, <a>Toma</a></p>
+      </div>
+  </div>
+</div>
+<div class="site-wrapper" style="position: absolute" id="myForm">
       <div class="site-wrapper-inner">
         <div class="cover-container">
-
-          <div class="masthead clearfix">
-            <div style="margin-top: 30px;">
-              <h3 class="masthead-center"><a href="" style="color: #fff">AI - Evolution Programs - Genetic Algorithms</a></h3>
-            </div>
-          </div>
-
-          <div class="inner cover" id="myForm">
+          <div class="inner cover">
             <h1 class="cover-heading">Two wheels one arm</h1>
             <br/>
             <h4 id="error_message">
@@ -84,27 +89,20 @@
         </div>
         </div
       </div>
-            </div>
-            <div style="display: none" class="row" id="form_select">
-               <div class="form-group">
-                 <select id="saved_file" class="select_perso">
-                 </select>
-               </div>
-            </div>
-            <br/>
-            <p class="lead">
-              <a id="launch_simulation" class="btn btn-lg btn-default">Launch simulation</a>
-            </p>
-          </div>
-        </div>
-
-        <div class="cover-container inner cover">
-          <div class="mastfoot">
-            <div class="inner">
-              <p>Project made by <a>Nicolas</a>, <a>Adrien</a>, <a>Etienne</a>, <a>Toma</a></p>
-            </div>
-          </div>
-        </div>
-      </div>
+    </div>
+    <div style="display: none" class="row" id="form_select">
+       <div class="form-group">
+         <select id="saved_file" class="select_perso">
+         </select>
+       </div>
+    </div>
+    <br/>
+    <p class="lead">
+      <a id="launch_simulation" class="btn btn-lg btn-default">Launch simulation</a>
+    </p>
+  </div>
+</div>
+</div>
+</div>
 </body>
 </html>
