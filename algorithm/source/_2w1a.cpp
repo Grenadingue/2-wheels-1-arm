@@ -75,6 +75,6 @@ void	_2w1a::waitWhileMoving(int timeout)
       if (std::chrono::duration_cast<std::chrono::seconds>
 	  (std::chrono::system_clock::now()-start).count() >= timeout)
 	break;
-      std::this_thread::sleep_for(std::chrono::milliseconds(600));
+      // std::this_thread::sleep_for(std::chrono::milliseconds(5));
     }
 }

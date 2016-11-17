@@ -48,6 +48,15 @@ void GeneticAlgoController::_emitNewResult(unsigned long long int i)
       max = ((score > max) ? score : max);
     }
   average = average / (float)_population.size();
+
+  _sortPopulationByScoreDesc();
+  std::cout << "[MATRIX] Current best solution with score " << max << "is:" << std::endl;
+  std::cout << "[MATRIX] First movement wrist: " << _population[0]->genome()[0].wrist
+	    << " ------- First movement elbow: " << _population[0]->genome()[0].elbow
+	    << " ------- First movement shoulder: " << _population[0]->genome()[0].shoulder << std::endl;
+  std::cout << "[MATRIX] Second movement wrist: " << _population[0]->genome()[1].wrist
+	    << " ------- Second movement elbow: " << _population[0]->genome()[1].elbow
+	    << " ------- Second movement shoulder: " << _population[0]->genome()[1].shoulder << std::endl;
   std::cout << "[ALGO] max = " << max << ", avg = " << average << ", min = " << min << std::endl;
   handleNewResult(new ResultModel(i, max, (int)average, min));
 }
@@ -150,10 +159,12 @@ void GeneticAlgoController::_geneticAlgorithm()
   std::cout << "[ALGO] Population initialized" << std::endl
 	    << "[ALGO] Genetic algorithm initialized" << std::endl;
   _emitTheoreticalMaxScore();
-  while (!_solutionFound() && i != 8)
+  while (!_solutionFound())
     {
       if (!_evaluateFitness())
 	return;
+
+      // _generateOffSpring();
 
       //
       // Update parameters and pass results to it
@@ -186,7 +197,9 @@ bool GeneticAlgoController::_initializePopulation()
 
 bool GeneticAlgoController::_solutionFound()
 {
-  return false;
+  _sortPopulationByScoreDesc();
+  int bestScore = _population[0]->fitness().score();
+  return bestScore >= (100 - (0.07 * 100.0));
 }
 
 bool GeneticAlgoController::_evaluateFitness()

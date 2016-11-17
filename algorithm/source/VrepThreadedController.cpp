@@ -136,6 +136,7 @@ bool VrepThreadedController::_simulate(VrepSimulationEvent *event)
 	      break;
 	    }
 
+	  // std::this_thread::sleep_for(std::chrono::seconds(3));
 	  individual->body()->waitWhileMoving(5); // timeout 5sec
 
 	  // if (!individual->body()->wrist().getPosition(wristPos) ||
@@ -179,6 +180,7 @@ bool VrepThreadedController::_simulate(VrepSimulationEvent *event)
 	      break;
 	    }
 
+	  // std::this_thread::sleep_for(std::chrono::seconds(3));
 	  individual->body()->waitWhileMoving(5); // timeout 5sec
 
 	  if (!individual->body()->wrist().getPosition(wristPos) ||
@@ -219,13 +221,19 @@ bool VrepThreadedController::_simulate(VrepSimulationEvent *event)
       Vector initialVector(vectors.front());
       Vector totalVector(initialVector.firstCoordinate, vectors.back().secondCoordinate);
       float directionDiff = initialVector.getDiretionDiff(totalVector);
-      bool hasMoved = initialVector.getMagnitude() > 1 && totalVector.getMagnitude() > vectors.size();
 
+      float movePercentage = (totalVector.getMagnitude() / (2.0 * event->simulationCycles)) * 100;
       float directionPercentage = 100.0 - ((directionDiff / 180.0) * 100);
-      float score = hasMoved ? 50.0 : 0.0;
-      score += directionPercentage;
+      float score = (movePercentage / 2) + (directionPercentage / 2);
       individual->fitness().setScore((int)score);
-    }
+
+      std::cout << "[MATRIX " << _parameters->serverPort << "] vect tot mag = " << totalVector.getMagnitude()
+		<< std::endl;
+      std::cout << "[MATRIX " << _parameters->serverPort << "] movePercent = " << movePercentage
+		<< std::endl;
+      std::cout << "[MATRIX " << _parameters->serverPort << "] dirPercent = " << directionPercentage
+		<< std::endl;
+}
   else
     std::cout << "[MATRIX " << _parameters->serverPort << "] Unable to start simulation" << std::endl;
   individual->useBody(NULL);
