@@ -1,3 +1,4 @@
+#include <sstream>
 #include <iostream>
 #include "MainController.hpp"
 #include "WebServerBridge.hpp"
@@ -51,6 +52,24 @@ void MainController::handleFinishedJob()
   delete this;
 }
 
+void split(const std::string &s, char delim, std::vector<std::string> &elems)
+{
+  std::stringstream ss;
+  ss.str(s);
+  std::string item;
+  while (std::getline(ss, item, delim))
+    {
+      elems.push_back(item);
+    }
+}
+
+std::vector<std::string> split(const std::string &s, char delim)
+{
+  std::vector<std::string> elems;
+  split(s, delim, elems);
+  return elems;
+}
+
 bool MainController::_parseParameters(std::map<std::string, std::string> &rawParams,
 				      AlgoParameters *&algoParams,
 				      WebServerBridgeParameters *&webServerParams,
@@ -59,15 +78,24 @@ bool MainController::_parseParameters(std::map<std::string, std::string> &rawPar
   if (rawParams.find("populationSize") != rawParams.end() ||
       rawParams.find("populationRenewalRate") != rawParams.end() ||
       rawParams.find("mutationRate") != rawParams.end() ||
-      rawParams.find("simulationCycles") != rawParams.end())
+      rawParams.find("simulationCycles") != rawParams.end() ||
+      rawParams.find("vrepPool") != rawParams.end())
     {
       int populationSize = std::stoi(rawParams["populationSize"]);
       float populationRenewalRate = std::stof(rawParams["populationRenewalRate"]);
       float mutationRate = std::stof(rawParams["mutationRate"]);
       int simulationCycles = std::stoi(rawParams["simulationCycles"]);
+
+      std::vector<std::string> vrepPoolPorts = split(rawParams["vrepPool"], ',');
+      std::vector<const VrepParameters *> vrepPool;
+
+      for (std::string vrepPort : vrepPoolPorts)
+	{
+	  vrepPool.push_back(new VrepParameters(std::stoi(vrepPort)));
+	}
+
       algoParams = new AlgoParameters(populationSize, populationRenewalRate,
-				      mutationRate, simulationCycles,
-				      {new VrepParameters(19997)});
+      				      mutationRate, simulationCycles, vrepPool);
     }
   else
     return false;
